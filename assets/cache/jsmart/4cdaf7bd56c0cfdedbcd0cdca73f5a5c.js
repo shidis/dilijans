@@ -1,0 +1,9 @@
+function sclInit()
+{$('.scl').each(function(e)
+{$(this).wrapInner('<a href="#" title="наличие по складам" rel="/ax/scl?cat_id='+$(this).attr('cat_id')+'" class="scl-tip"></a>');$(this).children('a.scl-tip').cluetip({tracking:false,arrows:true,multiple:true,cluetipClass:'jtip',clickThrough:false,activation:'click',sticky:true,closePosition:'title',closeText:'Закрыть',ajaxCache:false,width:580,positionBy:'leftBottom',topOffset:30,ajaxSettings:{dataType:'json'},ajaxProcess:function(r)
+{if(r.fres){if(r.count==0)return'<p>Нет информации по наличию</p>';var cc='<table class="scl"><tr><th style="text-align: left">Поставщик</th><th>На складе</th><th>Цена 1</th><th>Цена 2</th><th>Цена 3</th><th>Доб./Обн.</th></tr>';var future,futureTitle,re,dt,dtAdded,dtUpd;for(var k in r.scl){re=/([0-9]{4})-([0-9]{2})-([0-9]{2})/;dtUpd=re.exec(r.scl[k]['dt_upd']);dtAdded=re.exec(r.scl[k]['dt_added']);dt=dtAdded[3]+'-'+dtAdded[2]+'-'+dtAdded[1]+'<br>'+dtUpd[3]+'-'+dtUpd[2]+'-'+dtUpd[1];future='';if(typeof r.futureSuplr!='undefined'){futureTitle='Доставки на ближайшие '+r.futureSuplr.days+" дня с товарами этого поставщика:\n";if(_.size(r.scl[k]['future'])){for(var fi=1;fi<=r.futureSuplr.days;fi++){if(typeof r.scl[k]['future'][fi]!='undefined'){future+='<i class="c1"></i>';futureTitle+=(fi==1?'(завтра ':("("+r.scl[k]['future'][fi]['deliveryDate']))+' -> '+r.scl[k]['future'][fi]['itemsNum']+" шт.) \n";}else{future+='<i class="c0"></i>';}}}
+if(future.length){future='<br><span class="sclFutureSuplr" title="'+futureTitle+'">'+future+'</span>';}}
+cc=cc+'<tr><td>'+r.scl[k]['name']+'</td><td>'+r.scl[k]['sc']+' шт.'+future+'</td><td nowrap>'+r.scl[k]['price1']+' руб</td><td nowrap>'+r.scl[k]['price2']+' руб</td><td nowrap>'+r.scl[k]['price3']+' руб</td><td nowrap>'+r.scl[k]['dt_added']+'<br>'+r.scl[k]['dt_upd']+'</td></tr>';}
+cc=cc+'</table>';return cc;}else{return'Ошибка загрузки';}}});});}
+$(document).ready(function()
+{sclInit();})
