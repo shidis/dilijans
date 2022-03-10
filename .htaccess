@@ -1,0 +1,44 @@
+AddType text/x-component .htc
+AddDefaultCharset utf-8
+RemoveHandler .html .htm
+AddType application/x-httpd-php .php
+DirectoryIndex index.php
+
+Options +ExecCGI
+Options -Indexes
+
+<Files .htpasswd> 
+   deny from all 
+</Files>
+
+php_value register_globals off
+php_value magic_quotes_gpc off
+php_value magic_quotes off
+php_value display_errors On
+
+#<FilesMatch "\.(jpg|png|gif|js|css|ico|swf)$">
+#	Header set Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+#	Header set Cache-Control "max-age=315360000"
+#</FilesMatch>
+
+RewriteEngine On
+Options +FollowSymlinks
+RewriteBase /
+
+RewriteRule ^sitemap.xml$ /sitemap.php
+#RewriteRule ^([0-9a-zA-Z_\.-\/]+\.((js)|(css)))$ inc/jsmart_utf/load.php?file=$1 [L]
+
+RewriteRule ^extdata/(.*)$ inc/extdata/index.php?__q=$1 [L,QSA]
+RewriteRule ^balances/(.*)$ inc/extdata/balances.php?__q=$1 [L,QSA]
+RewriteRule ^sitemap/(.*)$ inc/extdata/sitemap.php?__q=$1 [L,QSA]
+
+RewriteRule ^(cimg/.*)$ inc/ictrl/index.php?i=$1&mode=cc [L,QSA]
+RewriteRule ^(cgimg/.*)$ inc/ictrl/index.php?i=$1&mode=cc_gal [L,QSA]
+RewriteRule ^(ccimg/.*)$ inc/ictrl/index.php?i=$1&mode=cc_cert [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule .+ - [L]
+
+RewriteRule ^(.*)$ index.php?__q=$1 [L,QSA]
+

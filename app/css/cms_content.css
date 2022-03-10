@@ -1,0 +1,100 @@
+.ctext p{
+	margin:0 0 13px;
+	line-height:18px;
+}
+.ctext ul{
+	margin: 10px 0 10px 0;
+    padding: 0;
+    display: table;
+    position: relative;
+    left: 20px;
+}
+.ctext ul li{
+	padding:0 0 10px 18px;
+    list-style-position: outside;
+    list-style: none;
+    background: url(/app/images/bg-li-list-02.png) 0px 3px no-repeat;
+    padding-right: 20px;
+    line-height:18px;
+}
+.ctext ol{
+	margin: 10px 0 10px 0;
+    display: table;
+    padding: 0;
+    position: relative;
+    left: 20px;
+}
+.ctext ol li{
+    list-style: decimal;
+    list-style-position:outside;
+    background:0;
+    padding:0 0 10px 0;
+    margin-left: 18px;
+    display:list-item;
+    padding-right: 20px;
+    line-height:18px;
+}
+.ctext a{
+	text-decoration:underline;
+	color:#5d8aea;
+}
+.ctext a:hover{
+	text-decoration:none;
+}
+
+.ctext h1     {font-size: 24px; margin: 0 0 20px; font-weight: normal}
+.ctext h2     {font-size: 22px; margin: 5px 0 20px; font-weight: normal}
+.ctext h3     {font-size: 20px; margin: 0 0 20px; font-weight: normal; color: #010101}
+.ctext h4     {font-size: 18px; margin: 5px 0 20px; font-weight: bold; color: #010101}
+.ctext h5     {font-size: 16px; margin: 5px 0 20px; font-weight: bold; color: #010101}
+.ctext dl     {margin: 0 0 15px;}
+.ctext dt     {float: left;width: 170px;clear: both;}
+.ctext dd     {margin-left: 180px;}
+.ctext table  {border-collapse:collapse}
+.ctext caption{margin-bottom: 5px;font-weight: bold;}
+.ctext td,
+.ctext th     {border: 1px #CCC solid; padding:2px 5px;}
+.ctext td	{
+}
+.ctext th{
+	font-weight:bold;
+	vertical-align:middle;
+}
+.noindent p, p.noindent{
+	text-indent:0;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.ctext .button{
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    background: url('/app/images/a-btn.png') 0 0 no-repeat;
+    padding-left: 20px;
+    position: relative;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+}
+.ctext .button span{
+    display: block;
+    width: 20px;
+    height: 30px;
+    background: url('/app/images/a-btn.png') 100% 0 no-repeat;
+    position: absolute;
+    top: 0;
+    right: -20px;
+}
+.ctext .button:hover{
+    background-position: 0 -30px;
+}
+.ctext  .button:hover{
+    background-position: 0 -30px;
+}
+.ctext .button:hover span{
+    background-position: 100% -30px;
+}

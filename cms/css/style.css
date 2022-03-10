@@ -1,0 +1,130 @@
+/* удалить вскоре этот файл */
+
+BODY, TABLE{background-color: #FFFFFF; text-align: left; font-family: Arial; font-size: 12px; color: #000000 }
+FORM { display: inline }
+IMG{margin-right:5px; margin-left:5px;}
+INPUT, SELECT, TEXTAREA{background-color:#FFFFCC; padding:1px 0px 1px 0px}
+A{
+	color:#0066CC;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+.tooltip{ cursor:help}
+
+A.red{
+	color:#FF0000;
+}
+#red{
+	color:#FF0000;
+}
+.red{
+	color:#FF0000;
+}
+#bold{font-weight:bold}
+.bold{font-weight:bold}
+#subh{color:#ff5500; font-weight:bold}
+#th{
+	color:#FFFFFF;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+TD.noline{
+	border-top-style:none;
+	border-bottom-style:none;
+	border-left-style:none;
+	border-right-style:none;
+}	
+TD {
+	border-right-width:1px;
+	border-right-color:#FFFFFF;
+	border-right-style:solid;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#FFFFFF;
+	background-color:#EEEEEE;
+	padding-left:5px;
+	padding-right:5px;
+	padding-top:3px;
+	padding-bottom:3px;
+	border-collapse:collapse;
+}
+TR.white{
+	border-right-width:1px;
+	border-right-color:#666666;
+	border-right-style:solid;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#666666;
+	padding-left:5px;
+	padding-right:5px;
+	padding-top:2px;
+	padding-bottom:2px;
+	background-color:#FFFFFF;
+}
+TD.first {
+	background-color:#DDDDDD;
+}
+TD.chet {
+	background-color:#EEEEEE;
+}
+TD.nechet {
+	background-color:#DDDDDD;
+}
+TR.first {
+	background-color:#DDDDDD;
+}
+TR.chet {
+	background-color:#EEEEEE;
+}
+TR.nechet {
+	background-color:#DDDDDD;
+}
+TH {
+	background-color:#0033CC;
+	border-right-width:1px;
+	border-right-style:solid;
+	color:#FFFFFF;
+	font-weight:bold;
+	padding-left:5px;
+	padding-right:5px;
+	height:25;
+	text-align:center;
+	padding-top:7px;
+	padding-bottom:7px;
+}	
+TD.white {
+	background-color:#FFFFFF;
+	border-right-width:1px;
+	border-right-style:solid;
+	color:#000000;
+	padding-left:5px;
+	padding-right:5px;
+	height:25;
+	padding-top:4px;
+	padding-bottom:4px;
+}	
+.wb{
+	padding-left:10px;
+	padding-right:10px;
+	background-color:#FFFFFF;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+LEGEND{
+	margin-top:0px;
+	color:#0000FF;
+}
+FIELDSET{
+	padding:5px;
+	border: solid #d1d8ec 1px;
+}
+
+DIV.rama{border: solid #d1d8ec 1px; padding:10px; margin-top:10px; margin-bottom:10px;}
+
+IMG.nob{padding:0; margin:0; border:0px}
+.rmar30{margin-right:30px}
+DIV.saving{border: solid #d1d8ec 1px; padding:4px; display:none}
+.rama_green{border:1px dashed green; padding:5px; margin:10px 0px}
+.rama_red{border:1px dashed red; padding:5px; margin:10px 0px}
+

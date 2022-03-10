@@ -1,0 +1,116 @@
+#nt-info_message{
+    display: none;
+    width: 100%;
+    height: 51px;
+    position: absolute;
+    top: 0;
+    position: fixed;
+    z-index: 50000;
+    margin: 0;
+    padding: 0;
+}
+#nt-info_message .center_auto{
+    margin: 0 auto;
+    width: 950px;
+    padding: 15px 25px;
+}
+#nt-info_message .message_area{
+    float: left; 
+    width: 98%;
+}
+#nt-info_message .message_area span.link_ribbon{
+    color: #999999;
+    text-decoration: underline;
+    cursor: pointer;
+}
+#nt-info_message .button_area{
+    float: left;
+    width: 11px;
+    height: 10px;
+    margin-top: 3px;
+}
+
+/*  ERROR   */
+.nt-error_bg{
+    background: url('/app/images/notification/error_bg.png') 0 0 repeat-x;
+}
+.nt-error_bg .message_area{
+    font:bold 14px;
+    color: #a20510;
+    text-shadow: 0 1px 0 #fff; 
+}
+.nt-error_bg .button_area{
+    background: url('/app/images/notification/error_close.png') 0 0 no-repeat;    
+    cursor: pointer;
+}
+.nt-error_bg .info_more_descrption{
+
+    -moz-box-shadow: 0 0 5px #b2495b;
+    -webkit-box-shadow: 0 0 5px #b2495b;
+    box-shadow: 0 0 5px #b2495b;
+}
+
+/* SUCCESS  - default */
+.nt-succ_bg{
+    background: #F0F0F0;
+    border-bottom: 1px solid #CCC;
+}
+.nt-succ_bg .message_area{
+    font:bold 14px;
+    color: black;
+    text-shadow: 0 1px 0 #fff; 
+}
+.nt-succ_bg .button_area{
+    background: url('/app/images/notification/succ_close.png') 0 0 no-repeat;    
+    cursor: pointer;
+}
+
+/*   INFORMATION   */
+.nt-info_bg{
+    background: url('/app/images/notification/info_bg.png') 0 0 repeat-x;
+}
+.nt-info_bg .message_area{
+    font:bold 14px;
+    color: #0d9a95;
+    text-shadow: 0 1px 0 #fff; 
+}
+.nt-info_bg .button_area{
+    background: url('/app/images/notification/info_close.png') 0 0 no-repeat;    
+    cursor: pointer;
+}
+
+/*  WARNING  */
+.nt-warn_bg{
+    background: url('/app/images/notification/warn_bg.png') 0 0 repeat-x;
+}
+.nt-warn_bg .message_area{
+    font:bold 12px;
+    color: #a39709;
+    text-shadow: 0 1px 0 #fff; 
+}
+.nt-warn_bg .button_area{
+    background: url('/app/images/notification/warn_close.png') 0 0 no-repeat;    
+    cursor: pointer;
+}
+
+/* --------------------- */
+
+
+#nt-info_message .clearboth{
+    clear: both;
+}
+#nt-info_message .info_more_descrption{
+    display: none;
+    width: 950px;
+    height: 300px;
+    background: #fff;
+    margin: 0 auto;
+    padding: 10px;
+    background: #fbfbfb;
+    overflow: auto;
+}
+.nt-succ_bg .info_more_descrption{
+    -moz-box-shadow: 0 0 5px #56a25e;
+    -webkit-box-shadow: 0 0 5px #56a25e;
+    box-shadow: 0 0 5px #56a25e;
+}

@@ -1,0 +1,67 @@
+/* CSS Document */
+BODY {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9px;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+}
+
+A {
+    font-weight: bold;
+    font-size: 9px;
+    color: #2666cc;
+    text-decoration: none;
+}
+
+A:hover {
+    text-decoration: underline;
+    color: #FF0000;
+}
+
+A:visited {
+    color: #2666cc;
+}
+
+A.h {
+    color: #2666cc;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    text-decoration: none;
+}
+
+A.h:hover {
+    color: #2666cc;
+    text-decoration: none;
+}
+
+DIV.m {
+    border: 1px solid #d1d8ec;
+    width: 139px;
+}
+
+DIV.h {
+    background: url(/cms/img/h_bg.gif) top left repeat-x;
+    font-weight: bold;
+    font-size: 10px;
+    padding: 4px;
+}
+
+DIV.mb {
+    border: solid #d1d8ec;
+    border-width: 1px 1px 1px 1px;
+    width: 139px;
+    margin: 0px 0px 10px 0px;
+}
+
+UL.menu {
+    margin: 5px 5px 0px 15px;
+    padding: 0px 5px 0px 10px
+}
+
+LI.menu {
+    padding-bottom: 5px;
+    list-style-image: url(/cms/img/navi.gif);
+    line-height: 10px;
+}
+

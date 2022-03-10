@@ -1,0 +1,234 @@
+@charset "utf-8";
+
+body {
+    font-family: Verdana;
+    font-size: 12px;
+    padding: 0;
+    margin: 0
+}
+
+INPUT[type=text], SELECT, TEXTAREA {
+    background-color: #EEEEFF;
+    padding: 3px 5px;
+    border: 1px solid #999;
+}
+INPUT{
+    padding: 3px 5px;
+    background-color: #EEEEFF;
+}
+.nob {
+    border: 0
+}
+
+.hide {
+    display: none
+}
+
+.bold {
+    font-weight: bold;
+    color: #00F
+}
+
+.red {
+    color: #FF0000;
+}
+
+.page-header {
+    background: url(/cms/img/note_icon.png) no-repeat left center;
+    padding-left: 30px;
+    line-height: 24px;
+    height: 24px;
+    padding-top: 10px;
+    margin-left: 15px;
+    font: 13px Verdana, Geneva, sans-serif;
+    font-weight: normal
+}
+
+.left-menu-header {
+    background: url(/cms/img/note_icon.png) no-repeat left center;
+    padding-left: 30px;
+    margin-left: 15px
+}
+
+H1 {
+    font-size: 1.2em
+}
+
+H2 {
+    font-size: 1.1em
+}
+
+H3 {
+    font-size: 1em
+}
+
+A {
+    color: #0066CC;
+    font-family: Verdana;
+    font-size: inherit;
+}
+
+.tooltip {
+    cursor: help
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.workspace {
+    padding: 15px;
+    position: relative
+}
+
+.ui-a {
+    font-weight: bold;
+    padding: 5px 0px 5px 0;
+    cursor: pointer;
+    text-decoration: none;
+    width: auto
+}
+
+FIELDSET.ui {
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: #69F 1px solid;
+    padding: 10px 15px
+}
+
+LEGEND.ui {
+    font-size: 11px;
+    font-weight: normal;
+    color: #00F;
+}
+
+.edit_area {
+    background-color: #CEDCFF;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    display: block;
+    padding: 10px;
+}
+
+.ui-widget FORM {
+    margin: 0;
+    padding: 0;
+}
+
+.ui-button .ui-button-text {
+}
+
+OPTION.isH {
+    background: #ccc
+}
+
+DIV.saving {
+    border: solid #d1d8ec 1px;
+    padding: 4px;
+    display: none
+}
+
+.uploadifyQueueItem {
+    font: 11px Verdana, Geneva, sans-serif;
+    border: 2px solid #E5E5E5;
+    background-color: #F5F5F5;
+    margin-top: 5px;
+    padding: 10px;
+    width: 350px;
+}
+
+.uploadifyError {
+    border: 2px solid #FBCBBC !important;
+    background-color: #FDE5DD !important;
+}
+
+.uploadifyQueueItem .cancel {
+    float: right;
+}
+
+.uploadifyProgress {
+    background-color: #FFFFFF;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #C5C5C5;
+    border-bottom: 1px solid #C5C5C5;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.uploadifyProgressBar {
+    background-color: #0099FF;
+    width: 1px;
+    height: 3px;
+}
+.ui-jqgrid tr.ui-search-toolbar td > input{
+    box-sizing: border-box;
+}
+.ui-tabs .ui-tabs-nav li a {
+    float: left;
+    text-decoration: none;
+}
+
+.ui-jqgrid {
+    font-size: 12px;
+    font-family: Arial;
+}
+
+.ui-jqgrid .ui-jqgrid-hdiv {
+    font-size: 11px;
+}
+
+.ui-jqgrid .ui-jqgrid-bdiv {
+    font-size: 11px;
+}
+
+.ui-jqgrid .ui-jqgrid-pager {
+    font-size: 11px;
+}
+
+.ui-jqgrid .ui-pg-input {
+    font-weight: bold;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 40px;
+}
+
+.ui-table {
+}
+
+.ui-table th {
+    line-height: 17px;
+    font-weight: normal;
+    text-align: center;
+    padding: 7px 4px;
+}
+
+.ui-table td {
+    padding: 4px 4px;
+}
+
+.ui-jqgrid-btable  tr.ui-row-ltr td {
+    font-size: 11px;
+}
+
+.ui-table-td-odd {
+    background-color: #EEEEEE;
+}
+
+.ui-table-td-even {
+    background-color: #DDDDDD;
+}
+
+.msg-block {
+    margin: 0 0 15px;
+}
+
+.chosen-container .chosen-results {
+    max-height: 340px;
+}

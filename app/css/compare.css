@@ -1,0 +1,57 @@
+.compare-popup{
+    display: none;
+    position: absolute;
+    width: 400px;
+    overflow: hidden;
+    border: 1px #CCC solid;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    z-index: 900;
+    box-shadow: #000 0 0 20px;
+    -moz-box-shadow: #000 0 0 20px;
+    background: white;
+}
+.compare-popup h1 {
+    background: #fff url('/app/images/bg-box-shadow.png') 50% 100% no-repeat;
+    font-size: 16px;
+    color: #000;
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+    padding: 5px 15px 5px 15px;
+   position: relative;
+}
+
+.compare-popup .wrap{
+    padding: 20px;
+}
+
+.compare-popup .wrap ol{
+    margin: 0 0 15px 0;
+    padding: 0;
+    left: 0;
+}
+.compare-popup .wrap li{
+    margin: 0;
+    padding: 0 0 5px;
+    position: relative;
+    display: inline-block;
+    padding-left: 25px;
+    list-style: inside !important;
+}
+.compare-popup .close{
+    background: url(/app/images/a-close-popup.png) no-repeat 0 55%;
+    float: right;
+    margin-top: 0;
+    display: inline-block;
+    padding-left: 17px;
+}
+.compare-popup .delete{
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 2px;
+    width: 15px;
+    height: 10px;
+    background: url('/app/images/a-close-popup.png') 50% 50% no-repeat;
+}

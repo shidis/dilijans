@@ -1,0 +1,78 @@
+<? require_once '../auth.php';
+include('../struct.php');
+
+$cp->frm['name']='cc_classes';
+$cp->frm['title']='Классы моделей шин и дисков';
+
+$cp->checkPermissions();
+
+cp_head();
+cp_css();
+cp_js();
+
+cp_body();
+cp_title();
+
+$cc=new CC_Ctrl();
+
+
+if(@$_POST['act']=='add' && @$_POST['name']!='' && @$_POST['gr']>0){
+	$name=Tools::esc($_POST['name']);
+	$pos=intval($_POST['pos']);
+	$gr=$_POST['gr'];
+	if($cc->query("INSERT INTO cc_class (gr,name,pos) VALUES('$gr','$name','$pos')")) echo "<p>Добавлено <strong>\"$name\"</strong></p>";
+		else echo '<p>Ошибка записи</p>';
+}
+if(@$_POST['act']=='e_post' && @$_POST['id'] && @$_POST['e_name']!=''){
+	$name=Tools::esc($_POST['e_name']);
+	$pos=intval($_POST['e_pos']);
+	if($cc->query("UPDATE cc_class SET name='$name', pos='$pos' WHERE  class_id='{$_POST['id']}'")) echo '<p>Запись изменена</p>';
+		else echo '<p>Ошибка записи</p>';
+}
+if(@$_POST['act']=='del' && @$_POST['id']){
+	$cc->query("UPDATE cc_model SET class_id=0 WHERE class_id='{$_POST['id']}'");
+	if($cc->query("DELETE FROM cc_class WHERE class_id='{$_POST['id']}'")) echo '<p>Удалено</p>';
+		else echo '<p>Ошибка БД</p>';
+}
+?>
+<form name="form1" method="post">
+<input type="hidden" name="id" value="0">
+<input type="hidden" name="act" value="add">
+<table class="ui-table ltable">
+  <tr>
+    <th>Категория</th>
+	<th>Название класса </th>
+	<th>Порядок</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+  </tr>
+<? $l=0;
+$cc->query("SELECT * FROM cc_class ORDER BY gr ASC,pos ASC, name ASC");
+while($cc->next()!==false){?>
+<tr><td align="center"><?=$cc->qrow['gr']==1?'ШИНЫ':'ДИСКИ'?></td>
+<td>
+<? if(@$_POST['act']=='edit' && @$_POST['id']==$cc->qrow['class_id']){?>
+<input type="text" name="e_name" style="width:380px" value="<?=$cc->qrow['name']?>">
+<? }else echo $cc->qrow['name'];?></td>
+<td align="center">
+<? if(@$_POST['act']=='edit' && @$_POST['id']==$cc->qrow['class_id']){?>
+<input type="text" name="e_pos" style="width:40px; text-align:center" value="<?=$cc->qrow['pos']?>">
+<? }else echo $cc->qrow['pos'];?></td>
+<td align="center">
+<? if(@$_POST['act']=='edit' && @$_POST['id']==$cc->qrow['class_id']){?>
+<input type="image" src="../img/checked.gif" onClick="document.forms['form1'].id.value='<?=$cc->qrow['class_id']?>'; document.forms['form1'].act.value='e_post';">
+<? }else{?>
+<input type="image" src="../img/b_edit.png" onClick="document.forms['form1'].id.value='<?=$cc->qrow['class_id']?>'; document.forms['form1'].act.value='edit';">
+<? }?>
+</td>
+<td align="center"><input type="image" src="../img/b_drop.png" onClick="if(window.confirm('Вы уверены?')){document.forms['form1'].act.value='del';document.forms['form1'].id.value='<?=$cc->qrow['class_id']?>'} else return false"></td></tr>
+</tr>
+<? }?>
+<tr><td><select name="gr"><option value="1">ШИНЫ</option><option value="2">ДИСКИ</option></select></td>
+<td><input type="text" name="name" style="width:380px"></td>
+<td align="center"><input type="text" name="pos" style="width:40px; text-align:center"></td>
+<td align="center" colspan="3"><input type="image" src="../img/add.gif"></td></tr>
+</table>
+</form>
+
+<? cp_end()?>

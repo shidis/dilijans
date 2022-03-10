@@ -1,0 +1,18 @@
+AddDefaultCharset utf-8
+AddType application/x-httpd-php .htm
+php_value max_execution_time 600
+php_value post_max_size 30M
+php_value max_file_uploads 20
+php_value upload_max_filesize 30M
+
+RewriteEngine On
+Options +FollowSymlinks
+RewriteBase /cms/
+
+#RewriteRule ^([0-9a-zA-Z_\.-\/]+\.((js)|(css)))$ ../inc/jsmart_utf/load.php?file=/cms/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule .+ - [L]
+
+
