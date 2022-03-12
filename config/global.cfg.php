@@ -32,7 +32,7 @@ class CfgGlobal extends CfgBase
         'local_sql_host'=>'localhost',
         'local_sql_db'=>'dilijans_new',
         'local_sql_user'=>'root',
-        'local_sql_pass'=>'',
+        'local_sql_pass'=>'1',
 
         'remote_memcached_host'=>'localhost',
         'remote_memcached_port'=>11211,
