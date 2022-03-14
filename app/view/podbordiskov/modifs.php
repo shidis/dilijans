@@ -29,10 +29,10 @@
                         echo $upText;
                     } else {
                         ?>
-                        <p class="title_text ctext">
+                        <!--p class="title_text ctext">
                             Для того что бы более точно подобрать колесные диски для <?= $mark . ' ' . $model . ' ' . $year . ' г/в' ?>
                             укажите модификацию двигателя.
-                        </p>
+                        </p-->
                     <? } ?>
                 </div>
             </td>

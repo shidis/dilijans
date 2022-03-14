@@ -80,21 +80,21 @@
                         }
                         ?></select>
                     </div>
-                    <div class="ap_sel_wrap">
+                    <!--div class="ap_sel_wrap">
                     <?
-                    if (!empty($abCookie['svendor']) && !empty($abCookie['smodel']) && !empty($abCookie['syear']) && empty($abCookie['smodif']))
+                    /*if (!empty($abCookie['svendor']) && !empty($abCookie['smodel']) && !empty($abCookie['syear']) && empty($abCookie['smodif']))
                     {
                         echo '<img class="choose_helper" src="/app/images/down_arrow.png" alt="" />';
-                    }
+                    }*/
                     ?>
                     <select class="apModif auto-submit"><option value="">двигатель</option><?
-                        if(isset($ab->tree['modifs'])){
+                        /*if(isset($ab->tree['modifs'])){
                             foreach($ab->tree['modifs'] as $k=>$v){
                                 ?><option value="<?=$v['sname']?>" <?=$abCookie['smodif']==$v['sname'] ? 'selected':''?>><?=Tools::html($v['name'],false)?></option><?
                             }
-                        }
+                        }*/
                     ?></select>
-                    </div>
+                    </div-->
                 </form>
             </div>
             <!--вторая вкладка!-->
