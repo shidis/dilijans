@@ -219,6 +219,45 @@ class Tools
         if(preg_match("~^[0-9\-\(\)\s\+]+$~u", $tel)) return true; else return false;
     }
 
+    public static function phoneValid2($tel)
+    {
+        /*
+          * пропускаем строки длиной не более 20 символов [+0-9\-\s\(\)]
+          */
+        $tel = trim($tel);
+        if (!preg_match("~^[0-9\(\)\-\s\+]+$~iu", $tel) || mb_strlen($tel) > 20 || mb_strlen($tel) < 10) return false;
+
+        return true;
+    }
+
+    /*
+     * приводит номер телефона к формату 71231234567
+     */
+    public static function leadFormatTel($tel)
+    {
+        /*
+         * длину не проверяем
+         * убираем не цифры
+         * если начинается с 8 то меняем ее на 7
+         * если начинается с +, то убираем +
+         * если номер не 3 и не с 7 начинается, то добаляем 7 в начале
+         */
+        $tel = trim(preg_replace("~[^0-9]~u", '', trim($tel)));
+        $tel = preg_replace("~^8~u", '7', $tel);
+        $tel = preg_replace("~^([^37])(.+)~u", "7$1$2", $tel);
+
+        return $tel;
+    }
+
+
+    /*
+     * форматирует тедефон к человепонятному стандартному формату
+     */
+    public static function humanPhoneNumber($tel)
+    {
+        return preg_replace("~(.*)([0-9]{3})([0-9]{3})([0-9]{2})([0-9]{2})$~", "$1 ($2) $3-$4-$5", static::leadFormatTel($tel));
+    }
+
     // переворачивает дату из 00-00-0000 в 0000-00-00
     static public function fdate($dt)
     {

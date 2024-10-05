@@ -9,7 +9,8 @@ BODY {
 
 A {
     font-weight: bold;
-    font-size: 9px;
+    font-size: 14px;
+    line-height: 18px;
     color: #2666cc;
     text-decoration: none;
 }
@@ -37,7 +38,7 @@ A.h:hover {
 
 DIV.m {
     border: 1px solid #d1d8ec;
-    width: 139px;
+    width: 200px;
 }
 
 DIV.h {
@@ -50,7 +51,7 @@ DIV.h {
 DIV.mb {
     border: solid #d1d8ec;
     border-width: 1px 1px 1px 1px;
-    width: 139px;
+    width: 200px;
     margin: 0px 0px 10px 0px;
 }
 

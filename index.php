@@ -1,6 +1,11 @@
 <?
 //die('Overload....');
 
+if(!strpos("xxx".$_SERVER["HTTP_HOST"],"dilijans.org")){
+	header('HTTP/1.0 403 Forbidden');
+	die();
+}
+
 @define(true_enter, 1);
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config/init.php');

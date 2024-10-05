@@ -90,6 +90,7 @@ class App_Catalog_Tyres_Tipo_Controller extends App_Catalog_Tyres_Common_Control
         $this->title='Шины '.Tools::cutDoubleSpaces($this->bname.' '.$this->mname.' '.$this->size.' '.$this->inis.' '.$this->suffix).' - купить, цена, наличие';
         $this->_title=Tools::cutDoubleSpaces($this->bname.' '.$this->mname.' '.$this->size.' '.$this->inis.' '.$this->suffix);
 
+
         $this->breadcrumbs['шины']=array('/'.App_Route::_getUrl('tCat').'.html','каталог шин');
 
         switch($this->sezonId){
@@ -371,7 +372,6 @@ class App_Catalog_Tyres_Tipo_Controller extends App_Catalog_Tyres_Common_Control
 
             }
         }
-
 
         $this->_sidebar();
 

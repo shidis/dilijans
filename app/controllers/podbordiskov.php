@@ -927,7 +927,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
         // *****
         if(!empty($this->P3)) 
             if($this->apMode){     
-                $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDiaMin,'to'=>(float)max($this->P3)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
             } else $r['P3']=array('list'=>$this->P3);
 
         //  Костыль для вывода вылета (ET) с учетом радиусов // avcode
@@ -941,7 +941,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
         if($this->replica==1) $r['where'][]="cc_brand.replica=1";
         if($this->hideDSCZero) $r['where'][]=$this->minQtyRadiusSQL;
         $apMode = $this->apMode;
-        $this->apMode = 0; // Сохраняем и отключаем apMode для точного подбора по параметрам
+        //$this->apMode = 0; // Сохраняем и отключаем apMode для точного подбора по параметрам
         $CC_BASE = new CC_Base();
         ksort($this->ab->avto[2]);
         foreach($this->ab->avto[2] as $c=>$v){
@@ -960,13 +960,14 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                     if(empty($this->brands) || true) $rr['exFields']['brand']=array(); else $rr['brand_id']=array('list'=>(array)$this->brands); // бренд
                     if(!empty($vv['P1']))
                         if($this->apMode){
-                            $rr['P1']=array('from'=>(float)$vv['P1']+$this->_deltaET,'to'=>(float)$vv['P1']+$this->deltaET_);
+                            //$rr['P1']=array('from'=>(float)$vv['P1']+$this->_deltaET,'to'=>(float)$vv['P1']+$this->deltaET_);
+							$rr['P1']=array('list'=>(array)$vv['P1']);
                         }
                         else $rr['P1']=array('list'=>(array)$vv['P1']);
                     if(!empty($vv['P2'])) $rr['P2']=array('list'=>(array)$vv['P2']);
                     if(!empty($vv['P3']))
                         if($this->apMode || @$this->diaMore){
-                            $rr['P3']=array('from'=>(float)$vv['P3']+$this->_deltaDia,'to'=>'');
+                            $rr['P3']=array('from'=>(float)$vv['P3']+$this->_deltaDiaMin,'to'=>(float)$vv['P3']+$this->_deltaDiaMax);
                         } else $rr['P3']=array('list'=>(array)$vv['P3']);
                     if(!empty($vv['P4'])) $rr['P4']=array('list'=>(array)$vv['P4']);
                     if(!empty($vv['P5'])) $rr['P5']=array('list'=>(array)$vv['P5']); // радиус
@@ -997,13 +998,14 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                     if(!empty($this->brands))   $rr['brand_id']=array('list'=>(array)$this->brands);
                     if(!empty($vv[1]['P1']))
                         if($this->apMode){
-                            $rr['P1']=array('from'=>(float)$vv[1]['P1']+$this->_deltaET,'to'=>(float)$vv[1]['P1']+$this->deltaET_);
+                            //$rr['P1']=array('from'=>(float)$vv[1]['P1']+$this->_deltaET,'to'=>(float)$vv[1]['P1']+$this->deltaET_);
+							$rr['P1']=array('list'=>(array)$vv[1]['P1']);
                         }
                         else $rr['P1']=array('list'=>(array)$vv[1]['P1']);
                     $rr['P2'] = array('list'=>(array)$vv[1]['P2']);
                     if(!empty($vv[1]['P3']))
                         if($this->apMode){
-                            $rr['P3']=array('from'=>(float)$vv[1]['P3']+$this->_deltaDia,'to'=>'');
+                            $rr['P3']=array('from'=>(float)$vv[1]['P3']+$this->_deltaDiaMin,'to'=>(float)$vv[1]['P3']+$this->_deltaDiaMax);
                         } else $rr['P3']=array('list'=>(array)$vv[1]['P3']);
                     $rr['P4'] = array('list'=>(array)$vv[1]['P4']);
                     $rr['P5'] = array('list'=>(array)$vv[1]['P5']);
@@ -1032,13 +1034,14 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                     if(!empty($this->brands))   $rr['brand_id']=array('list'=>(array)$this->brands);
                     if(!empty($vv[2]['P1']))
                         if($this->apMode){
-                            $rr['P1']=array('from'=>(float)$vv[2]['P1']+$this->_deltaET,'to'=>(float)$vv[2]['P1']+$this->deltaET_);
+                            //$rr['P1']=array('from'=>(float)$vv[2]['P1']+$this->_deltaET,'to'=>(float)$vv[2]['P1']+$this->deltaET_);
+							$rr['P1']=array('list'=>(array)$vv[2]['P1']);
                         }
                         else $rr['P1']=array('list'=>(array)$vv[2]['P1']);
                     $rr['P2'] = array('list'=>(array)$vv[2]['P2']);
                     if(!empty($vv[2]['P3']))
                         if($this->apMode){
-                            $rr['P3']=array('from'=>(float)$vv[2]['P3']+$this->_deltaDia,'to'=>'');
+                            $rr['P3']=array('from'=>(float)$vv[2]['P3']+$this->_deltaDiaMin,'to'=>(float)$vv[2]['P3']+$this->_deltaDiaMax);
                         } else $rr['P3']=array('list'=>(array)$vv[2]['P3']);
                     $rr['P4'] = array('list'=>(array)$vv[2]['P4']);
                     $rr['P5'] = array('list'=>(array)$vv[2]['P5']);
@@ -1281,7 +1284,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
 
         if(!empty($this->P3_))
             if($this->apMode){
-                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>(float)max($this->P3_)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
             } else $r['P3']=array('list'=>$this->P3_);
 
         /*if(!empty($this->P1_))
@@ -1544,7 +1547,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
         // DIA
         if(!empty($this->P3_))
             if($this->apMode){
-                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>(float)max($this->P3_) + $this->_deltaDiaMax, 'ext_or_eq' => 0);
             } else $r['P3']=array('list'=>$this->P3_);
 
         // ET
@@ -1615,7 +1618,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                     // DIA
                     if(!empty($this->P3))
                         if($this->apMode){
-                            $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                            $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDiaMin,'to'=>(float)max($this->P3)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
                         } else $r['P3']=array('list'=>$this->P3);
                     else unset($r['P3']);
 
@@ -1650,13 +1653,14 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>(float)max($this->P3_)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
                                 } else $r['P3']=array('list'=>$this->P3_);
 
                             // ET
                             if(!empty($this->_P1))
                                 if($this->apMode){
-                                    $r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+                                    //$r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+									$r['P1']=array('list'=>$this->P1_);
                                 }
                                 else $r['P1']=array('list'=>$this->P1_);
 
@@ -1682,7 +1686,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>(float)max($this->P3_)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
                                 } else $r['P3']=array('list'=>$this->P3_);
 
                             if(!empty($this->_P46)) {
@@ -1707,7 +1711,8 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                             // ET
                             if(!empty($this->_P1))
                                 if($this->apMode){
-                                    $r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+                                    //$r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+									$r['P1']=array('list'=>$this->P1_);
                                 }
                                 else $r['P1']=array('list'=>$this->P1_);
 
@@ -1733,13 +1738,14 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>(float)max($this->P3_)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
                                 } else $r['P3']=array('list'=>$this->P3);
 
                             // ET
                             if(!empty($this->_P1))
                                 if($this->apMode){
-                                    $r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+                                    //$r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+									$r['P1']=array('list'=>$this->P1_);
                                 }
                                 else $r['P1']=array('list'=>$this->P1_);
 
@@ -1766,13 +1772,14 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>(float)max($this->P3_)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
                                 } else $r['P3']=array('list'=>$this->P3_);
 
                             // ET
                             if(!empty($this->_P1))
                                 if($this->apMode){
-                                    $r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+                                    //$r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+									$r['P1']=array('list'=>$this->P1_);
                                 }
                                 else $r['P1']=array('list'=>$this->P1_);
 
@@ -1798,13 +1805,14 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>(float)max($this->P3_)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
                                 } else $r['P3']=array('list'=>$this->P3_);
 
                             // ET
                             if(!empty($this->_P1))
                                 if($this->apMode){
-                                    $r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+                                    //$r['P1']=array('from'=>(float)min($this->P1_)+$this->_deltaET,'to'=>(float)max($this->P1_)+$this->deltaET_);
+									$r['P1']=array('list'=>$this->P1_);
                                 }
                                 else $r['P1']=array('list'=>$this->P1_);
 
@@ -1870,7 +1878,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
         // DIA
         if(!empty($this->P3))
             if($this->apMode){
-                $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDiaMin,'to'=>(float)max($this->P3)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
             } else $r['P3']=array('list'=>$this->P3);
         else unset($r['P3']);
 
@@ -1898,7 +1906,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
         // DIA
         if(!empty($this->_P3))
             if($this->apMode){
-                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'', 'ext_or_eq' => 0);
+                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>(float)max($this->_P3)+$this->_deltaDiaMax, 'ext_or_eq' => 0);
             } else $r['P3']=array('list'=>$this->P3_);
 
         // ET
@@ -1947,6 +1955,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
     */
     private function setClassParams()
     {
+//        echo '<pre>' . var_export($this->abc[0]['dia'], true) . '</pre>';exit;
         foreach($this->ab->avto[2] as $rad=>$v)
         {
             foreach($v as $type=>$vv)
@@ -1958,7 +1967,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                             $this->P1[] = $vvv['P1']; // добавляем вылет (ET)
                             $this->P2[] = $vvv['P2']; // добавляем ширину
                         }
-                        $this->P3[] = $vvv['P3']; // добавляем DIA
+                        $this->P3[] = isset($this->abc[0]) && isset($type->abc[0]['dia']) ? $this->abc[0]['dia'] : $vvv['P3']; // добавляем DIA
                         $this->P5[] = $vvv['P5'];
                         if (!empty($vvv['P4']) && !empty($vvv['P6']))  $this->P46[] = Array($vvv['P4'], $vvv['P6']);
                     }
@@ -1969,7 +1978,7 @@ class App_PodborDiskov_Controller extends App_Common_Controller
                         $this->P1[] = $vv['P1']; // добавляем вылет (ET)
                         $this->P2[] = $vv['P2']; // добавляем ширину
                     }
-                    $this->P3[] = $vv['P3']; // добавляем DIA
+                    $this->P3[] = isset($this->abc[0]) && isset($type->abc[0]['dia']) ? $this->abc[0]['dia'] : $vv['P3']; // добавляем DIA
                     $this->P5[] = $vv['P5'];
                     if (!empty($vv['P4']) && !empty($vv['P6'])) $this->P46[] = Array($vv['P4'], $vv['P6']);
                 }
