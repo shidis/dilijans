@@ -147,4 +147,31 @@ class Url
 		}
 	}
 
+  public static function getServerProtocol()
+  {
+    if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
+      return 'https';
+    } else {
+      return 'http';
+    }
+  }
+
+  public static function getLink($type, $carParams = [], $absolute = true) {
+    $url = '';
+    if ($absolute) {
+      $url = Url::getServerProtocol() . '://' . Url::trimWWW(Cfg::get('site_url'));
+    }
+    if ($type == 'tyre') {
+      $url .= '/'. App_Route::_getUrl('avtoPodborShin') ;
+    } elseif ($type =='disk') {
+      $url .= '/'. App_Route::_getUrl('avtoPodborDiskov') ;
+    } else {
+      return 'Неправильный тип ссылки';
+    }
+    if (!empty($carParams)) {
+      $url .= '/' . implode('--', $carParams);
+    }
+    $url .= '.html';
+    return $url;
+  }
 }

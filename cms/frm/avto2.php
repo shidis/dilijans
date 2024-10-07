@@ -67,7 +67,7 @@ try{
 				{name:'p1_1',index:'p1_1',align:'center', sortable:false,editable:true, edittype:'text'},
 				{name:'manual_insert',index:'manual_insert',hidden:true,editable:true, edittype:'text'}
 			],
-			loadComplete: function(){ 
+			loadComplete: function(data){
 				var ids = jQuery("#tyres1").getDataIDs();
 				for(var i=0;i<ids.length;i++){ 
 					var cl = ids[i]; 
@@ -77,8 +77,16 @@ try{
 					if (dataFromTheRow.manual_insert == 1){
 						$("#tyres1").find('tr#' + ids[i]).css('background', '#FFF000');
 					}
-				} 
-			}, 			
+				}
+
+        let linkText = '';
+        if (data['link'] !== undefined) {
+          linkText = '<a href="' + data['link'] + '" target="_blank">' + data['link'] + '</a>';
+        } else {
+          linkText = 'Ссылка не найдена';
+        }
+        jQuery("#link-tyres").html(linkText);
+			},
 			onHeaderClick: function(gridstate){
 				$('.nav1').toggle();
 			},
@@ -122,18 +130,26 @@ try{
 			onHeaderClick: function(gridstate){
 				$('.nav2').toggle();
 			},
-			loadComplete: function(){ 
+			loadComplete: function(data){
 				var ids = jQuery("#disks1").getDataIDs(); 
 				for(var i=0;i<ids.length;i++){ 
 					var cl = ids[i];
-					de = "<input title='Удалить' type='image' src='../img/row_delete.gif' onclick='_del("+cl+",\"#disks1\");' >"; 
+					de = "<input title='Удалить' type='image' src='../img/row_delete.gif' onclick='_del("+cl+",\"#disks1\");' >";
 					jQuery("#disks1").setRowData(ids[i],{act:de})
 					var dataFromTheRow = jQuery('#disks1').jqGrid ('getRowData', ids[i]);
 					if (dataFromTheRow.manual_insert == 1){
 						$("#disks1").find('tr#' + ids[i]).css('background', '#FFF000');
 					}
-				} 
-			},
+				}
+
+        let linkText = '';
+        if (data['link'] !== undefined) {
+          linkText = '<a href="' + data['link'] + '" target="_blank">' + data['link'] + '</a>';
+        } else {
+          linkText = 'Ссылка не найдена';
+        }
+        jQuery("#link-disks").html(linkText);
+      },
 			onSelectRow: function(id){
 				if(id && id!==lastsel2){
 					jQuery('#disks1').jqGrid('restoreRow',lastsel2);
@@ -599,11 +615,19 @@ function remove_common(){
 <div id="tables" style="overflow:hidden; display:none">
 <div id="_tyres">
 <table width="100%" id="tyres1" class="scroll" cellpadding="0" cellspacing="0"></table>
-<div class="nav1"><input class="add" type="image" src="../img/row_add.gif">&nbsp;&nbsp;<a href="javascript:;" class="add">Добавить запись</a></div>
+<div class="nav1">
+  <input class="add" type="image" src="../img/row_add.gif">&nbsp;&nbsp;
+  <a href="javascript:;" class="add">Добавить запись</a>
+  <span id="link-tyres"></span>
+</div>
 </div>
 <div id="_disks" style="margin-top:10px">
 <table id="disks1" class="scroll" cellpadding="0" cellspacing="0"></table>
-<div class="nav2"><input class="add" type="image" src="../img/row_add.gif">&nbsp;&nbsp;<a href="javascript:;" class="add">Добавить запись</a></div>
+<div class="nav2">
+  <input class="add" type="image" src="../img/row_add.gif">&nbsp;&nbsp;
+  <a href="javascript:;" class="add">Добавить запись</a>
+  <span id="link-disks"></span>
+</div>
 </div>
 <br>
 <br>

@@ -216,36 +216,51 @@ html;
 break;
 
 case 'tyres':
-if(!$modif_id) break;
-$ab->avto_sh0($modif_id);
-$i=0;
-foreach(array(10,15,18,12) as $type_id){
-	if(isset($ab->avto[1][$type_id]))
-		foreach($ab->avto[1][$type_id] as $k=>$v){
-			$r->rows[$i]['id']=$v['avtosh_id'];
-			$r->rows[$i]['manual_insert']=$v['manual_insert'];
-			$r->rows[$i]['cell']=array($v['avtosh_id'],$v['pos'],'',array_search($type_id,array(10,12))!==false?'заводская':'альтернатива',$v['P3'],$v['P2'],$v['P1']);
-			if(isset($ab->avto[1][$type_id+1][$k])) $r->rows[$i]['cell']=array_merge($r->rows[$i]['cell'],array('задняя ось',$ab->avto[1][$type_id+1][$k]['P3'],$ab->avto[1][$type_id+1][$k]['P2'],$ab->avto[1][$type_id+1][$k]['P1'],$v['manual_insert'])); else $r->rows[$i]['cell']=array_merge($r->rows[$i]['cell'], array('задняя ось','','','',$v['manual_insert']));
-			$i++;
-		}
-}
+  if(!$modif_id) break;
+  $ab->avto_sh0($modif_id);
+  $i=0;
+  foreach(array(10,15,18,12) as $type_id){
+    if(isset($ab->avto[1][$type_id]))
+      foreach($ab->avto[1][$type_id] as $k=>$v){
+        $r->rows[$i]['id']=$v['avtosh_id'];
+        $r->rows[$i]['manual_insert']=$v['manual_insert'];
+        $r->rows[$i]['cell']=array($v['avtosh_id'],$v['pos'],'',array_search($type_id,array(10,12))!==false?'заводская':'альтернатива',$v['P3'],$v['P2'],$v['P1']);
+        if(isset($ab->avto[1][$type_id+1][$k])) $r->rows[$i]['cell']=array_merge($r->rows[$i]['cell'],array('задняя ось',$ab->avto[1][$type_id+1][$k]['P3'],$ab->avto[1][$type_id+1][$k]['P2'],$ab->avto[1][$type_id+1][$k]['P1'],$v['manual_insert'])); else $r->rows[$i]['cell']=array_merge($r->rows[$i]['cell'], array('задняя ось','','','',$v['manual_insert']));
+        $i++;
+      }
+  }
+
+  $tree = $ab->getTree($modif_id);
+  $addonParts = [];
+  if (isset($ab->tree['vendor_sname'])) $addonParts[] = Tools::unesc($ab->tree['vendor_sname']);
+  if (isset($ab->tree['model_sname'])) $addonParts[] = Tools::unesc($ab->tree['model_sname']);
+  if (isset($ab->tree['year_sname'])) $addonParts[] = Tools::unesc($ab->tree['year_sname']);
+  if (isset($ab->tree['modif_sname'])) $addonParts[] = Tools::unesc($ab->tree['modif_sname']);
+  $r->link = Url::getLink('tyre', $addonParts);
 break;
 
 case 'disks':
-if(!$modif_id) break;
-$ab->avto_sh0($modif_id);
-$i=0;
-foreach(array(22,28,20,25) as $type_id){
-	if(isset($ab->avto[2][$type_id]))
-		foreach($ab->avto[2][$type_id] as $k=>$v){
-			$r->rows[$i]['id']=$v['avtosh_id'];
-			$r->rows[$i]['cell']=array($v['avtosh_id'],$v['pos'],'',array_search($type_id,array(20,22))!==false?'заводская':'альтернатива',$v['P2'],$v['P5'],$v['P1'],$v['P4'],$v['P6'],$v['P3']);
-			if(isset($ab->avto[2][$type_id+1][$k]))
-				$r->rows[$i]['cell']=array_merge($r->rows[$i]['cell'],array('задняя ось',$ab->avto[2][$type_id+1][$k]['P2'],$ab->avto[2][$type_id+1][$k]['P5'],$ab->avto[2][$type_id+1][$k]['P1'],$ab->avto[2][$type_id+1][$k]['P4'],$ab->avto[2][$type_id+1][$k]['P6'],$ab->avto[2][$type_id+1][$k]['P3'], $v['manual_insert']));
-				else $r->rows[$i]['cell']=array_merge($r->rows[$i]['cell'], array('задняя ось','','','','','','',$v['manual_insert']));
-			$i++;
-		}
-}
+  if(!$modif_id) break;
+  $ab->avto_sh0($modif_id);
+  $i=0;
+  foreach(array(22,28,20,25) as $type_id){
+    if(isset($ab->avto[2][$type_id]))
+      foreach($ab->avto[2][$type_id] as $k=>$v){
+        $r->rows[$i]['id']=$v['avtosh_id'];
+        $r->rows[$i]['cell']=array($v['avtosh_id'],$v['pos'],'',array_search($type_id,array(20,22))!==false?'заводская':'альтернатива',$v['P2'],$v['P5'],$v['P1'],$v['P4'],$v['P6'],$v['P3']);
+        if(isset($ab->avto[2][$type_id+1][$k]))
+          $r->rows[$i]['cell']=array_merge($r->rows[$i]['cell'],array('задняя ось',$ab->avto[2][$type_id+1][$k]['P2'],$ab->avto[2][$type_id+1][$k]['P5'],$ab->avto[2][$type_id+1][$k]['P1'],$ab->avto[2][$type_id+1][$k]['P4'],$ab->avto[2][$type_id+1][$k]['P6'],$ab->avto[2][$type_id+1][$k]['P3'], $v['manual_insert']));
+          else $r->rows[$i]['cell']=array_merge($r->rows[$i]['cell'], array('задняя ось','','','','','','',$v['manual_insert']));
+        $i++;
+      }
+  }
+  $tree = $ab->getTree($modif_id);
+  $addonParts = [];
+  if (isset($ab->tree['vendor_sname'])) $addonParts[] = Tools::unesc($ab->tree['vendor_sname']);
+  if (isset($ab->tree['model_sname'])) $addonParts[] = Tools::unesc($ab->tree['model_sname']);
+  if (isset($ab->tree['year_sname'])) $addonParts[] = Tools::unesc($ab->tree['year_sname']);
+  if (isset($ab->tree['modif_sname'])) $addonParts[] = Tools::unesc($ab->tree['modif_sname']);
+  $r->link = Url::getLink('disk', $addonParts);
 break;
 
 case 'del':
