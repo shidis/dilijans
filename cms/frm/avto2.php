@@ -1,4 +1,4 @@
-<? 
+<?php
 
 require_once '../auth.php';
 include('../struct.php');
@@ -149,6 +149,7 @@ try{
           linkText = 'Ссылка не найдена';
         }
         jQuery("#link-disks").html(linkText);
+        show_image(data['image']);
       },
 			onSelectRow: function(id){
 				if(id && id!==lastsel2){
@@ -292,7 +293,10 @@ try{
 	
 	$('#dlg1_frm').submit(dlg1);
 
-	
+  document.querySelector("#form_images").addEventListener("submit", function(e) {
+    saveImage(e);
+  });
+
 }catch(e){alert(e)}
 
 
@@ -353,6 +357,7 @@ try{
 		$('.choice:gt(0)').empty();	
 		if($(this).val()==0) return;
 		$('#tables').hide('fast');
+    $('.image-container').hide();
 		$('#_models').html($('#loading1').html());
 		$.ajax({
 			data: {act:'models', vendor_id:$(this).val()},
@@ -368,6 +373,7 @@ try{
 		$('.choice:gt(1)').empty();	
 		if($(this).val()==0) return;
 		$('#tables').hide('fast');
+    $('.image-container').hide();
 		$('#_years').html($('#loading1').html());
 		$.ajax({
 			data: {act:'years', model_id:$(this).val()},
@@ -383,6 +389,7 @@ try{
 		$('.choice:gt(2)').empty();	
 		if($(this).val()==0) return;
 		$('#tables').hide('fast');
+    $('.image-container').hide();
 		$('#_modifs').html($('#loading1').html());
 		$.ajax({
 			data: {act:'modifs', year_id:$(this).val()},
@@ -418,7 +425,8 @@ try{
 		if(m>0) modif_id=m; else modif_id=$('#modif').val();
 		note('modif_id= '+modif_id);
 
-        show_common_table(modif_id);
+    show_common_table(modif_id);
+    $('.image-container').show();
 
 		if(modif_id==0) {
 			$('#tables').hide('fast');
@@ -470,6 +478,7 @@ function copy(){
                         $('#year').change(yearChange);
                         cinit();
                         $('#_modifs').empty();
+                        $('.image-container').hide();
                     }
                 });
             });
@@ -600,6 +609,46 @@ function remove_common(){
         }
     });
 }
+
+function show_image(image) {
+  if (image !== undefined) {
+    $('#edit-image img').attr('src', image);
+    $('.image-fields').show();
+  }
+}
+
+function saveImage(event) {
+  event.preventDefault();
+  let form = document.getElementById('form_images');
+  let formData = new FormData(form);
+  formData.set('vendor_id', $('#vendor').val());
+  formData.set('model_id', $('#model').val());
+  formData.set('year_id', $('#year').val());
+  formData.set('modif_id', $('#modif').val());
+  formData.set('delImg', $('#edit-image #delImg').prop("checked"));
+
+  $.ajax({
+    type: 'POST',
+    url: '../be/images.php',
+    processData: false,
+    contentType: false,
+    enctype: 'multipart/form-data',
+    data: formData,
+    success: function (res) {
+      if (!res.fres) {
+        note(res.fres_msg, 'stick');
+      } else {
+        note('Выполнено');
+        if (res.delImage) {
+          $('#edit-image img').attr('src', '');
+        } else {
+          $('#edit-image img').attr('src', res.image + "?" + Math.random());
+        }
+      }
+    }
+  });
+
+}
 </script>
 
 <? cp_body()?>
@@ -656,6 +705,78 @@ function remove_common(){
 	<input type="button" onclick="save_common();" value="Сохранить">
 </div>
 
+</div>
+<style type="text/css">
+  .image-container {
+      display: none;
+      margin: 20px 0;
+      background-color: #CEDCFF;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+
+      padding: 20px;
+      width: 40%;
+  }
+  .image-container .saveButton {
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 17px;
+      border-radius: 15px;
+      cursor: pointer;
+  }
+  .image-container .saveButton:hover {
+      background-color: #e4eaff;
+  }
+  .image-fields {
+      display: none;
+  }
+</style>
+<div class="image-container">
+  <div class="" style="padding-bottom: 10px;">Изображение авто</div>
+  <div class="">
+    <form id="form_images" name="form_images" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="act" value="edit">
+      <input type="hidden" name="MAX_FILE_SIZE" value="<?=Cfg::get('max_file_size');?>">
+      <input type="hidden" name="vendor_id" value="">
+      <input type="hidden" name="model_id" value="">
+      <input type="hidden" name="year_id" value="">
+      <input type="hidden" name="modif_id" value="">
+    <div id="edit-image">
+      <fieldset class="ui image-fields"
+                style="float:left; margin: 0 15px 0 0; border:1px dashed #999; width:200px; overflow:hidden; padding:10px;">
+        <legend class="ui">Изображение</legend>
+        <div style="float:left; overflow:hidden; margin-right:20px; max-width: 110px">
+          <img width="100" src=""/>
+        </div>
+        <div style="float:left; overflow:hidden; margin-right:10px; width: 190px">
+          <p><input name="delImg" type="checkbox" id="delImg" value="0"> <label for="delImg">удалить изображение</label>
+          </p>
+        </div>
+      </fieldset>
+      <fieldset class="ui" style="border:1px dashed #999; padding: 10px">
+        <legend class="ui">Загрузить изображение</legend>
+        <p><label>Файл</label><br/><input name="imgFile" type="file" id="imgFile" style="width: 99%"></p>
+        <p><labeL>Загрузка по урлу http://</labeL><br/><input name="spyUrl" type="text" id="spyUrl" style="width: 99%;"/>
+        </p>
+      </fieldset>
+      <input type="submit" class="saveButton" value="Сохранить">
+    </div>
+<!--    <div id="new-image">-->
+<!--      <fieldset class="ui" style="border:1px dashed #999; padding: 10px; width: 98%">-->
+<!--        <legend class="ui">Загрузить изображение</legend>-->
+<!--        <p>-->
+<!--          <label>Файл</label><br/>-->
+<!--          <input name="imgFile" type="file" id="imgFile" style="width: 99%">-->
+<!--        </p>-->
+<!--        <p>-->
+<!--          <labeL>Загрузка по урлу http://</labeL><br/>-->
+<!--          <input name="spyUrl" type="text" id="spyUrl" style="width: 99%;"/>-->
+<!--        </p>-->
+<!--      </fieldset>-->
+<!--      <input type="submit" class="saveButton" value="Сохранить">-->
+<!--    </div>-->
+    </form>
+  </div>
 </div>
 
 <style type="text/css">

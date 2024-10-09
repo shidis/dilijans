@@ -230,13 +230,19 @@ case 'tyres':
       }
   }
 
-  $tree = $ab->getTree($modif_id);
+  $ab->getTree($modif_id);
   $addonParts = [];
   if (isset($ab->tree['vendor_sname'])) $addonParts[] = Tools::unesc($ab->tree['vendor_sname']);
   if (isset($ab->tree['model_sname'])) $addonParts[] = Tools::unesc($ab->tree['model_sname']);
   if (isset($ab->tree['year_sname'])) $addonParts[] = Tools::unesc($ab->tree['year_sname']);
   if (isset($ab->tree['modif_sname'])) $addonParts[] = Tools::unesc($ab->tree['modif_sname']);
   $r->link = Url::getLink('tyre', $addonParts);
+
+  $r->image = '';
+  if (isset($ab->tree['ext_avto_info']['avto_image'])) {
+    $cc = new CC_Ctrl();
+    $r->image = $cc->make_img_path($ab->tree['ext_avto_info']['avto_image']);
+  }
 break;
 
 case 'disks':
@@ -254,13 +260,19 @@ case 'disks':
         $i++;
       }
   }
-  $tree = $ab->getTree($modif_id);
+  $ab->getTree($modif_id);
   $addonParts = [];
   if (isset($ab->tree['vendor_sname'])) $addonParts[] = Tools::unesc($ab->tree['vendor_sname']);
   if (isset($ab->tree['model_sname'])) $addonParts[] = Tools::unesc($ab->tree['model_sname']);
   if (isset($ab->tree['year_sname'])) $addonParts[] = Tools::unesc($ab->tree['year_sname']);
   if (isset($ab->tree['modif_sname'])) $addonParts[] = Tools::unesc($ab->tree['modif_sname']);
   $r->link = Url::getLink('disk', $addonParts);
+
+  $r->image = '';
+  if (isset($ab->tree['ext_avto_info']['avto_image'])) {
+    $cc = new CC_Ctrl();
+    $r->image = $cc->make_img_path($ab->tree['ext_avto_info']['avto_image']);
+  }
 break;
 
 case 'del':
