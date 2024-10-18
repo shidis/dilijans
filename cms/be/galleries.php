@@ -46,7 +46,7 @@ $gl=new Gallery();
 switch ($act){
 
 case 'topic_list':
-	$r->topics=$gl->fetchAll("SELECT * FROM gl_topic ORDER BY name",MYSQL_ASSOC);
+	$r->topics=$gl->fetchAll("SELECT * FROM gl_topic ORDER BY name",MYSQLI_ASSOC);
 	foreach($r->topics as $k=>&$v) {
 		$v['name']=Tools::unesc($v['name']);
 		$v['sname']=Tools::unesc($v['sname']);

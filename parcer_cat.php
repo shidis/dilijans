@@ -78,10 +78,10 @@ if (!empty($_POST['processing']) && !empty($_POST['content'])) {
                                 cc_cat.P3+'0' AS P3
                                 FROM cc_cat
                                 INNER JOIN (cc_model JOIN cc_brand ON cc_model.brand_id = cc_brand.brand_id) ON cc_cat.model_id = cc_model.model_id
-                                WHERE NOT cc_cat.LD AND NOT cc_model.LD AND NOT cc_brand.LD AND " . implode(' AND ', $where), MYSQL_ASSOC);
+                                WHERE NOT cc_cat.LD AND NOT cc_model.LD AND NOT cc_brand.LD AND " . implode(' AND ', $where), MYSQLI_ASSOC);
     foreach ($models as $model) {
         //Ищем запись в "страницах"
-        $page = $DB->getOne("SELECT page_id, url FROM ss_pages WHERE url = '".'/'.App_Route::_getUrl('tTipo').'/'.$model['sname'].'.html'."';", MYSQL_ASSOC);
+        $page = $DB->getOne("SELECT page_id, url FROM ss_pages WHERE url = '".'/'.App_Route::_getUrl('tTipo').'/'.$model['sname'].'.html'."';", MYSQLI_ASSOC);
         if ((empty($page) && empty($_POST['has_page'])) || (!empty($page) && !empty($_POST['has_page']))) {
         $model_name = str_replace(Array('w', 'W', 'c', 'C', 'h', 'H'), Array('v', 'V', 'k', 'K', 'x', 'X'), preg_replace('%[^A-Za-zА-Яа-я0-9\s]%', '', $model['name']));
         $brand_name = (!empty($model['alt']) ? $model['alt'] : strtr($model['bname'], array_flip($translit)));

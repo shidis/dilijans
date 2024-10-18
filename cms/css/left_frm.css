@@ -1,7 +1,6 @@
-/* CSS Document */
 BODY {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 9px;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 11px;
     color: #000000;
     margin: 0;
     padding: 0;
@@ -9,8 +8,7 @@ BODY {
 
 A {
     font-weight: bold;
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 11px;
     color: #2666cc;
     text-decoration: none;
 }
@@ -26,7 +24,7 @@ A:visited {
 
 A.h {
     color: #2666cc;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
     font-size: 10px;
     text-decoration: none;
 }
@@ -38,7 +36,7 @@ A.h:hover {
 
 DIV.m {
     border: 1px solid #d1d8ec;
-    width: 200px;
+    width: 139px;
 }
 
 DIV.h {
@@ -51,7 +49,7 @@ DIV.h {
 DIV.mb {
     border: solid #d1d8ec;
     border-width: 1px 1px 1px 1px;
-    width: 200px;
+    width: 139px;
     margin: 0px 0px 10px 0px;
 }
 
@@ -63,6 +61,5 @@ UL.menu {
 LI.menu {
     padding-bottom: 5px;
     list-style-image: url(/cms/img/navi.gif);
-    line-height: 10px;
+    line-height: 13px;
 }
-

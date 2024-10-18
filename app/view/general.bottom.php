@@ -103,4 +103,8 @@ if(window.mobilecheck()) {
 </script>
 </body>
 </html>
-<!-- DB Queries=<?=Stat::$DBQueries?> | execTime=<? Stat::finish(); echo Stat::execTime()?> sec -->
+<!-- DB QueriesCount=<?=Stat::$DBQueriesCount?>, dbQTotalTime=<?=Stat::$dbQueriesTotalTime?> sec | execTime=<? Stat::finish(); echo Stat::execTime()?> sec -->
+
+<? if (Stat::$logDBQueries) {
+    echo "<!-- DB Queries = \n". print_r(Stat::$dbQueries) . "\n-->";
+}

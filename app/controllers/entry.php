@@ -359,7 +359,7 @@ class App_Entry_Controller extends App_Common_Controller
             return false;
         }
 
-        $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
 
 
         $this->models=array();
@@ -432,7 +432,7 @@ class App_Entry_Controller extends App_Common_Controller
             return false;
         }
 
-        $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
 
         $this->models=array();
 

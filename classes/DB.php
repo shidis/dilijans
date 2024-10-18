@@ -29,89 +29,108 @@ class DB extends Common
         $this->sql_user = $sql_user;
         $this->sql_pass = $sql_pass;
     }
-    
+
     function getConnId()
     {
-        return @Stat::$dbConnIds[$this->sql_host.$this->sql_user.$this->sql_db];
+        return @Stat::$dbConnIds[$this->sql_host . $this->sql_user . $this->sql_db];
     }
 
 
     function sql_connect()
     {
         $i = 0;
-        do {
+        do
+        {
             $i++;
 
-            $conn = Stat::$dbConnIds[$this->sql_host.$this->sql_user.$this->sql_db] = @mysql_connect($this->sql_host, $this->sql_user, $this->sql_pass, true);
+            $link = Stat::$dbConnIds[$this->sql_host . $this->sql_user . $this->sql_db] = @mysqli_connect($this->sql_host, $this->sql_user, $this->sql_pass);
 
-            if ($conn === false) usleep(500000);
+            if ($link === false) usleep(500000);
 
-        } while ($conn === false && $i < 15);
+        } while ($link === false && $i < 15);
 
-        if ($conn === false)
-            throw new DBException("Error in " . __FILE__ . ", line " . __LINE__ . " :: mysql_connect($i) Error: " . mysql_error(), mysql_errno());
+        if ($link === false) throw new DBException("Error in " . __FILE__ . ", line " . __LINE__ . " :: mysqli_connect($i) Error: " . mysqli_connect_error(), mysqli_connect_errno());
 
-        if (false === ($res = @mysql_select_db($this->sql_db, $conn))) {
-            throw new DBException("Error in " . __FILE__ . ", line " . __LINE__ . " :: mysql_select_db() Error: " . mysql_error($conn), mysql_errno($conn));
+        if (false === ($res = @mysqli_select_db($link, $this->sql_db)))
+        {
+            throw new DBException("Error in " . __FILE__ . ", line " . __LINE__ . " :: mysqli_select_db() Error: " . mysqli_error($link), mysqli_errno($link));
         }
 
-        $this->qres = mysql_query("SET NAMES '{$this->charset}'", $conn);
-        //$this->qres=mysql_query("SET CHARACTER SET utf8", $this->getConnId());
-        //$this->qres=mysql_query("SET CHARACTER_SET_CONNECTION=utf8", $this->getConnId());
-        //$this->qres=mysql_query("SET SQL_MODE = ''", $this->getConnId());
+        $this->qres = mysqli_query($link, "SET NAMES '{$this->charset}'");
+        //$this->qres=mysqli_query("SET CHARACTER SET utf8", $this->getConnId());
+        //$this->qres=mysqli_query("SET CHARACTER_SET_CONNECTION=utf8", $this->getConnId());
+        //$this->qres=mysqli_query("SET SQL_MODE = ''", $this->getConnId());
 
         return $res;
     }
 
     function sql_close()
     {
-        $res=@mysql_close($this->getConnId());
-        unset(Stat::$dbConnIds[$this->sql_host.$this->sql_user.$this->sql_db]);
+        $res = @mysqli_close($this->getConnId());
+        unset(Stat::$dbConnIds[$this->sql_host . $this->sql_user . $this->sql_db]);
+
         return $res;
     }
 
-    function sql_execute($noHalt=false)
+    function sql_execute($noHalt = false)
     {
+        $t0 = Stat::getMicroTime();
+        try
+        {
+            $conn = $this->getConnId();
+            if (!$conn)
+            {
+                $this->sql_connect();
+                Stat::$dbConnNum++;
+            }
 
-        $conn = $this->getConnId();
-        if (!is_resource($conn)) {
-            $this->sql_connect();
-            Stat::$dbConnNum++;
+            // For successful SELECT, SHOW, DESCRIBE or EXPLAIN queries, mysqli_query() will return a mysqli_result object.
+            $this->qres = @mysqli_query($this->getConnId(), $this->sql_query);
+
+            if ($this->qres === false)
+            {
+                throw new DBException("Error in " . __FILE__ . ", line " . __LINE__ . " with errno = " . mysqli_errno($this->getConnId()) . ': ' . mysqli_error($this->getConnId()) . ".\n\nQueryFullString: /{$this->sql_query}/");
+
+            }
+        } catch (DBException $e)
+        {
+            $e->getError($noHalt);
+
+            return false;
         }
 
-        if ($this->qres === false) {
-            if($noHalt) return false;
-            throw new DBException("Error in " . __FILE__ . ", line " . __LINE__ . " with errno = " . mysql_errno($this->getConnId()) . ': ' . mysql_error($this->getConnId()));
-        }
-
-        $this->qres = @mysql_query($this->sql_query, $this->getConnId());
-
-
-        if ($this->qres === false) {
-            if($noHalt) return false;
-            throw new DBException("Error in " . __FILE__ . ", line " . __LINE__ . " with errno = " . mysql_errno($this->getConnId()) . ': ' . mysql_error($this->getConnId()) . ".\n\nQueryFullString: /{$this->sql_query}/");
-        }
 
         Stat::incDB();
+        $td = (Stat::getMicroTime() - $t0);
+        Stat::$dbQueriesTotalTime += $td;
+        if (Stat::$logDBQueries)
+        {
+
+            Stat::$dbQueries[] = [round($td*1000 * 1000)/1000 . " ms", $this->sql_query];
+        }
 
         return $this->qres;
 
     }
 
-    function query($query, $noHalt=false)
+    function query($query, $noHalt = false)
     {
         $this->sql_query = $query;
+
         return $this->sql_execute($noHalt);
     }
 
-    function fetchAll($query = '', $type = MYSQL_BOTH, $noHalt=false)
+    function fetchAll($query = '', $type = MYSQLI_BOTH, $noHalt = false)
     {
-        $this->qdata = array();
-        $res = array();
-        if ($query != '' && ($res = $this->query($query, $noHalt)) || $query == '') {
+        $this->qdata = [];
+        $res = [];
+        if ($query != '' && ($res = $this->query($query, $noHalt)) || $query == '')
+        {
             if ($query == '') while ($this->next($type) !== false) $this->qdata[] = $this->qrow;
             else while ($this->next($type) !== false) $this->qdata[] = $this->qrow;
-        } else return $res;
+        }
+        else return $res;
+
         return $this->qdata;
     }
 
@@ -122,84 +141,86 @@ class DB extends Common
 
     function updatedNum()
     {
-        return mysql_affected_rows($this->getConnId());
+        return mysqli_affected_rows($this->getConnId());
     }
 
-    function count($query = '', $noHalt=false)
+    function count($query = '', $noHalt = false)
     {
-        if ($query != '')
-            if ($res = $this->query($query, $noHalt)) {
-                if (mb_stripos($query, 'count') !== false) {
-                    $this->next(MYSQL_NUM);
-                    return $this->qrow[0];
-                } else return $this->qnum();
-            } else return $res;
+        if ($query != '') if ($res = $this->query($query, $noHalt))
+        {
+            if (mb_stripos($query, 'count') !== false)
+            {
+                $this->next(MYSQLI_NUM);
+
+                return $this->qrow[0];
+            }
+            else return $this->qnum();
+        }
+        else return $res;
     }
 
-    function getOne($query = '', $type = MYSQL_BOTH, $noHalt=false)
+    function getOne($query = '', $type = MYSQLI_BOTH, $noHalt = false)
     {
-        if ($query != '')
-            if ($res = $this->query($query, $noHalt))
-                if ($this->qnum()) {
-                    $this->next($type);
-                    return $this->qrow;
-                } else return 0;
-            else return $res;
-        elseif ($this->qnum()) {
+        if ($query != '') if ($res = $this->query($query, $noHalt)) if ($this->qnum())
+        {
             $this->next($type);
+
             return $this->qrow;
-        } else return 0;
+        }
+        else return 0;
+        else return $res;
+        elseif ($this->qnum())
+        {
+            $this->next($type);
+
+            return $this->qrow;
+        }
+        else return 0;
     }
 
-    function foundRows($noHalt=false)
-    {
-        if (!is_resource($this->qres)) return false;
-        if ($res = $this->query("SELECT FOUND_ROWS ()", $noHalt))
-            return mysql_result($this->qres, 0);
-        else
-            return $res;
+    function next($type = MYSQLI_BOTH)
+    { // MYSQLI_ASSOC, MYSQL_NUM, MYSQL_BOTH
+        if (!is_object($this->qres)) return false;
+        $res = $this->qrow = mysqli_fetch_array($this->qres, $type);
 
-    }
-
-    function next($type = MYSQL_BOTH)
-    { // MYSQL_ASSOC, MYSQL_NUM, MYSQL_BOTH
-        if (!is_resource($this->qres)) return false;
-        $res = $this->qrow = mysql_fetch_array($this->qres, $type);
-        return ($res);
+        return is_null($res) ? false : $res;
     }
 
     function first()
     {
-        if (!is_resource($this->qres)) return false;
-        $res = $this->qrow = mysql_data_seek($this->qres, 0);
+        if (!is_object($this->qres)) return false;
+        $res = $this->qrow = mysqli_data_seek($this->qres, 0);
+
         return ($res);
     }
 
     function qnum()
     {
-        if (!is_resource($this->qres)) return false;
-        return $this->qnum = mysql_num_rows($this->qres);
+        if (!is_object($this->qres)) return false;
+
+        return $this->qnum = mysqli_num_rows($this->qres);
     }
 
     function unum()
     {
-        return mysql_affected_rows($this->getConnId());
+        return mysqli_affected_rows($this->getConnId());
     }
 
     function lastId()
     {
-        return $this->last_id=mysql_insert_id($this->getConnId());
+        return $this->last_id = mysqli_insert_id($this->getConnId());
     }
 
     function seek($num)
     {
-        if (!is_resource($this->qres)) return false;
-        return mysql_data_seek($this->qres, $num);
+        if (!is_object($this->qres)) return false;
+
+        return mysqli_data_seek($this->qres, $num);
     }
 
     function sqlFree()
     {
-        return mysql_free_result($this->qres);
+        @mysqli_free_result($this->qres);
     }
 
     function ld($table, $id, $value)
@@ -207,17 +228,19 @@ class DB extends Common
         $c = new DB;
         $err = $c->query("UPDATE $table SET LD='1' WHERE $id='$value'");
         unset($c);
+
         return ($err);
     }
 
-    function del($table, $id, $value, $noHalt=false)
+    function del($table, $id, $value, $noHalt = false)
     {
         $res = $this->query("DELETE FROM {$table} WHERE $id='{$value}'", $noHalt);
         if (!$res) return false;
-        return mysql_affected_rows($this->getConnId());
+
+        return mysqli_affected_rows($this->getConnId());
     }
 
-    function insert($table, $fieldsValues, $noHalt=false)
+    function insert($table, $fieldsValues, $noHalt = false)
     {
         // fieldsValues=array(field=>value,.....)
         // если value is array то формат value=array(значение, параметр форматирования)
@@ -226,68 +249,89 @@ class DB extends Common
         // Разобратся со вставкой пустого ''  значения и null в поле int
         // вставлет 0, а должен null
         //
-        $val = $ar = array();
-        foreach ($fieldsValues as $key => &$v) {
+        $val = $ar = [];
+        foreach ($fieldsValues as $key => &$v)
+        {
             $ar[] = $key;
-            if (is_array($v)) {
-                switch ($v[1]) {
+            if (is_array($v))
+            {
+                switch ($v[1])
+                {
                     case 'noquot':
                         $val[] = $v[0];
                         break;
                     default:
                         $val[] = "'$v'";
                 }
-            } else $val[] = "'$v'";
+            }
+            else $val[] = "'$v'";
         }
         $sql = "INSERT INTO $table (";
         $sql .= join(', ', $ar);
         $sql .= ') VALUES (';
         $sql .= join(',', $val);
         $sql .= ')';
+
         return $this->query($sql, $noHalt);
     }
 
-    function update($table, $fieldsValues, $where = '', $limit = '', $noHalt=false)
+    function update($table, $fieldsValues, $where = '', $limit = '', $noHalt = false)
     { // fieldsValues=array(field=>value,.....)   where=  срока условия
-        $ar = array();
-        foreach ($fieldsValues as $key => &$v) {
-            if (is_array($v)) {
-                switch ($v[1]) {
+        $ar = [];
+        foreach ($fieldsValues as $key => &$v)
+        {
+            if (is_array($v))
+            {
+                switch ($v[1])
+                {
                     case 'noquot':
                         $ar[] = "$key={$v[0]}";
                         break;
                 }
-            } else $ar[] = "$key='$v'";
+            }
+            else $ar[] = "$key='$v'";
         }
         $sql = "UPDATE $table SET " . join(', ', $ar) . ($where != '' ? " WHERE $where" : '') . ($limit != '' ? " LIMIT $limit" : '');
+
         return $this->query($sql, $noHalt);
     }
 
     function getUUID()
     {
         $d = $this->getOne("SELECT UUID();");
+
         return $d[0];
     }
 
     function sqlInfo()
     {
-        return mysql_get_server_info();
+        return mysqli_get_server_info($this->getConnId());
     }
 
-    function getColumns($tbl, $types=false, $noHalt=false)
+    function getColumns($tbl, $types = false, $noHalt = false)
     {
-        $d=$this->fetchAll("SHOW COLUMNS FROM `$tbl`", MYSQL_ASSOC, $noHalt);
-        $r=array();
-        if($d!==false){
-            foreach($d as $v){
-                if($types)
-                    $r[$v['Field']]=$v['Type'];
+        $d = $this->fetchAll("SHOW COLUMNS FROM `$tbl`", MYSQLI_ASSOC, $noHalt);
+        $r = [];
+        if ($d !== false)
+        {
+            foreach ($d as $v)
+            {
+                if ($types) $r[$v['Field']] = $v['Type'];
                 else
-                    $r[]=$v['Field'];
+                    $r[] = $v['Field'];
             }
-        return $r;
+
+            return $r;
         }
+
         return false;
+    }
+
+    function tableExists($table)
+    {
+        $table = Tools::like_($table);
+
+        return $this->getOne("SHOW TABLES LIKE '$table'") === 0 ? false : true;
     }
 
 

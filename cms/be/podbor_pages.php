@@ -46,7 +46,7 @@ switch ($act){
                 $error = 'Ошибка записи.';
             }
             if ($page_id) {
-                $page_info = $ab->getOne("SELECT * FROM ab_podbor_meta WHERE podbor_id='$page_id'", MYSQL_ASSOC);
+                $page_info = $ab->getOne("SELECT * FROM ab_podbor_meta WHERE podbor_id='$page_id'", MYSQLI_ASSOC);
                 $page_url_detail = '';
                 $ab->getTree(array('svendor' => (int)$page_info['vendor_id'],'smodel' => (int)$page_info['model_id'],'syear' => (int)$page_info['year_id'], 'smodif' => (int)$page_info['modif_id']), true);
                 if (!empty($ab->tree['vendor_sname'])) {
@@ -110,7 +110,7 @@ switch ($act){
                     if (!$ab->query("UPDATE ab_avto SET sortOnTheMain='$sortOnTheMain' WHERE avto_id='{$ab->tree['avto_id']}'")) {
                         $error = 'Ошибка записи ab_avto.';
                     }
-                    $image = $ab->getOne("SELECT avto_image, show_rating, showOnTheMain, sortOnTheMain FROM ab_avto WHERE avto_id='{$ab->tree['avto_id']}'", MYSQL_ASSOC);
+                    $image = $ab->getOne("SELECT avto_image, show_rating, showOnTheMain, sortOnTheMain FROM ab_avto WHERE avto_id='{$ab->tree['avto_id']}'", MYSQLI_ASSOC);
                     $page_info['avto_image']  = $image['avto_image'];
                     $page_info['show_rating'] = $image['show_rating'];
                     $page_info['showOnTheMain'] = $image['showOnTheMain'];
@@ -136,7 +136,7 @@ switch ($act){
         else {
             $page_id = intval(@$_POST['page_id']);
             if ($page_id) {
-                $page_info = $ab->getOne("SELECT * FROM ab_podbor_meta WHERE podbor_id='$page_id'", MYSQL_ASSOC);
+                $page_info = $ab->getOne("SELECT * FROM ab_podbor_meta WHERE podbor_id='$page_id'", MYSQLI_ASSOC);
                 $page_url_detail = '';
                 $ab->getTree(array('svendor' => (int)$page_info['vendor_id'],'smodel' => (int)$page_info['model_id'],'syear' => (int)$page_info['year_id'], 'smodif' => (int)$page_info['modif_id']), true);
                 if (!empty($ab->tree['vendor_sname'])) {
@@ -155,7 +155,7 @@ switch ($act){
                     $page_url = 'http://'.$_SERVER['HTTP_HOST'].'/' . (($gr == 1) ? App_Route::_getUrl('avtoPodborShin') : App_Route::_getUrl('avtoPodborDiskov')) . '/' . $page_url_detail . '.html';
                 }
                 //
-                $image = $ab->getOne("SELECT avto_image, show_rating, showOnTheMain, sortOnTheMain FROM ab_avto WHERE avto_id='{$ab->tree['avto_id']}'", MYSQL_ASSOC);
+                $image = $ab->getOne("SELECT avto_image, show_rating, showOnTheMain, sortOnTheMain FROM ab_avto WHERE avto_id='{$ab->tree['avto_id']}'", MYSQLI_ASSOC);
                 $page_info['avto_image']  = $image['avto_image'];
                 $page_info['show_rating'] = $image['show_rating'];
                 $page_info['showOnTheMain'] = $image['showOnTheMain'];
@@ -245,7 +245,7 @@ switch ($act){
                     if (!$ab->query("UPDATE ab_avto SET sortOnTheMain='$sortOnTheMain' WHERE avto_id='{$ab->tree['avto_id']}'")) {
                         $error = 'Ошибка записи ab_avto.';
                     }
-                    $image = $ab->getOne("SELECT avto_image, show_rating, showOnTheMain, sortOnTheMain FROM ab_avto WHERE avto_id='{$ab->tree['avto_id']}'", MYSQL_ASSOC);
+                    $image = $ab->getOne("SELECT avto_image, show_rating, showOnTheMain, sortOnTheMain FROM ab_avto WHERE avto_id='{$ab->tree['avto_id']}'", MYSQLI_ASSOC);
                     $page_info['avto_image']  = $image['avto_image'];
                     $page_info['show_rating'] = $image['show_rating'];
                     $page_info['showOnTheMain'] = $image['showOnTheMain'];
@@ -265,7 +265,7 @@ switch ($act){
                                 ".(!empty($model_id) ? " AND model_id='".$model_id."'" : ' AND model_id=0')."
                                 ".(!empty($year_id) ? " AND year_id='".$year_id."'" : ' AND year_id=0')."
                                 ".(!empty($modif_id) ? " AND modif_id='".$modif_id."'" : ' AND modif_id=0')
-                ,MYSQL_ASSOC);
+                ,MYSQLI_ASSOC);
             if (!empty($vendor_id) && empty($page)) {
                 $page_url_detail = '';
                 $ab->getTree(array('svendor' => (int)$vendor_id,'smodel' => (int)$model_id,'syear' => (int)$year_id, 'smodif' => (int)$modif_id), true);
@@ -309,7 +309,7 @@ switch ($act){
     case 'hSwitch':
         $page_id = intval(@$_REQUEST['page_id']);
         if ($page_id) {
-            $page_info = $ab->getOne("SELECT * FROM ab_podbor_meta WHERE podbor_id='$page_id'",MYSQL_ASSOC);
+            $page_info = $ab->getOne("SELECT * FROM ab_podbor_meta WHERE podbor_id='$page_id'",MYSQLI_ASSOC);
             if ($ab->query("UPDATE ab_podbor_meta SET H=".(($page_info['H'] == 1) ? '0' : '1')." WHERE podbor_id='$page_id'")) {
                 $r->fres = true;
                 $r->fres_msg = 'Обновили.';
@@ -433,7 +433,7 @@ html;
 	" . (!empty($model_id) ? " AND model_id='" . $model_id . "'" : '') . "
 	" . (!empty($year_id) ? " AND year_id='" . $year_id . "'" : '') . "
 	" . (!empty($modif_id) ? " AND modif_id='" . $modif_id . "'" : '')
-                . " ORDER BY vendor_id, model_id, year_id, modif_id", MYSQL_ASSOC);
+                . " ORDER BY vendor_id, model_id, year_id, modif_id", MYSQLI_ASSOC);
             if (!empty($pages)) {
                 $r->data =
                     <<<html
@@ -458,19 +458,19 @@ html;
                 foreach ($pages as $page) {
                     $page_url_detail = '';
                     if (!empty($page['vendor_id'])) {
-                        $vendor = $ab->getOne("SELECT * FROM ab_avto WHERE avto_id = '{$page['vendor_id']}'", MYSQL_ASSOC);
+                        $vendor = $ab->getOne("SELECT * FROM ab_avto WHERE avto_id = '{$page['vendor_id']}'", MYSQLI_ASSOC);
                         $page_url_detail .= $vendor['sname'];
                     }
                     if (!empty($page['model_id'])) {
-                        $model = $ab->getOne("SELECT * FROM ab_avto WHERE avto_id = '{$page['model_id']}'", MYSQL_ASSOC);
+                        $model = $ab->getOne("SELECT * FROM ab_avto WHERE avto_id = '{$page['model_id']}'", MYSQLI_ASSOC);
                         $page_url_detail .= '--' . $model['sname'];
                     }
                     if (!empty($page['year_id'])) {
-                        $year = $ab->getOne("SELECT * FROM ab_avto WHERE avto_id = '{$page['year_id']}'", MYSQL_ASSOC);
+                        $year = $ab->getOne("SELECT * FROM ab_avto WHERE avto_id = '{$page['year_id']}'", MYSQLI_ASSOC);
                         $page_url_detail .= '--' . $year['sname'];
                     }
                     if (!empty($page['modif_id'])) {
-                        $modif = $ab->getOne("SELECT * FROM ab_avto WHERE avto_id = '{$page['modif_id']}'", MYSQL_ASSOC);
+                        $modif = $ab->getOne("SELECT * FROM ab_avto WHERE avto_id = '{$page['modif_id']}'", MYSQLI_ASSOC);
                         $page_url_detail .= '--' . $modif['sname'];
                     }
                     $ab->getTree(array('svendor' => @$vendor['sname'], 'smodel' => @$model['sname'], 'syear' => @$year['sname'], 'smodif' => @$modif['sname']));

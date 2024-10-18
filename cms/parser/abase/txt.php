@@ -25,7 +25,7 @@ function backup()
 
     $db->query("SELECT alt,text1,text2,avto_id FROM ab_avto WHERE text1!='' OR text2!='' OR alt!=''");
     $i=0;
-    while($db->next(MYSQL_ASSOC)!==false){
+    while($db->next(MYSQLI_ASSOC)!==false){
         $qr=$db->qrow;
         $dbtxt->insert('ab_avto_txt',$qr);
         $i++;
@@ -45,7 +45,7 @@ function restore()
 
     $dbtxt->query("SELECT * FROM ab_avto_txt");
     $i=0;
-    while($dbtxt->next(MYSQL_ASSOC)!==false){
+    while($dbtxt->next(MYSQLI_ASSOC)!==false){
         $qr=$dbtxt->qrow;
         if(isset($_GET['notexts']))
             $db->update('ab_avto',array(

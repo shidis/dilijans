@@ -17,7 +17,7 @@ class Bot_SMS extends Bot_Common
         if($sms===false) Log_Sys::put(SLOG_ESTOP,'Bot_SMSChk','SMS_Reactor::factory() fault.');
 
         do{
-            $d=$this->fetchAll("SELECT msgId FROM log_sms WHERE status='1' AND msgId!='' ORDER BY GREATEST(dtCreated,dtCheck) ASC LIMIT 0,5000", MYSQL_ASSOC);
+            $d=$this->fetchAll("SELECT msgId FROM log_sms WHERE status='1' AND msgId!='' ORDER BY GREATEST(dtCreated,dtCheck) ASC LIMIT 0,5000", MYSQLI_ASSOC);
 
             foreach($d as $v){
                 $r=$sms->check($v['msgId']);

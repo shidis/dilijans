@@ -43,7 +43,7 @@ cp_js();
 		<tr>
 			<td colspan="2" valign="top">
 				<?
-				$slider_info = $db->fetchAll("SELECT * FROM slider ORDER BY slide_id DESC", MYSQL_ASSOC);
+				$slider_info = $db->fetchAll("SELECT * FROM slider ORDER BY slide_id DESC", MYSQLI_ASSOC);
 				if (!empty($slider_info)) {
 					$cc = new CC_Ctrl();
 					?><table width="75%" border="0"><?

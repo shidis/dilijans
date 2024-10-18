@@ -7,8 +7,8 @@ $cp->frm['title']='Подписавшиеся пользователи';
 
 $cp->checkPermissions();
 $DB = new DB();
-$susers_form = $DB->fetchAll("SELECT *, email_id as id, 'form' as dest FROM scr_email INNER JOIN os_order USING (email) ORDER BY scr_email.dt_add DESC;", MYSQL_ASSOC);
-$susers_order = $DB->fetchAll("SELECT *, order_id as id, 'order' as dest FROM os_order WHERE subscribe > 0 ORDER BY dt_add DESC;", MYSQL_ASSOC);
+$susers_form = $DB->fetchAll("SELECT *, email_id as id, 'form' as dest FROM scr_email INNER JOIN os_order USING (email) ORDER BY scr_email.dt_add DESC;", MYSQLI_ASSOC);
+$susers_order = $DB->fetchAll("SELECT *, order_id as id, 'order' as dest FROM os_order WHERE subscribe > 0 ORDER BY dt_add DESC;", MYSQLI_ASSOC);
 $susers = array_merge($susers_form, $susers_order);
 cp_head();
 cp_css();
@@ -122,7 +122,7 @@ function csv(){
                 $su = $susers[$i];
                 if (!is_array($su['email'])) {
                     $count = $i+1;
-                    $order_info = $DB->fetchAll("SELECT * FROM os_item WHERE order_id = '{$su['order_id']}';", MYSQL_ASSOC);
+                    $order_info = $DB->fetchAll("SELECT * FROM os_item WHERE order_id = '{$su['order_id']}';", MYSQLI_ASSOC);
                     if (!empty($order_info)) {
                         $goods_names = array();
                         foreach ($order_info as $order_name) {

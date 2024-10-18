@@ -450,7 +450,7 @@ if(@$_REQUEST['from_y']!=''&& @$_REQUEST['to_y']!=''){
     }
 }else note('Задайте временной нтервал и фильтры для отбора заказов');
 
-?></div>
+?>
 
 
     <script type="text/javascript">

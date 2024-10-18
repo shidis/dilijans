@@ -29,7 +29,7 @@ function related_cat($cat_id)
 {
 	$this->query("SELECT cc_dop.* FROM cc_cat INNER JOIN (cc_dop INNER JOIN cc_model ON cc_dop.brand_id = cc_model.brand_id) ON cc_cat.model_id = cc_model.model_id WHERE (cc_cat.cat_id='$cat_id')AND(NOT cc_dop.LD)");
 	$r=array();
-	if($this->qnum()) $r=$this->fetchAll('',MYSQL_ASSOC);
+	if($this->qnum()) $r=$this->fetchAll('',MYSQLI_ASSOC);
 	return $r;
 }
 

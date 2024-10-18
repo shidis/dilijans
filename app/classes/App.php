@@ -2,7 +2,7 @@
 class App_App extends App {
 
     function __construct(){
-        if(server_loc=='remote') $this->clearCode=true;
+        if(server_loc=='remote' && false) $this->clearCode=true;
         parent::__construct();
     }
 

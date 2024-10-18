@@ -155,7 +155,7 @@ class App_PodborShin_Controller extends App_Common_Controller
                 'whereCat'=>$this->minQtyRadiusSQL,
                 'having'=>'modelsNum>0'
             ));
-            $d_ex=$this->cc->fetchAll('',MYSQL_ASSOC);
+            $d_ex=$this->cc->fetchAll('',MYSQLI_ASSOC);
             if (!empty($d_ex)) {
                 $this->replicaCross = array(
                     'url' => '/' . App_Route::_getUrl('dCat') . '/' . $d['sname'] . '.html',
@@ -216,7 +216,7 @@ class App_PodborShin_Controller extends App_Common_Controller
             ".(!empty($this->ab->tree['model_id']) ? " AND model_id='".$this->ab->tree['model_id']."'" : ' AND model_id=0')."
             ".(!empty($this->ab->tree['year_id']) ? " AND year_id='".$this->ab->tree['year_id']."'" : ' AND year_id=0')."
             ".(!empty($this->ab->tree['modif_id']) ? " AND modif_id='".$this->ab->tree['modif_id']."'" : ' AND modif_id=0')
-            ,MYSQL_ASSOC);
+            ,MYSQLI_ASSOC);
         if(!empty($page_meta_info))
         {
             $this->title = $page_meta_info['seo_title'];
@@ -315,7 +315,7 @@ class App_PodborShin_Controller extends App_Common_Controller
             ".(!empty($this->ab->tree['model_id']) ? " AND model_id='".$this->ab->tree['model_id']."'" : ' AND model_id=0')."
             ".(!empty($this->ab->tree['year_id']) ? " AND year_id='".$this->ab->tree['year_id']."'" : ' AND year_id=0')."
             ".(!empty($this->ab->tree['modif_id']) ? " AND modif_id='".$this->ab->tree['modif_id']."'" : ' AND modif_id=0')
-            ,MYSQL_ASSOC);
+            ,MYSQLI_ASSOC);
         if(!empty($page_meta_info))
         {
             $this->title = $page_meta_info['seo_title'];
@@ -415,7 +415,7 @@ class App_PodborShin_Controller extends App_Common_Controller
             ".(!empty($this->ab->tree['model_id']) ? " AND model_id='".$this->ab->tree['model_id']."'" : ' AND model_id=0')."
             ".(!empty($this->ab->tree['year_id']) ? " AND year_id='".$this->ab->tree['year_id']."'" : ' AND year_id=0')."
             ".(!empty($this->ab->tree['modif_id']) ? " AND modif_id='".$this->ab->tree['modif_id']."'" : ' AND modif_id=0')
-            ,MYSQL_ASSOC);
+            ,MYSQLI_ASSOC);
         if(!empty($page_meta_info))
         {
             $this->title = $page_meta_info['seo_title'];
@@ -518,7 +518,7 @@ class App_PodborShin_Controller extends App_Common_Controller
             ".(!empty($this->ab->tree['model_id']) ? " AND model_id='".$this->ab->tree['model_id']."'" : ' AND model_id=0')."
             ".(!empty($this->ab->tree['year_id']) ? " AND year_id='".$this->ab->tree['year_id']."'" : ' AND year_id=0')."
             ".(!empty($this->ab->tree['modif_id']) ? " AND modif_id='".$this->ab->tree['modif_id']."'" : ' AND modif_id=0')
-            ,MYSQL_ASSOC);
+            ,MYSQLI_ASSOC);
         if(!empty($page_meta_info))
         {
             $this->title = $page_meta_info['seo_title'];
@@ -584,7 +584,7 @@ class App_PodborShin_Controller extends App_Common_Controller
                 $f_brands = array_filter($this->brands, function ($val) {
                     return !empty($val);
                 });
-                $sel_b = $this->cc->fetchAll("SELECT name FROM cc_brand WHERE brand_id IN (".implode(',', $f_brands).") LIMIT 0, 5", MYSQL_ASSOC);
+                $sel_b = $this->cc->fetchAll("SELECT name FROM cc_brand WHERE brand_id IN (".implode(',', $f_brands).") LIMIT 0, 5", MYSQLI_ASSOC);
                 foreach ($sel_b as $sb){
                     $sel_b_data[] = $sb['name'];
                 }
@@ -696,7 +696,7 @@ class App_PodborShin_Controller extends App_Common_Controller
                     if($this->c_index_!=='')     $rr['c_index']=$this->c_index;
                     if($this->hideTSCZero) $rr['where'][]=$this->minQtyRadiusSQL;
                     $this->exnum1=$this->cc->cat_view($rr);
-                    $r1=$this->cc->fetchAll('',MYSQL_ASSOC);
+                    $r1=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                     $rr=array(
                         'gr'=>1,
@@ -718,7 +718,7 @@ class App_PodborShin_Controller extends App_Common_Controller
                     if($this->c_index_!=='')     $rr['c_index']=$this->c_index;
                     if($this->hideTSCZero) $rr['where'][]=$this->minQtyRadiusSQL;
                     $exnum2=$CC_BASE->cat_view($rr);
-                    $r2=$CC_BASE->fetchAll('',MYSQL_ASSOC);
+                    $r2=$CC_BASE->fetchAll('',MYSQLI_ASSOC);
 
                     $this->gsuf=array(); // эти суффиксы должны присуствовать в обеих типоразмерах
                     $s=Data::get('cc_runflat_suffix');

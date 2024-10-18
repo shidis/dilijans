@@ -510,7 +510,7 @@ class App_Catalog_Disks_Search_Controller extends App_Catalog_Disks_Common_Contr
         $r['nolimits'] = 1;
 
         $exnum1 = $this->cc->cat_view($r);
-        $r1 = $this->cc->fetchAll('', MYSQL_ASSOC);
+        $r1 = $this->cc->fetchAll('', MYSQLI_ASSOC);
 
         if (!$exnum1) return true; // если ничего не найдено, то спарок не будет - уходим от сюда
 
@@ -545,7 +545,7 @@ class App_Catalog_Disks_Search_Controller extends App_Catalog_Disks_Common_Contr
         $r['nolimits'] = 1;
 
         $exnum2 = $this->cc->cat_view($r);
-        $r2 = $this->cc->fetchAll('', MYSQL_ASSOC);
+        $r2 = $this->cc->fetchAll('', MYSQLI_ASSOC);
 
         /* сливаем результаты
            группируем по размеру, бренду, модели, цвету, DIA и сверловке

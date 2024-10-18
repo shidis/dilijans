@@ -115,34 +115,34 @@ class CommonException extends Exception
 		return Core::exception_text($this);
 	}
 
-    function getError()
+    function getError($noHalt = false)
     {
         @header('HTTP/1.1 503 Service Temporarily Unavailable');
         @header('Status: 503 Service Temporarily Unavailable');
         @header('Retry-After: 300');//300 seconds
+        $buf = "ERROR (" . $this->getCode() . "): " . $this->getMessage() . "\n" . 'Error at ' . $this->getFile() . " (" . $this->getLine() . ")\n" . "Stack:\n" . $this->getExceptionTraceAsString() . "******end stack *******\n\n";
 
-        $buf=
-            "ERROR (".$this->getCode()."): ".$this->getMessage()."\n"
-            .'Error at '.$this->getFile()." (".$this->getLine().")\n"
-            ."Stack:\n"
-            .$this->getExceptionTraceAsString()
-            ."******end stack *******\n\n";
+        $dt = Tools::dt();
+        @file_put_contents(Tools::getLogPath() . 'exceptions.log', "\n" . $dt . ' - ' . @$_SERVER['REMOTE_ADDR'] . ' - ' . @$_SERVER['HTTP_HOST'] . @$_SERVER['REQUEST_URI'] . ' - ' . $buf, FILE_APPEND);
 
-        $dt=Tools::dt();
-        Tools::tree_mkdir(Cfg::$config['root_path'].'/assets/logs/');
-        @file_put_contents(Cfg::$config['root_path'].'/assets/logs/exceptions.log',"\n".$dt.' - '.@$_SERVER['REMOTE_ADDR'].' - '.@$_SERVER['HTTP_HOST'].@$_SERVER['REQUEST_URI'].' - '.$buf, FILE_APPEND);
-
-        if(CU::isLogged()){
-            echo nl2br(
-                "<b>ERROR (".$this->getCode()."): ".$this->getMessage()."</b>\n\n"
-                .'<b>Error at</b> '.$this->getFile()." (".$this->getLine().")\n\n <b>Stack:</b>\n"
-                .$this->getExceptionTraceAsString()
-                ."******end stack *******<br>\n\n"
-            );
-        }else{
-            echo "<b>ERROR (".$this->getCode()."): ".$this->getMessage()."</b>\n\n";
+        if (CONSOLE)
+        {
+            echo "ERROR (" . $this->getCode() . "): " . $this->getMessage() . "\n" . 'Error at ' . $this->getFile() . " (" . $this->getLine() . ")\n****** Stack: *******\n" . $this->getExceptionTraceAsString() . "****** end stack *******\n\n";
         }
-        die();
+        elseif (CU::isLogged())
+        {
+            echo nl2br("<b>ERROR (" . $this->getCode() . "): " . $this->getMessage() . "</b>\n\n" . '<b>Error at</b> ' . $this->getFile() . " (" . $this->getLine() . ")\n\n <b>Stack:</b>\n" . $this->getExceptionTraceAsString() . "******end stack *******<br>\n\n");
+        }
+        else
+        {
+            if (!$noHalt)
+            {
+                // TODO сделать вывод для клиента в случае ошибки (с учетом noHalt)
+                echo "Извините произошла ошибка при обработке запроса. Мы уже вкурсе об этом, скоро все заработает.";
+            }
+            //echo "<b>ERROR (".$this->getCode()."): ".$this->getMessage()."</b>\n\n";
+        }
+        if (!$noHalt) die();
     }
 
 	function getExceptionTraceAsString() {

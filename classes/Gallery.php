@@ -109,7 +109,7 @@ class Gallery extends DB {
 		if(!$topic_id) return $this->putMsg(false,'Не задан идентификатор галереи');
 		$d=$this->getOne("SELECT * FROM gl_topic WHERE topic_id='$topic_id'");
 		if($d===0)  return $this->putMsg(false,'Запись не найдена'); 
-		$dd=$this->fetchAll("SELECT * FROM gl_image WHERE topic_id='$topic_id' ORDER BY $order",MYSQL_ASSOC);
+		$dd=$this->fetchAll("SELECT * FROM gl_image WHERE topic_id='$topic_id' ORDER BY $order",MYSQLI_ASSOC);
 		$im=array();
 		$p='/'.Cfg::get('GL_DIR').'/'.$d['sname'].'/';
 		foreach($dd as $v){

@@ -56,7 +56,7 @@ class App_Catalog_Tyres_Common_Controller extends  App_Common_Controller
             );
 
             $this->cc->models($r);
-            $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
             $this->qmodels=array();
             $burl='/'.App_Route::_getUrl('tModel').'/';
             foreach($d as $v){

@@ -107,7 +107,7 @@ function recognize($file_id,$start,$limit,$opt)
     } else $this->CM = $param['CM'];
     if (@$opt['check']) $r->start = $start; else $start = $r->start = 0;
     $r->limit = $limit;
-    $this->query("SELECT item_id,ft FROM ci_item WHERE file_id='$file_id' AND (cstatus=0 OR cstatus>=20) AND item_id!='{$param['header_item_id']}' AND cstatus!=40 AND mstatus!=40 AND bstatus!=40 ORDER BY item_id LIMIT $start,$limit", MYSQL_ASSOC);
+    $this->query("SELECT item_id,ft FROM ci_item WHERE file_id='$file_id' AND (cstatus=0 OR cstatus>=20) AND item_id!='{$param['header_item_id']}' AND cstatus!=40 AND mstatus!=40 AND bstatus!=40 ORDER BY item_id LIMIT $start,$limit", MYSQLI_ASSOC);
     // весь список на анализ
     $pa = $tiBrands = $tiModels = $tiCat = array();
     if ($this->qnum()) while ($this->next() !== false) {
@@ -823,7 +823,7 @@ function recognize($file_id,$start,$limit,$opt)
         $r->total = $total_pages;
         $r->records = $count;
 
-        $this->query("SELECT * FROM ci_item WHERE (file_id='$file_id')AND(item_id!='{$param['header_item_id']}')$s ORDER BY $sidx $sord LIMIT $start,$limit", MYSQL_ASSOC);
+        $this->query("SELECT * FROM ci_item WHERE (file_id='$file_id')AND(item_id!='{$param['header_item_id']}')$s ORDER BY $sidx $sord LIMIT $start,$limit", MYSQLI_ASSOC);
         $i = 0;
         if ($this->qnum()) while ($this->next() !== false) {
             $ft = unserialize(Tools::unesc($this->qrow['ft']));

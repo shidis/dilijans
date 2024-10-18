@@ -177,7 +177,7 @@ switch ($act){
     case 'getSup':
         $file_id=(int)@$_REQUEST['file_id'];
         if($file_id){
-            $d=$ci->fetchAll("SELECT cii_item.sup_id, cc_sup.name FROM cii_item INNER JOIN cc_sup ON cii_item.sup_id=cc_sup.sup_id WHERE cii_item.file_id='$file_id' GROUP BY cc_sup.name ORDER BY cc_sup.name",MYSQL_ASSOC);
+            $d=$ci->fetchAll("SELECT cii_item.sup_id, cc_sup.name FROM cii_item INNER JOIN cc_sup ON cii_item.sup_id=cc_sup.sup_id WHERE cii_item.file_id='$file_id' GROUP BY cc_sup.name ORDER BY cc_sup.name",MYSQLI_ASSOC);
             $r->supList=array();
             if(!empty($d)) foreach($d as $v) $r->supList[Tools::unesc($v['name'])]=$v['sup_id'];
 

@@ -1120,18 +1120,18 @@ abstract class Orders_Base extends DB
 
         $result=array('orders'=>array(),'items'=>array(),'dops'=>array());
 
-        $result['orders']=$this->fetchAll("SELECT os_order.* FROM os_order WHERE os_order.LD=0 $qq ORDER BY {$r['sort']}", MYSQL_ASSOC);
+        $result['orders']=$this->fetchAll("SELECT os_order.* FROM os_order WHERE os_order.LD=0 $qq ORDER BY {$r['sort']}", MYSQLI_ASSOC);
         $result['total']=count($result['orders']);
 
         $this->query("SELECT os_item.* FROM os_order JOIN os_item USING (order_id) WHERE os_order.LD=0 AND NOT os_item.LD $qq ORDER BY {$r['sort']}");
-        while($this->next(MYSQL_ASSOC)!==false){
+        while($this->next(MYSQLI_ASSOC)!==false){
             $oid=$this->qrow['order_id'];
             unset($this->qrow['order_id'],$this->qrow['LD']);
             $result['items'][$oid][]=$this->qrow;
         }
 
         $this->query("SELECT os_dop.* FROM os_order JOIN os_dop USING (order_id) WHERE os_order.LD=0 AND NOT os_dop.LD $qq ORDER BY {$r['sort']}");
-        while($this->next(MYSQL_ASSOC)!==false){
+        while($this->next(MYSQLI_ASSOC)!==false){
             $oid=$this->qrow['order_id'];
             unset($this->qrow['order_id'],$this->qrow['LD']);
             $result['dops'][$oid][]=$this->qrow;
@@ -1220,7 +1220,7 @@ abstract class Orders_Base extends DB
                 $cond1=(int)$cond1;
                 $res=$this->query("SELECT * FROM os_item WHERE  order_id='$cond1' AND NOT LD ORDER BY gr,name");
                 if($this->qnum()) {
-                    $res=$this->fetchAll('',MYSQL_ASSOC);
+                    $res=$this->fetchAll('',MYSQLI_ASSOC);
                     $this->first();
                 } else $res=array();
                 break;
@@ -1244,7 +1244,7 @@ abstract class Orders_Base extends DB
     {
         $order_id = (int)$order_id;
 
-        $r = $this->getOne("SELECT * FROM os_order WHERE LD!=1 AND order_id=$order_id", MYSQL_ASSOC);
+        $r = $this->getOne("SELECT * FROM os_order WHERE LD!=1 AND order_id=$order_id", MYSQLI_ASSOC);
 
         if ($r === 0) return false;
 
@@ -1419,7 +1419,7 @@ abstract class Orders_Base extends DB
             'charset'=>Data::get('order_mail_charset'),
             'host'=>$host,
             'logpw'=>Data::get('mail_robot_logpw'),
-            'SMTPSecure'=>Data::get('mail_smtp_secure')
+            'SMTPSecure'=>Data::get('mail_robot_smtp_secure')
         ));
 
         if(!$res) return $this->putMsg(false, "[".get_called_class()."::exportEmailInBody.Mailer]:: ".Mailer::$errors);
@@ -1499,7 +1499,7 @@ abstract class Orders_Base extends DB
             'charset'=>Data::get('order_mail_charset'),
             'host'=>Data::get('mail_robot_host'),
             'logpw'=>Data::get('mail_robot_logpw'),
-            'SMTPSecure'=>Data::get('mail_smtp_secure'),
+            'SMTPSecure'=>Data::get('mail_robot_smtp_secure'),
             'debug'=>0
         ));
 
@@ -1642,7 +1642,7 @@ abstract class Orders_Base extends DB
         if(!empty($r['whereFiles'])) $qFiles=" AND {$r['whereFiles']}"; else $qFiles='';
 
         if(@$r['mode']=='logs'){
-            $d = $this->fetchAll("SELECT * FROM os_slog WHERE order_id=$order_id $qSLog ORDER BY dt_added $order", MYSQL_ASSOC);
+            $d = $this->fetchAll("SELECT * FROM os_slog WHERE order_id=$order_id $qSLog ORDER BY dt_added $order", MYSQLI_ASSOC);
             if (empty($d)) {
                 return ['data'=>[],'numFiles'=>0, 'numLogs'=>0];
             }
@@ -1660,7 +1660,7 @@ abstract class Orders_Base extends DB
             $numLogs=count($d);
 
         } elseif(@$r['mode']=='files'){
-            $d = $this->fetchAll("SELECT * FROM os_files WHERE order_id=$order_id $qFiles ORDER BY dt_added $order", MYSQL_ASSOC);
+            $d = $this->fetchAll("SELECT * FROM os_files WHERE order_id=$order_id $qFiles ORDER BY dt_added $order", MYSQLI_ASSOC);
             if (empty($d)) {
                 return ['data'=>[],'numFiles'=>0, 'numLogs'=>0];
             }
@@ -1677,8 +1677,8 @@ abstract class Orders_Base extends DB
             $numFiles=count($d);
 
         } else {
-            $d1 = $this->fetchAll("SELECT *, UNIX_TIMESTAMP(dt_added) AS dt_added_ts FROM os_slog WHERE order_id=$order_id $qSLog ORDER BY dt_added $order", MYSQL_ASSOC);
-            $d2 = $this->fetchAll("SELECT *, UNIX_TIMESTAMP(dt_added) AS dt_added_ts FROM os_files WHERE order_id=$order_id $qFiles ORDER BY dt_added $order", MYSQL_ASSOC);
+            $d1 = $this->fetchAll("SELECT *, UNIX_TIMESTAMP(dt_added) AS dt_added_ts FROM os_slog WHERE order_id=$order_id $qSLog ORDER BY dt_added $order", MYSQLI_ASSOC);
+            $d2 = $this->fetchAll("SELECT *, UNIX_TIMESTAMP(dt_added) AS dt_added_ts FROM os_files WHERE order_id=$order_id $qFiles ORDER BY dt_added $order", MYSQLI_ASSOC);
             $d=array();
             $i=0;
             foreach ($d1 as $v) {
@@ -1775,7 +1775,7 @@ abstract class Orders_Base extends DB
             'state_id'=>$d['state_id'],
             'msg'=>Tools::esc(@$r['msg']),
             'title'=>Tools::esc($title),
-            'protected'=>@$r['protected'],
+            'protected'=>(int)@$r['protected'],
             'hash'=>Tools::randString(32)
         ));
         $id=$this->lastId();
@@ -1800,7 +1800,7 @@ abstract class Orders_Base extends DB
     public function getOrderFileById($id)
     {
         $id=(int)$id;
-        $d=$this->getOne("SELECT * FROM os_files WHERE id=$id", MYSQL_ASSOC);
+        $d=$this->getOne("SELECT * FROM os_files WHERE id=$id", MYSQLI_ASSOC);
         if(empty($d)) {
             return $this->putMsg(false, "[Orders.getOrderFileById()]:: Не найдена запись файла $id");
         }
@@ -1825,7 +1825,7 @@ abstract class Orders_Base extends DB
         if(empty($hash)){
             return $this->putMsg(false, "[Orders.openOrderFileByHash()]:: Не корректный параметр");
         }
-        $d=$this->getOne("SELECT * FROM os_files WHERE hash='$hash'", MYSQL_ASSOC);
+        $d=$this->getOne("SELECT * FROM os_files WHERE hash='$hash'", MYSQLI_ASSOC);
         if(empty($d)) {
             return $this->putMsg(false, "[Orders.openOrderFileByHash()]:: Не найдена запись файла $hash");
         }
@@ -1871,7 +1871,7 @@ abstract class Orders_Base extends DB
         if (empty($id)) {
             return $this->putMsg(false, '[Orders.modOrderFile()]:: Не передан ID записи');
         }
-        $d=$this->getOne("SELECT * FROM os_files WHERE id=$id", MYSQL_ASSOC);
+        $d=$this->getOne("SELECT * FROM os_files WHERE id=$id", MYSQLI_ASSOC);
         if(empty($d)){
             return $this->putMsg(false, "[Orders.modOrderFile()]:: Не найдена запись $id");
         }
@@ -1933,7 +1933,7 @@ abstract class Orders_Base extends DB
             if (empty($id)) {
                 return $this->putMsg(false, '[Orders.modSLog()]:: Не передан ID записи');
             }
-            $d=$this->getOne("SELECT * FROM os_slog WHERE id=$id", MYSQL_ASSOC);
+            $d=$this->getOne("SELECT * FROM os_slog WHERE id=$id", MYSQLI_ASSOC);
             if(empty($d)){
                 return $this->putMsg(false, "[Orders.modSLog()]:: Не найдена запись $id");
             }
@@ -1994,7 +1994,7 @@ abstract class Orders_Base extends DB
     public function getSLogById($id)
     {
         $id=(int)$id;
-        $d=$this->getOne("SELECT * FROM os_slog WHERE id=$id", MYSQL_ASSOC);
+        $d=$this->getOne("SELECT * FROM os_slog WHERE id=$id", MYSQLI_ASSOC);
         if(empty($d)) {
             return $this->putMsg(false, "[Orders.getSLogById()]:: Не найдена запись $id");
         }
@@ -2132,7 +2132,7 @@ abstract class Orders_Base extends DB
         $r[]='Марка авто';
         fputcsv($output, array_cp1251($r), ';');
 
-        while($this->next(MYSQL_ASSOC)!==false){
+        while($this->next(MYSQLI_ASSOC)!==false){
             $r=array(
                 Tools::unesc($this->qrow['order_num']),
                 Tools::sdate($this->qrow['dt_add']),
@@ -2353,7 +2353,7 @@ abstract class Orders_Base extends DB
             $to=@(int)$this->adminCfg['phoenix']['simple']['toStateId'];
             $int=@(int)$this->adminCfg['phoenix']['simple']['interval'];  // в минутах
 
-            $d=$this->fetchAll("SELECT order_id, order_num FROM os_order WHERE NOT LD AND state_id='$from' AND dt_state < DATE_SUB(NOW(), INTERVAL $int MINUTE)", MYSQL_ASSOC);
+            $d=$this->fetchAll("SELECT order_id, order_num FROM os_order WHERE NOT LD AND state_id='$from' AND dt_state < DATE_SUB(NOW(), INTERVAL $int MINUTE)", MYSQLI_ASSOC);
             foreach($d as $v)
             {
                 $orders['simple'][]=$v['order_num'];
@@ -2376,7 +2376,7 @@ abstract class Orders_Base extends DB
             $to=@(int)$this->adminCfg['phoenix']['delayedOrders']['toStateId'];
             $fld=App_TFields::$fields['os_order']['delayedOn']['as'];
 
-            $d=$this->fetchAll("SELECT order_id, order_num, dt_add, dt_state FROM os_order WHERE NOT LD AND state_id='$from' AND $fld <= NOW() ", MYSQL_ASSOC);
+            $d=$this->fetchAll("SELECT order_id, order_num, dt_add, dt_state FROM os_order WHERE NOT LD AND state_id='$from' AND $fld <= NOW() ", MYSQLI_ASSOC);
             foreach($d as $v)
             {
                 $orders['delayedOrders'][]=$v['order_num'];
@@ -2414,7 +2414,7 @@ abstract class Orders_Base extends DB
         $db=new DB();
         $spf=$this->adminCfg['reservation']['DBF_suplrId'];
         $order_id=(int)$order_id;
-        $d=$db->fetchAll("SELECT DISTINCT os_item.gr, (SELECT cc_suplr.name FROM cc_cat_sc JOIN cc_suplr USING (suplr_id) WHERE cc_cat_sc.cat_id=os_item.cat_id AND cc_cat_sc.sc>=$minSC AND cc_cat_sc.sc>=os_item.amount ORDER BY cc_cat_sc.sc DESC, cc_cat_sc.$priceField ASC LIMIT 1) suplrName FROM os_item WHERE NOT os_item.LD AND os_item.{$spf}=0 AND os_item.order_id=$order_id HAVING suplrName!='' ORDER BY gr", MYSQL_ASSOC);
+        $d=$db->fetchAll("SELECT DISTINCT os_item.gr, (SELECT cc_suplr.name FROM cc_cat_sc JOIN cc_suplr USING (suplr_id) WHERE cc_cat_sc.cat_id=os_item.cat_id AND cc_cat_sc.sc>=$minSC AND cc_cat_sc.sc>=os_item.amount ORDER BY cc_cat_sc.sc DESC, cc_cat_sc.$priceField ASC LIMIT 1) suplrName FROM os_item WHERE NOT os_item.LD AND os_item.{$spf}=0 AND os_item.order_id=$order_id HAVING suplrName!='' ORDER BY gr", MYSQLI_ASSOC);
 
         return $d;
     }
@@ -2454,13 +2454,13 @@ abstract class Orders_Base extends DB
 
             $sql="SELECT os_order.$dlf AS deliveryDate, DATEDIFF(os_order.$dlf,NOW()) AS dayNo, os_item.$spf AS suplrId, cc_suplr.name AS suplrName, SUM(os_item.amount) AS itemsNum FROM os_item JOIN os_order USING (order_id) JOIN cc_suplr ON cc_suplr.suplr_id=os_item.$spf WHERE NOT os_order.LD " . (!empty($suplrIds)?" AND os_item.suplrId IN ($suplrIds) ":'') . (!empty($stateId) ? " AND os_order.state_id=$stateId" : '') . " AND os_order.deliveryDate " . (!empty($r['today']) ? '>=' : '>') . " DATE_ADD(current_date, INTERVAL 0 DAY) " . (!empty($days) ? "AND os_order.deliveryDate <= DATE_ADD(current_date, INTERVAL $days DAY)" : '') . " GROUP BY os_item.$spf, os_order.$dlf  ORDER BY os_order.$dlf, cc_suplr.name";
 
-            $d = $db->fetchAll($sql, MYSQL_ASSOC);
+            $d = $db->fetchAll($sql, MYSQLI_ASSOC);
 
         } else {
 
             $sql="SELECT os_order.$dlf AS deliveryDate, DATEDIFF(os_order.$dlf,NOW()) AS dayNo, os_item.$spf AS suplrId, SUM(os_item.amount) AS itemsNum FROM os_item JOIN os_order USING (order_id) WHERE NOT os_order.LD " . (!empty($suplrIds)?" AND os_item.$spf IN ($suplrIds)":'') . (!empty($stateId) ? " AND os_order.state_id=$stateId" : '') . " AND os_order.deliveryDate " . (!empty($r['today']) ? '>=' : '>') . " DATE_ADD(current_date, INTERVAL 0 DAY) " . (!empty($days) ? "AND os_order.deliveryDate <= DATE_ADD(current_date, INTERVAL $days DAY)" : '') . " GROUP BY os_item.$spf, os_order.$dlf  ORDER BY os_order.$dlf, os_item.$spf";
 
-            $d = $db->fetchAll($sql, MYSQL_ASSOC);
+            $d = $db->fetchAll($sql, MYSQLI_ASSOC);
 
         }
 

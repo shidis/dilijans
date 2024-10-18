@@ -19,7 +19,7 @@ $chk = true;
 foreach ($t as $v)
 {
     $v = $v[0];
-    $r=$db->getOne("CHECK TABLE $v", MYSQL_ASSOC);
+    $r=$db->getOne("CHECK TABLE $v", MYSQLI_ASSOC);
     if ($r['Msg_text'] !== 'OK')
     {
         $chk = false;

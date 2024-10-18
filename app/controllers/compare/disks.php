@@ -27,7 +27,7 @@ class App_Compare_Disks_Controller extends App_Catalog_Disks_Common_Controller {
             if(Request::$ajax) return $this->putMsg(false,'Список сравнения пуст (2)');
                 else return App_Route::redir404();
 
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
         if(Request::$ajax){
             $this->r['html']='<ol>';

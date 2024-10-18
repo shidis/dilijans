@@ -51,7 +51,7 @@ switch ($act){
 	case 'get':
 		$id=(int)$_REQUEST['id'];
 		if(!$id) {$r->fres=false; $r->fres_msg='Нет ID';}
-		$d=$db->getOne("SELECT * FROM system_data WHERE data_id='$id'",MYSQL_ASSOC);
+		$d=$db->getOne("SELECT * FROM system_data WHERE data_id='$id'",MYSQLI_ASSOC);
 		if($d!==0) {
 			foreach($d as $k=>&$v) $v=Tools::unesc($v);
 			$r->data=$d; 
@@ -222,39 +222,47 @@ switch ($act){
 	case 'testMailInfo':
 		$r->fres=Mailer::sendmail(array(
 		  'fromAddr'=>Data::get('mail_robot'),
-		  'fromName'=>'тест '.Cfg::get('site_name'), 
+		  'fromName'=>Cfg::get('site_name'),
 		  'replyToAddr'=>Data::get('mail_info'), 
 		  'replyToName'=>'основной почтовый ящик', 
 		  'toAddr'=>Data::get('mail_info'), 
-		  'toName'=>'mail_info', 
+		  'toName'=>'MailInfo',
 		  'body'=>'Отправка писем работает',
 		  'subject'=>'тест!', 
 		  'charset'=>Data::get('mail_charset'),
 		  'host'=>Data::get('mail_robot_host'),
 		  'logpw'=>Data::get('mail_robot_logpw'),
-		  'SMTPSecure'=>Data::get('mail_smtp_secure'),
-		  'debug'=>2
+		  'SMTPSecure'=>Data::get('mail_robot_smtp_secure'),
+		  'debug'=>0
 	  	));
-		if(!$r->fres) echo "\r\nОтправка не удалась"; else echo "\r\nУспешно отправлено";
+        if($r->fres) {
+            $r->fres_msg =  "Успешно отправлено";
+        } else {
+            $r->fres_msg =  "Отправка не удалась\n\n" .  Mailer::$errors;
+        }
 	break;
 		
 	case 'testMailOrder':
 		$r->fres=Mailer::sendmail(array(
 		  'fromAddr'=>Data::get('mail_robot'),
-		  'fromName'=>'тест '.Cfg::get('site_name'), 
+		  'fromName'=>Cfg::get('site_name'),
 		  'replyToAddr'=>Data::get('mail_order'), 
 		  'replyToName'=>'почтовый ящик для заказов', 
 		  'toAddr'=>Data::get('mail_order'), 
-		  'toName'=>'mail_order', 
+		  'toName'=>'MailOrder',
 		  'body'=>'Отправка писем работает',
 		  'subject'=>'тест!', 
 		  'charset'=>Data::get('mail_charset'),
 		  'host'=>Data::get('mail_robot_host'),
 		  'logpw'=>Data::get('mail_robot_logpw'),
-		  'SMTPSecure'=>Data::get('mail_smtp_secure'),
-		  'debug'=>2
+		  'SMTPSecure'=>Data::get('mail_robot_smtp_secure'),
+		  'debug'=>0
 	  	));
-		if(!$r->fres) echo "\r\nОтправка не удалась"; else echo "\r\nУспешно отправлено";
+        if($r->fres) {
+            $r->fres_msg =  "Успешно отправлено";
+        } else {
+            $r->fres_msg =  "Отправка не удалась\n\n" .  Mailer::$errors;
+        }
 	break;
 		
 		

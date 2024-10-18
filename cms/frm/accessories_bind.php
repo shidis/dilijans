@@ -22,7 +22,7 @@ cp_title();
 <?
 $gr = 2;
 $ccAcc = new CC_Ctrl();
-$ccAcc->query("SELECT acc_id, name FROM `cc_accessories` WHERE `gr` = '{$gr}' AND NOT `LD` ORDER BY 'pos';", MYSQL_ASSOC);
+$ccAcc->query("SELECT acc_id, name FROM `cc_accessories` WHERE `gr` = '{$gr}' AND NOT `LD` ORDER BY 'pos';", MYSQLI_ASSOC);
 
 $arAccessories = [];
 

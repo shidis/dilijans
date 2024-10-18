@@ -508,7 +508,7 @@ class App_Orders extends Orders_Base
         $host = Data::get('mail_robot_host');
         $logpw = Data::get('mail_robot_logpw');
         $debug = 0;
-        $secure = Data::get('mail_smtp_secure');
+        $secure = Data::get('mail_robot_smtp_secure');
 
         //в офис
         Mailer::sendmail([
@@ -668,7 +668,7 @@ class App_Orders extends Orders_Base
         $host = Data::get('mail_robot_host');
         $logpw = Data::get('mail_robot_logpw');
         $debug = 0;
-        $secure = Data::get('mail_smtp_secure');
+        $secure = Data::get('mail_robot_smtp_secure');
 
         //в офис
         Mailer::sendmail([
@@ -739,7 +739,7 @@ class App_Orders extends Orders_Base
     {
         $order_id = (int)$order_id;
 
-        $r = $this->getOne("SELECT * FROM os_order WHERE order_id=$order_id", MYSQL_ASSOC);
+        $r = $this->getOne("SELECT * FROM os_order WHERE order_id=$order_id", MYSQLI_ASSOC);
 
         if ($r === 0) return false;
 

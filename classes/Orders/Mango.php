@@ -24,7 +24,7 @@ class Orders_Mango extends DB
         if (empty($login)) $login = Data::get('mangoOfficeLogin');
         if (empty($pw)) $pw = Data::get('mangoOfficePw');
         if (empty($login) || empty($pw)) throw new Exception('conf Off.');
-        $this->logFile = Cfg::_get('root_path') . '/assets/logs/mango-parser.log';
+        $this->logFile = Tools::getLogPath() . 'mango-parser.log';
         if (!MC::chk())
         {
             $this->log("Constructor: {ERROR} Memcached не работает. Выход.");
@@ -456,7 +456,7 @@ class Orders_Mango extends DB
         if (isset(App_TFields::$fields['os_order']['SMSTel'])) $telf[] = App_TFields::$fields['os_order']['SMSTel']['as'];
         if (empty($telf)) return [];
         $telf = implode(', ', $telf);
-        $d = $this->getOne("SELECT dt_add, UNIX_TIMESTAMP(dt_add) AS dt_add_ts, $telf FROM os_order WHERE order_id=$order_id", MYSQL_ASSOC);
+        $d = $this->getOne("SELECT dt_add, UNIX_TIMESTAMP(dt_add) AS dt_add_ts, $telf FROM os_order WHERE order_id=$order_id", MYSQLI_ASSOC);
         if ($d === 0) return [];
         $tels = [];
         foreach ($d as $k => $v)
@@ -469,7 +469,7 @@ class Orders_Mango extends DB
             $tels[$k] = "'$v'";
         }
         $tels = implode(',', $tels);
-        $d1 = $this->fetchAll("SELECT *, UNIX_TIMESTAMP(dt) AS dt_ts  FROM os_log_calls WHERE source IN ($tels) OR dest IN ($tels) ORDER BY dt ASC", MYSQL_ASSOC);
+        $d1 = $this->fetchAll("SELECT *, UNIX_TIMESTAMP(dt) AS dt_ts  FROM os_log_calls WHERE source IN ($tels) OR dest IN ($tels) ORDER BY dt ASC", MYSQLI_ASSOC);
         foreach ($d1 as $k => $v)
         {
             $d1[$k]['dt'] = Tools::sDateTime($v['dt']);

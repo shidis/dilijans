@@ -51,7 +51,7 @@ class App_Search extends Common {
         $d=$this->cc->getOne("SELECT min(cat_id) FROM cc_cat WHERE NOT LD");
         $this->minCID=$d[0];
 
-        $r=$this->cc->fetchAll("SELECT * FROM cc_suffix ORDER BY cSuffix",MYSQL_ASSOC);
+        $r=$this->cc->fetchAll("SELECT * FROM cc_suffix ORDER BY cSuffix",MYSQLI_ASSOC);
         $this->suf=array();
         foreach($r as $v) if($v['suffix1']!='') $this->suf[Tools::unesc($v['cSuffix'])]=Tools::unesc($v['suffix1']);
         unset($r);

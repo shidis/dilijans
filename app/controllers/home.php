@@ -124,7 +124,7 @@ class App_Home_Controller extends App_Common_Controller {
 		}
 
         // Слайдер
-        $this->slides = $this->ss->fetchAll("SELECT * FROM slider ORDER BY slide_id DESC", MYSQL_ASSOC);
+        $this->slides = $this->ss->fetchAll("SELECT * FROM slider ORDER BY slide_id DESC", MYSQLI_ASSOC);
         if (!empty($this->slides))
         {
             foreach ($this->slides as $sid => $slide)
@@ -135,11 +135,11 @@ class App_Home_Controller extends App_Common_Controller {
 
         $db = new DB();
         $this->result = Array();
-        $res = $db->fetchAll("SELECT * FROM ab_avto WHERE (year_id=0)AND(NOT H)AND(showOnTheMain=1) ORDER BY sortOnTheMain", MYSQL_ASSOC);
+        $res = $db->fetchAll("SELECT * FROM ab_avto WHERE (year_id=0)AND(NOT H)AND(showOnTheMain=1) ORDER BY sortOnTheMain", MYSQLI_ASSOC);
         if (!empty($d)) {
             foreach ($res as $item) {
                 if ($item['vendor_id'] == 0){
-                    $models_info = $db->fetchAll("SELECT * FROM ab_avto WHERE (vendor_id={$item['avto_id']})AND(model_id=0)AND(NOT H) ORDER BY name", MYSQL_ASSOC);
+                    $models_info = $db->fetchAll("SELECT * FROM ab_avto WHERE (vendor_id={$item['avto_id']})AND(model_id=0)AND(NOT H) ORDER BY name", MYSQLI_ASSOC);
                     $this->result[$item['avto_id']]['brand_info'] = $item;
                     foreach ($models_info as $model) {
                         $model['d_url'] = '/' . App_Route::_getUrl('avtoPodborDiskov') . '/' . Tools::unesc($item['sname']) . '--' . Tools::unesc($model['sname']) . '.html';
@@ -147,7 +147,7 @@ class App_Home_Controller extends App_Common_Controller {
                         $this->result[$item['avto_id']]['models_info'][] = $model;
                     }
                 }else {
-                    $brand_info = $db->getOne("SELECT * FROM ab_avto WHERE (avto_id={$item['vendor_id']})AND(NOT H) ORDER BY name", MYSQL_ASSOC);
+                    $brand_info = $db->getOne("SELECT * FROM ab_avto WHERE (avto_id={$item['vendor_id']})AND(NOT H) ORDER BY name", MYSQLI_ASSOC);
                     $item['d_url'] = '/' . App_Route::_getUrl('avtoPodborDiskov') . '/' . Tools::unesc($brand_info['sname']) . '--' . Tools::unesc($item['sname']) . '.html';
                     $item['t_url'] = '/' . App_Route::_getUrl('avtoPodborShin')   . '/' . Tools::unesc($brand_info['sname']) . '--' . Tools::unesc($item['sname']) . '.html';
                     $item['brand_info'] = $brand_info;
@@ -155,7 +155,7 @@ class App_Home_Controller extends App_Common_Controller {
                 }
             }
             foreach($this->result as $id=>$brand){
-                $brand_img_info = $db->getOne("SELECT img1, img2 FROM cc_brand WHERE LOWER(name) = '".mb_strtolower($brand['brand_info']['name'])."'", MYSQL_ASSOC);
+                $brand_img_info = $db->getOne("SELECT img1, img2 FROM cc_brand WHERE LOWER(name) = '".mb_strtolower($brand['brand_info']['name'])."'", MYSQLI_ASSOC);
                 if (!empty($brand_img_info)) {
                     $this->result[$id]['brand_info'] = array_merge($brand['brand_info'], $brand_img_info);
                 }

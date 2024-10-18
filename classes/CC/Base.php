@@ -1222,7 +1222,7 @@ cc_cat.sname, cc_cat.suffix, cc_cat.P1+'0' AS P1, cc_cat.P2+'0' AS P2, cc_cat.P3
                     $this->ex_arr[$k]=array();
             }
 
-            while($this->next(MYSQL_ASSOC)!==false){
+            while($this->next(MYSQLI_ASSOC)!==false){
                 if(isset($this->ex_arr['sbrand']) and $this->qrow['bsup_id'])
                     $this->ex_arr['sbrand'][$this->qrow['brand_id']]=array(
                         'replica'=>(int)$this->qrow['replica']?1:0,
@@ -1715,7 +1715,7 @@ cc_cat.sname, cc_cat.suffix, cc_cat.P1+'0' AS P1, cc_cat.P2+'0' AS P2, cc_cat.P3
                 $this->ex_arr['minMaxPrice']['min']=$this->ex_arr['minMaxPrice']['max']=0;
             }
 
-            if($n) while($this->next(MYSQL_ASSOC)!==false){
+            if($n) while($this->next(MYSQLI_ASSOC)!==false){
 
                 if(isset($this->models_ids[$this->qrow['model_id']])) $this->models_ids[$this->qrow['model_id']]++; else $this->models_ids[$this->qrow['model_id']]=1;
 
@@ -2184,7 +2184,7 @@ cc_cat.sname, cc_cat.suffix, cc_cat.P1+'0' AS P1, cc_cat.P2+'0' AS P2, cc_cat.P3
     function dopById($id)
     {
         $id=(int)$id;
-        $d=$this->getOne("SELECT * FROM cc_dop WHERE dop_id=$id",MYSQL_ASSOC);
+        $d=$this->getOne("SELECT * FROM cc_dop WHERE dop_id=$id",MYSQLI_ASSOC);
         return $d;
     }
 }

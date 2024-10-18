@@ -67,7 +67,7 @@ if(@$fix_price) $aq[]="(cc_cat.fixPrice=1)";
 if(@$fix_sc) $aq[]="(cc_cat.fixSc=1)";
 if(@$suplrs_filter){
     $db = new DB();
-    $spl_cids = $db->fetchAll("SELECT DISTINCT cat_id FROM cc_cat_sc WHERE suplr_id = '$suplrs_filter'", MYSQL_ASSOC);
+    $spl_cids = $db->fetchAll("SELECT DISTINCT cat_id FROM cc_cat_sc WHERE suplr_id = '$suplrs_filter'", MYSQLI_ASSOC);
     if (!empty($spl_cids)) {
         $spl_cids_array = Array();
         foreach ($spl_cids as $s) {
@@ -285,7 +285,7 @@ if(@$_POST['linkDataset']==1 && $dataset_id){
 
         if($num) {
             $db=new DB();
-            while($cc->next(MYSQL_ASSOC)){
+            while($cc->next(MYSQLI_ASSOC)){
                 if(!in_array($cc->qrow['cat_id'],$ds_ids)){
                     $db->insert('cc_dataset_cat',array('dataset_id'=>$dataset_id,'brand_id'=>$cc->qrow['brand_id'],'model_id'=>$cc->qrow['model_id'],'cat_id'=>$cc->qrow['cat_id']));
                     $i++;
@@ -367,7 +367,7 @@ if(@$_POST['unlinkDataset']==1 && $dataset_id){
         if(!empty($num)) {
             $db=new DB();
             $ids=[];
-            while($cc->next(MYSQL_ASSOC)){
+            while($cc->next(MYSQLI_ASSOC)){
                 $ids[]=$cc->qrow['cat_id'];
                 if(count($ids)>=100){
                     $db->query("DELETE FROM cc_dataset_cat WHERE dataset_id='$dataset_id' AND cat_id IN (".join(',',$ids).")");
@@ -920,7 +920,7 @@ function view_pages($num,$page,$lines)
                 }
                 if(count($aft)) foreach($aft as $k=>$v) if(@$afcoo[$k]) echo '<td align="center">'.Tools::html($cc->qrow[$v['as']]).'</td>';
                 //
-                $ext_prices = $DB->getOne("SELECT cc_cat_sc.cat_id, cc_cat_sc.sc, MIN(cc_cat_sc.price1) as price1,cc_cat_sc.price2,cc_cat_sc.price3,cc_suplr.name,cc_cat_sc.dt_added,cc_cat_sc.dt_upd FROM cc_cat_sc INNER JOIN cc_suplr ON cc_cat_sc.suplr_id=cc_suplr.suplr_id WHERE cat_id='{$cc->qrow['cat_id']}' AND cc_cat_sc.sc>0 AND cc_cat_sc.ignored=0 GROUP BY cc_cat_sc.cat_id ORDER BY cc_suplr.name",MYSQL_ASSOC);
+                $ext_prices = $DB->getOne("SELECT cc_cat_sc.cat_id, cc_cat_sc.sc, MIN(cc_cat_sc.price1) as price1,cc_cat_sc.price2,cc_cat_sc.price3,cc_suplr.name,cc_cat_sc.dt_added,cc_cat_sc.dt_upd FROM cc_cat_sc INNER JOIN cc_suplr ON cc_cat_sc.suplr_id=cc_suplr.suplr_id WHERE cat_id='{$cc->qrow['cat_id']}' AND cc_cat_sc.sc>0 AND cc_cat_sc.ignored=0 GROUP BY cc_cat_sc.cat_id ORDER BY cc_suplr.name",MYSQLI_ASSOC);
                 if (empty($ext_prices)){
                     $ext_prices = Array('price1' => $cc->qrow['bprice'], 'price2' => $cc->qrow['cprice']);
                 }

@@ -116,7 +116,7 @@ class Url
 
 	public static function hackDetect()
 	{
-		$stateFile = Cfg::$config['root_path'] . '/assets/logs/hackdetect.state';
+		$stateFile = Cfg::$config['root_path'] . '/assets/res/hackdetect.state';
 		$hack = false;
 		// проверка гет параметров на подозрительные комбинации
 		$s = urldecode($_SERVER['REQUEST_URI']);
@@ -124,8 +124,7 @@ class Url
 		if ($hack)
 		{
 			$dt = Tools::dt();
-			Tools::tree_mkdir(Cfg::$config['root_path'] . '/assets/logs/');
-			@file_put_contents(Cfg::$config['root_path'] . '/assets/logs/hackdetect.txt', "\n" . $dt . ' - ' . $_SERVER['REMOTE_ADDR'] . ' - ' . $s, FILE_APPEND);
+			@file_put_contents(Tools::getLogPath() . 'hackdetect.log', "\n" . $dt . ' - ' . $_SERVER['REMOTE_ADDR'] . ' - ' . $s, FILE_APPEND);
 			if (is_file($stateFile))
 			{
 				$c = unserialize(file_get_contents($stateFile));

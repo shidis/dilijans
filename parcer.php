@@ -80,11 +80,11 @@ if (!empty($_POST['processing']) && !empty($_POST['content'])) {
     file_put_contents('parcer_' . date('d_m_Y') . '.log', "[" . date('H:i:s') . "]\t Начало импорта\n--------------------------------------------------------------------------\n", FILE_APPEND);
     require_once($_SERVER['DOCUMENT_ROOT'] . '/config/init.php');
     $DB = new DB();
-    $models = $DB->fetchAll("SELECT cc_model.model_id, cc_model.name as mname, cc_model.sname, cc_brand.name as bname, cc_brand.alt FROM cc_model JOIN cc_brand USING(brand_id) WHERE NOT cc_model.LD  AND NOT cc_brand.LD AND ".implode(' AND ',$where), MYSQL_ASSOC);
+    $models = $DB->fetchAll("SELECT cc_model.model_id, cc_model.name as mname, cc_model.sname, cc_brand.name as bname, cc_brand.alt FROM cc_model JOIN cc_brand USING(brand_id) WHERE NOT cc_model.LD  AND NOT cc_brand.LD AND ".implode(' AND ',$where), MYSQLI_ASSOC);
     foreach ($models as $model)
     {
         //Ищем запись в "страницах"
-        $page = $DB->getOne("SELECT page_id, url FROM ss_pages WHERE url = '".'/'.App_Route::_getUrl('tModel').'/'.$model['sname'].'.html'."';", MYSQL_ASSOC);
+        $page = $DB->getOne("SELECT page_id, url FROM ss_pages WHERE url = '".'/'.App_Route::_getUrl('tModel').'/'.$model['sname'].'.html'."';", MYSQLI_ASSOC);
         if ((empty($page) && empty($_POST['has_page'])) || (!empty($page) && !empty($_POST['has_page']))) {
             $model_name = str_replace(Array('w', 'W', 'c', 'C', 'h', 'H'), Array('v', 'V', 'k', 'K', 'x', 'X'), preg_replace('%[^A-Za-zА-Яа-я0-9\s]%', '', $model['mname']));
             $brand_name = (!empty($model['alt']) ? $model['alt'] : strtr($model['bname'], array_flip($translit)));

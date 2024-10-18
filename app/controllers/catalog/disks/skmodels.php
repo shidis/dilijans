@@ -1057,7 +1057,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
                 'order'=>"cc_model.name"
             );
             $this->cc->models($r);
-            $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
             $this->qmodels=array();
             $burl='/'.App_Route::_getUrl('dModel').'/';
             foreach($d as $v){

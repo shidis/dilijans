@@ -296,9 +296,9 @@ class CC_AB extends DB
 
         foreach ($grs as $gr) {
             if ($gr == 1) {
-                $r = $this->fetchAll("SELECT gr, avtosh_id, avto_id, P1+'0' AS P1, P2+'0' AS P2, P3+'0' AS P3, P4+'0' AS P4, P5+'0' AS P5, P6+'0' AS P6, avto_type_id, rel_id, _upd FROM ab_avtosh WHERE avto_id='$avto_id' AND gr='$gr' ORDER BY avto_type_id, P1, P3, P2", MYSQL_ASSOC);
+                $r = $this->fetchAll("SELECT gr, avtosh_id, avto_id, P1+'0' AS P1, P2+'0' AS P2, P3+'0' AS P3, P4+'0' AS P4, P5+'0' AS P5, P6+'0' AS P6, avto_type_id, rel_id, _upd FROM ab_avtosh WHERE avto_id='$avto_id' AND gr='$gr' ORDER BY avto_type_id, P1, P3, P2", MYSQLI_ASSOC);
             } else {
-                $r = $this->fetchAll("SELECT gr, avtosh_id, avto_id, P1+'0' AS P1, P2+'0' AS P2, P3+'0' AS P3, P4+'0' AS P4, P5+'0' AS P5, P6+'0' AS P6, avto_type_id, rel_id, _upd FROM ab_avtosh WHERE avto_id='$avto_id' AND gr='$gr' ORDER BY avto_type_id, P2, P5, P1", MYSQL_ASSOC);
+                $r = $this->fetchAll("SELECT gr, avtosh_id, avto_id, P1+'0' AS P1, P2+'0' AS P2, P3+'0' AS P3, P4+'0' AS P4, P5+'0' AS P5, P6+'0' AS P6, avto_type_id, rel_id, _upd FROM ab_avtosh WHERE avto_id='$avto_id' AND gr='$gr' ORDER BY avto_type_id, P2, P5, P1", MYSQLI_ASSOC);
             }
             if (count($r)) foreach ($r as $k => $v) {
                 $rel_id = $v['rel_id'];
@@ -347,11 +347,11 @@ class CC_AB extends DB
 
         if (!empty($vendors_array))
         {
-            $brands_ids  = $this->fetchAll("SELECT brand_id FROM cc_brand WHERE avto_id IN (".implode(',', $vendors_array).") AND gr = '$gr';", MYSQL_ASSOC);
+            $brands_ids  = $this->fetchAll("SELECT brand_id FROM cc_brand WHERE avto_id IN (".implode(',', $vendors_array).") AND gr = '$gr';", MYSQLI_ASSOC);
         }
         else
         {
-            $brands_ids  = $this->fetchAll("SELECT brand_id FROM cc_brand WHERE replica = 0 AND gr = '$gr';", MYSQL_ASSOC);
+            $brands_ids  = $this->fetchAll("SELECT brand_id FROM cc_brand WHERE replica = 0 AND gr = '$gr';", MYSQLI_ASSOC);
         }
         if (!empty($brands_ids))
         {
@@ -396,7 +396,7 @@ class CC_AB extends DB
                 AND `model_id` = '$models_id'
                 AND `vendor_id` = '$vendors_id'";
                 //
-                $avto_ids  = $this->fetchAll($sql, MYSQL_ASSOC);            
+                $avto_ids  = $this->fetchAll($sql, MYSQLI_ASSOC);
             }
             else  $avto_ids = Array(Array('avto_id' => $modif_id));  // Если задана конкретная модификация
             //
@@ -428,7 +428,7 @@ class CC_AB extends DB
                         FROM ab_avtosh 
                         LEFT OUTER JOIN cc_brand ON cc_brand.avto_id = '$vendors_id'
                         WHERE ab_avtosh.avto_id IN (".implode(',', $auto_ids_for_implode).") AND ab_avtosh.gr='$gr' 
-                        ORDER BY ab_avtosh.avto_type_id, ab_avtosh.P1, ab_avtosh.P3, ab_avtosh.P2", MYSQL_ASSOC);      
+                        ORDER BY ab_avtosh.avto_type_id, ab_avtosh.P1, ab_avtosh.P3, ab_avtosh.P2", MYSQLI_ASSOC);
                     $brand_id = null;
                     if (count($r))
                     { 
@@ -534,7 +534,7 @@ class CC_AB extends DB
                 $this->avto[$gr][$type_id] = array();
                 if ($this->qnum()) {
                     $r = array();
-                    while ($this->next(MYSQL_ASSOC) !== false) {
+                    while ($this->next(MYSQLI_ASSOC) !== false) {
                         if (!array_search($type_id, array(0, 13, 19, 23, 29))) {
                             //удаляем лишние поля
                             $r = $this->qrow;
@@ -634,7 +634,7 @@ class CC_AB extends DB
         AND `model_id` = '$models_id'
         AND `vendor_id` = '$vendors_id'";
         //
-        $avto_ids  = $this->fetchAll($sql, MYSQL_ASSOC);
+        $avto_ids  = $this->fetchAll($sql, MYSQLI_ASSOC);
         $r = false;
         if (!empty($avto_ids))
         {
@@ -730,7 +730,7 @@ class CC_AB extends DB
                                       (SELECT name FROM ab_avto WHERE avto_id = a.model_id) as m_name
                                       FROM ab_avtosh
                                       JOIN ab_avto a USING (avto_id)
-                                      WHERE ab_avtosh.gr = 1 AND P1='{$params['P1']}' AND P2='{$params['P2']}' AND P3='{$params['P3']}';", MYSQL_ASSOC);
+                                      WHERE ab_avtosh.gr = 1 AND P1='{$params['P1']}' AND P2='{$params['P2']}' AND P3='{$params['P3']}';", MYSQLI_ASSOC);
             if (!empty($dbRes))
             {
                 foreach($dbRes as $row)

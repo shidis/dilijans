@@ -282,7 +282,7 @@ class App_Ax_Controller extends App_Common_Controller
         $charset = Data::get('order_mail_charset');
         $host = Data::get('mail_robot_host');
         $logpw = Data::get('mail_robot_logpw');
-        $secure = Data::get('mail_smtp_secure');
+        $secure = Data::get('mail_robot_smtp_secure');
         $msg = "[Контактный емейл: {$f['email']}]<br>[Имя: {$f['name']}]<br>[Телефон: {$f['tel']}]<br><br>Сообщение:<br>{$f['msg']}";
 
         if ($f['email'] != '') $res = Mailer::sendmail([
@@ -354,7 +354,7 @@ class App_Ax_Controller extends App_Common_Controller
 
         $cat_id = (int)@$_REQUEST['cat_id'];
         $this->db = new DB();
-        $d = $this->db->fetchAll("SELECT cc_cat_sc.sc,cc_cat_sc.price1,cc_cat_sc.price2,cc_cat_sc.price3,cc_suplr.name, cc_suplr.suplr_id, cc_cat_sc.dt_added, cc_cat_sc.dt_upd, cc_cat_sc.ignored FROM cc_cat_sc INNER JOIN cc_suplr ON cc_cat_sc.suplr_id=cc_suplr.suplr_id WHERE cat_id='{$cat_id}' AND cc_cat_sc.sc>0 ORDER BY cc_cat_sc.price1,cc_cat_sc.price2,cc_cat_sc.price3", MYSQL_ASSOC);
+        $d = $this->db->fetchAll("SELECT cc_cat_sc.sc,cc_cat_sc.price1,cc_cat_sc.price2,cc_cat_sc.price3,cc_suplr.name, cc_suplr.suplr_id, cc_cat_sc.dt_added, cc_cat_sc.dt_upd, cc_cat_sc.ignored FROM cc_cat_sc INNER JOIN cc_suplr ON cc_cat_sc.suplr_id=cc_suplr.suplr_id WHERE cat_id='{$cat_id}' AND cc_cat_sc.sc>0 ORDER BY cc_cat_sc.price1,cc_cat_sc.price2,cc_cat_sc.price3", MYSQLI_ASSOC);
         //  AND (cc_cat_sc.price1>0 OR cc_cat_sc.price2>0 OR cc_cat_sc.price3>0)
 
         $ids = [];

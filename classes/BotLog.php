@@ -9,7 +9,6 @@ class BotLog
 			'label'=>'Yandex',
 			'mainString'=>'yandex',
 			'UA'=>array(
-				//длина botName не более 30
 				// http://help.yandex.ru/webmaster/?id=995329
 				'YandexBot'=>array('regex'=>"~YandexBot~i",'info'=>'сновной индексирующий робот'),
 				'YandexMetrika'=>array('regex'=>"~YandexMetrika~",'info'=>' робот Яндекс.Метрики'),
@@ -91,7 +90,7 @@ class BotLog
 		if(empty(static::$db)) static::$db=new DB();
 
 		// берем все строки старше 30 дней
-		$dts=static::$db->fetchAll("SELECT DATE(dt_visited) AS d FROM bot_log WHERE dt_visited < DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY) GROUP by d ORDER BY d ASC",MYSQL_ASSOC);
+		$dts=static::$db->fetchAll("SELECT DATE(dt_visited) AS d FROM bot_log WHERE dt_visited < DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY) GROUP by d ORDER BY d ASC",MYSQLI_ASSOC);
 
 		foreach($dts as $v){
 			static::$db->query("DELETE FROM bot_history WHERE `date`='{$v['d']}'");
@@ -121,7 +120,7 @@ class BotLog
 	{
 		if (!Cfg::get('botLog')) return;
 
-		$ua = Tools::utf(@$_SERVER['HTTP_USER_AGENT']);
+		$ua = trim(Tools::utf(@$_SERVER['HTTP_USER_AGENT']));
 		//		$ua='Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)';
 		//        $ua='Mozilla/5.0 Mediapartners-Google/2.1; +http://www.google.com/bot.html)';
 		//        $ua='Mobile/8B117 Safari/6531.22.7 (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)';
@@ -161,7 +160,7 @@ class BotLog
 					$dt = date("Y-m-d H:i:s");
 					$ip = @$_SERVER['REMOTE_ADDR'];
 					$url = Tools::esc(Tools::utf($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
-					$ua = Tools::esc($ua);
+					$ua = mb_substr(Tools::esc($ua), 0,255);
 					if (empty(static::$db)) static::$db = new DB();
 					foreach ($v['UA'] as $botName => &$d)
 					{ // детект имени бота

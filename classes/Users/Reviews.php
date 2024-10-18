@@ -36,7 +36,7 @@ class Users_Reviews extends DB
         if (empty($prodId) && empty($reviewId)) $this->putMsg(false, "[Reviews.getReview]: prodId или reviewId не задан");
 
         if (!empty($prodId)) {
-            $dd = $this->fetchAll("SELECT * FROM reviews WHERE prodId='$prodId'", MYSQL_ASSOC);
+            $dd = $this->fetchAll("SELECT * FROM reviews WHERE prodId='$prodId'", MYSQLI_ASSOC);
             foreach ($dd as $v)
                 if (isset($_SESSION['rvwsPosted'][$v['id']])) {
                     $d = $v;
@@ -44,7 +44,7 @@ class Users_Reviews extends DB
                 }
             unset($dd);
         } else {
-            $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQL_ASSOC);
+            $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQLI_ASSOC);
         }
 
         $cUsers = CU::usersList(array('includeLD' => 1));
@@ -146,7 +146,7 @@ class Users_Reviews extends DB
 
         if (!isset($r['exclusiveVisitor'])) $r['exclusiveVisitor'] = $this->cfg['onlyOneByProd'];
         if (empty(CU::$userId) && !empty($r['exclusiveVisitor']) && !empty($r['prodId']) && is_array(@$_SESSION['rvwsPosted'])) {
-            $d = $this->fetchAll("SELECT id FROM reviews WHERE prodId='{$r['prodId']}'", MYSQL_ASSOC);
+            $d = $this->fetchAll("SELECT id FROM reviews WHERE prodId='{$r['prodId']}'", MYSQLI_ASSOC);
             foreach ($d as $v)
                 if (isset($_SESSION['rvwsPosted'][$v['id']]))
                     return $this->putMsg(false, "[Reviews.add]: Вы уже добавили отзыв для этого товара");
@@ -246,7 +246,7 @@ class Users_Reviews extends DB
     {
         $reviewId = (int)@$r['reviewId'];
         if (empty($reviewId)) return $this->putMsg(false, "[Reviews.mod]: reviewId не задан");
-        $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQL_ASSOC);
+        $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQLI_ASSOC);
         if ($d === 0) return $this->putMsg(false, "[Reviews.mod]: Отзыв не найден id=$reviewId");
         if (!$this->isEnabled($d['gr'])) return $this->putMsg(false, "[Reviews.mod]: Группа отзывов ({$d['gr']}) не инициализирована");
         CU::isLogged();
@@ -348,7 +348,7 @@ class Users_Reviews extends DB
     {
         $reviewId = (int)$reviewId;
         if (empty($reviewId)) return $this->putMsg(false, "[Reviews.del]: reviewId не задан");
-        $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQL_ASSOC);
+        $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQLI_ASSOC);
         if ($d === 0) return $this->putMsg(false, "[Reviews.del]: Отзыв не найден id=$reviewId");
         if (!$this->isEnabled($d['gr'])) return $this->putMsg(false, "[Reviews.del]: Группа отзывов ({$d['gr']}) не инициализирована");
         CU::isLogged();
@@ -376,7 +376,7 @@ class Users_Reviews extends DB
     {
         $reviewId = (int)$reviewId;
         if (empty($reviewId)) return $this->putMsg(false, "[Reviews.moderate]: reviewId не задан");
-        $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQL_ASSOC);
+        $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQLI_ASSOC);
         if ($d === 0) return $this->putMsg(false, "[Reviews.moderate]: Отзыв не найден id=$reviewId");
         if (!$this->isEnabled($d['gr'])) return $this->putMsg(false, "[Reviews.moderate]: Группа отзывов ({$d['gr']}) не инициализирована");
         CU::isLogged();
@@ -545,13 +545,13 @@ class Users_Reviews extends DB
                 $gtotal=$d[0];
             }
 
-            $d = $this->fetchAll($s="SELECT INET_NTOA(reviews.userIP) AS userIP, reviews.id, reviews.prodId, reviews.state, reviews.cUserId, reviews.dt_state, reviews.dt_add, reviews.postedByAdmin, reviews.userId, reviews.email, reviews.userName, reviews.rating, reviews.vals, reviews.comment, reviews.advants, reviews.defects, cc_model.name AS mname, cc_brand.name AS bname, cc_model.model_id, cc_brand.brand_id {$af} FROM reviews JOIN cc_model ON reviews.prodId=cc_model.model_id JOIN cc_brand USING (brand_id) WHERE $_w ORDER BY $sort $limitBy", MYSQL_ASSOC);
+            $d = $this->fetchAll($s="SELECT INET_NTOA(reviews.userIP) AS userIP, reviews.id, reviews.prodId, reviews.state, reviews.cUserId, reviews.dt_state, reviews.dt_add, reviews.postedByAdmin, reviews.userId, reviews.email, reviews.userName, reviews.rating, reviews.vals, reviews.comment, reviews.advants, reviews.defects, cc_model.name AS mname, cc_brand.name AS bname, cc_model.model_id, cc_brand.brand_id {$af} FROM reviews JOIN cc_model ON reviews.prodId=cc_model.model_id JOIN cc_brand USING (brand_id) WHERE $_w ORDER BY $sort $limitBy", MYSQLI_ASSOC);
         }else{
             if(!empty($limitBy)){
                 $d=$this->getOne("SELECT count(*) FROM reviews WHERE $_w ORDER BY $sort");
                 $gtotal=$d[0];
             }
-            $d = $this->fetchAll($s="SELECT INET_NTOA(reviews.userIP) AS userIP, reviews.id, reviews.prodId, reviews.state, reviews.cUserId, reviews.dt_state, reviews.dt_add, reviews.postedByAdmin, reviews.userId, reviews.email, reviews.userName, reviews.rating, reviews.vals, reviews.comment, reviews.advants, reviews.defects {$af} FROM reviews WHERE $_w ORDER BY $sort $limitBy", MYSQL_ASSOC);
+            $d = $this->fetchAll($s="SELECT INET_NTOA(reviews.userIP) AS userIP, reviews.id, reviews.prodId, reviews.state, reviews.cUserId, reviews.dt_state, reviews.dt_add, reviews.postedByAdmin, reviews.userId, reviews.email, reviews.userName, reviews.rating, reviews.vals, reviews.comment, reviews.advants, reviews.defects {$af} FROM reviews WHERE $_w ORDER BY $sort $limitBy", MYSQLI_ASSOC);
         }
 
 
@@ -653,7 +653,7 @@ class Users_Reviews extends DB
     {
         $reviewId = (int)$reviewId;
         if (empty($reviewId)) return $this->putMsg(false, "[Reviews.allowToEdit]: reviewId не задан");
-        $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQL_ASSOC);
+        $d = $this->getOne("SELECT * FROM reviews WHERE id='$reviewId'", MYSQLI_ASSOC);
         if ($d === 0) return $this->putMsg(false, "[Reviews.allowToEdit]: Отзыв не найден id=$reviewId");
         if (!$this->isEnabled($d['gr'])) return $this->putMsg(false, "[Reviews.allowToEdit]: Группа отзывов ({$d['gr']}) не инициализирована");
 

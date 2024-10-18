@@ -95,7 +95,7 @@ switch ($act){
 			break;
 		}
 		if(in_array(Cfg::get('CAT_IMPORT_MODE'),array(2,3)))
-			$r->scl=$cc->fetchAll("SELECT cc_cat_sc.sc,cc_cat_sc.price1,cc_cat_sc.price2,cc_cat_sc.price3,cc_suplr.name,cc_cat_sc.dt_added,cc_cat_sc.dt_upd, cc_cat_sc.ignored FROM cc_cat_sc INNER JOIN cc_suplr ON cc_cat_sc.suplr_id=cc_suplr.suplr_id WHERE cat_id='{$cat_id}' ORDER BY cc_suplr.name",MYSQL_ASSOC);
+			$r->scl=$cc->fetchAll("SELECT cc_cat_sc.sc,cc_cat_sc.price1,cc_cat_sc.price2,cc_cat_sc.price3,cc_suplr.name,cc_cat_sc.dt_added,cc_cat_sc.dt_upd, cc_cat_sc.ignored FROM cc_cat_sc INNER JOIN cc_suplr ON cc_cat_sc.suplr_id=cc_suplr.suplr_id WHERE cat_id='{$cat_id}' ORDER BY cc_suplr.name",MYSQLI_ASSOC);
 
         $cc->que('cat_by_id',$cat_id);
         if($cc->qnum()){

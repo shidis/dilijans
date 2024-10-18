@@ -78,7 +78,7 @@ class App_Catalog_Disks_Models_Controller extends App_Catalog_Disks_Common_Contr
                     'whereCat'=>$this->minQtyRadiusSQL,
                     'having'=>'modelsNum>0'
                 ));
-                $d_ex=$this->cc->fetchAll('',MYSQL_ASSOC);
+                $d_ex=$this->cc->fetchAll('',MYSQLI_ASSOC);
                 if (!empty($d_ex)) {
                     $this->replicaCross = array(
                         'url' => '/' . App_Route::_getUrl('avtoPodborDiskov') . '/' . $d['sname'] . '.html',
@@ -171,7 +171,7 @@ class App_Catalog_Disks_Models_Controller extends App_Catalog_Disks_Common_Contr
             return false;
         }
 
-        $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
 
         $this->paginator=Tools::paginator(Url::$path,Url::$sq,$page,$this->num,$this->mLimit,'page',array(
             'active'=>	'<li class="active">{page}</li>',
@@ -297,7 +297,7 @@ class App_Catalog_Disks_Models_Controller extends App_Catalog_Disks_Common_Contr
             'order'=>"scDiv DESC, m_pos ASC, cc_model.name ASC"
         );
         $this->ex_num=$this->cc->models($r);
-        $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
 
         $this->paginator=Tools::paginator(Url::$path,Url::$sq,$page,$this->num,$this->limit,'page',array(
             'active'=>	'<li class="active">{page}</li>',
@@ -432,7 +432,7 @@ class App_Catalog_Disks_Models_Controller extends App_Catalog_Disks_Common_Contr
             'order'=>"m_pos ASC, cc_model.name"
         );
         $this->cc->models($r);
-        $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
         $this->qmodels=array();
         $burl='/'.App_Route::_getUrl('dModel').'/';
         foreach($d as $v){

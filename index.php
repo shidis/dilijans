@@ -1,10 +1,10 @@
 <?
 //die('Overload....');
 
-if(!strpos("xxx".$_SERVER["HTTP_HOST"],"dilijans.org")){
-	header('HTTP/1.0 403 Forbidden');
-	die();
-}
+//if(!strpos("xxx".$_SERVER["HTTP_HOST"],"dilijans.org")){
+//	header('HTTP/1.0 403 Forbidden');
+//	die();
+//}
 
 @define(true_enter, 1);
 
@@ -19,6 +19,7 @@ if (($ns = Namespaces::getNS()) == 'app')
 {
     Request::checkRedirect();
     Request::checkDomain();
+    //Stat::$logDBQueries = true;
 }
 
 try

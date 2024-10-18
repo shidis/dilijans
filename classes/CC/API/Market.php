@@ -31,7 +31,7 @@ class CC_API_Market extends DB
     {
         parent::__construct();
         $this->tmpPath = Cfg::_get('root_path') . '/tmp/';
-        $this->logFile = Cfg::_get('root_path') . '/assets/logs/ym-parser.log';
+        $this->logFile = Tools::getLogPath() . 'ym-parser.log';
         $this->todayD=date("d-m-Y");
 
         if (!MC::chk()) {
@@ -511,7 +511,7 @@ class CC_API_Market extends DB
             // выбираем ассортимент из очереди и только который был найден на маркете (NE==0). Строки с ошибками пропускаем (их обработка внизу цикла do
             // NE==1 - признак что товар не был выгружен на маркет - они остаются ссо статусом ошибки с последней проверке и не имеют inQueue
             //
-            $d=$this->fetchAll("SELECT modelId FROM ym_cat WHERE inQueue='1' AND modelId!=0 AND E='0' AND NE='0' GROUP BY modelId LIMIT $limit", MYSQL_ASSOC);
+            $d=$this->fetchAll("SELECT modelId FROM ym_cat WHERE inQueue='1' AND modelId!=0 AND E='0' AND NE='0' GROUP BY modelId LIMIT $limit", MYSQLI_ASSOC);
 
             $modifsIds = [];
 
@@ -583,7 +583,7 @@ class CC_API_Market extends DB
 
                         $modelId=$model_v['id'];
 
-                        $do = $this->fetchAll("SELECT * FROM ym_offers WHERE modelId=$modelId", MYSQL_ASSOC);
+                        $do = $this->fetchAll("SELECT * FROM ym_offers WHERE modelId=$modelId", MYSQLI_ASSOC);
 
                         $do_updIds=[]; // обновленные строки
                         $updated=$inserted=0;

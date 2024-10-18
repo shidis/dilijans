@@ -30,7 +30,7 @@ class Content extends SSCommon
 
         $sql="SELECT *, (SELECT count(*) FROM ss_cnt_type WHERE parent_id=t1.cnt_type_id) AS ch FROM ss_cnt_type t1 WHERE parent_id=$parent_id ORDER BY pos, name";
         $this->query($sql);
-        $d=$this->fetchAll('',MYSQL_ASSOC);
+        $d=$this->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $vv=array(
                 'childrens'=>array(),
@@ -116,7 +116,7 @@ class Content extends SSCommon
             $this->getOne("SELECT count(*) FROM ss_cnt WHERE NOT LD $where");
             $this->docsNum=$this->qrow[0];
         }
-        $d=$this->fetchAll($sql="SELECT * FROM ss_cnt WHERE NOT LD $where $order $limits", MYSQL_ASSOC);
+        $d=$this->fetchAll($sql="SELECT * FROM ss_cnt WHERE NOT LD $where $order $limits", MYSQLI_ASSOC);
         $res=array();
         if(!empty($d))
             foreach($d as $v){

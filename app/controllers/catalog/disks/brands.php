@@ -33,7 +33,7 @@ class App_Catalog_Disks_Brands_Controller extends App_Catalog_Disks_Common_Contr
             'whereCat'=>$this->minQtyRadiusSQL,
             'having'=>'modelsNum>0'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         $burl='/'.App_Route::_getUrl('dCat').'/';
         foreach($d as $v){
             $this->brands[$v['is_popular']][]=array(
@@ -70,7 +70,7 @@ class App_Catalog_Disks_Brands_Controller extends App_Catalog_Disks_Common_Contr
             'whereCat'=>'cc_cat.sc>0',
             'having'=>'modelsNum>0'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $this->replicaBrands[]=array(
                 'img1'=>$this->cc->make_img_path($v['img1']),
@@ -148,7 +148,7 @@ class App_Catalog_Disks_Brands_Controller extends App_Catalog_Disks_Common_Contr
             'having'=>'modelsNum>0'
         ));
         $burl='/'.App_Route::_getUrl('dCat').'/';
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $this->brands[0][]=array(
                 'img1'=>$this->cc->make_img_path($v['img1']),

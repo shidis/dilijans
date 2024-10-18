@@ -9,9 +9,7 @@ abstract class App
         $controllerFName, // путь к файлу класса контроллера app/controllers/tyres/catalog/shini.php
         $controllerMethod, // метод контроллера
         $controllerClassName, // название класса контроллера
-        $gzipEnabled = true,
-        $clearCode=false,
-        $namespace; // path[0]
+        $gzipEnabled = true, $clearCode = false, $namespace; // path[0]
 
 
     public function __construct()
@@ -19,57 +17,73 @@ abstract class App
         //		parent::__construct();
         $this->namespace = Route::$ns;
         $this->setController(Route::$controller);
-        if (!$this->initController()) {
+        if (!$this->initController())
+        {
             echo $this->getError();
             die();
-        } else {
-            if (is_callable(array(
-                    $this->controllerInstance,
-                    'construct'
-                ))) call_user_func(array($this->controllerInstance, 'construct'));
+        }
+        else
+        {
+            if (is_callable([
+                $this->controllerInstance,
+                'construct',
+            ])) call_user_func([$this->controllerInstance, 'construct']);
+
             return true;
         }
     }
 
     public function execute($method = '')
     {
-        $res = call_user_func(array($this->controllerInstance, $method == '' ? $this->controllerMethod : $method));
+        $res = call_user_func([$this->controllerInstance, $method == '' ? $this->controllerMethod : $method]);
 
         // возвратить может путь к контроллеру для передачи управления
-        while ($res != '') {
-            if (!$this->initController($res)) {
+        while ($res != '')
+        {
+            if (!$this->initController($res))
+            {
                 echo $this->getError();
                 die();
-            } else {
-                if (is_callable(array(
-                        $this->controllerInstance,
-                        'construct'
-                    ))) call_user_func(array($this->controllerInstance, 'construct'));
-                $res = call_user_func(array($this->controllerInstance, $this->controllerMethod));
+            }
+            else
+            {
+                if (is_callable([
+                    $this->controllerInstance,
+                    'construct',
+                ])) call_user_func([$this->controllerInstance, 'construct']);
+                $res = call_user_func([$this->controllerInstance, $this->controllerMethod]);
             }
         }
+
         return true;
     }
 
     private function initController($controller = '')
     {
         // сохпяняем данные выполненного контроллера
-        if ($this->controllerInstance != NULL) {
+        if ($this->controllerInstance != NULL)
+        {
             $data = $this->controllerInstance->_data;
-        } else $data = array();
+        }
+        else $data = [];
 
         $this->controllerInstance = NULL;
-        if ($controller == '') $controller = $this->getController(); else $this->setController($controller);
+        if ($controller == '') $controller = $this->getController();
+        else $this->setController($controller);
         // $controller = home/index например
 
         $s = explode('/', $controller);
 
         // имя контроллера не может состоять только из имени класса, нужен метож вызова
-        if (count($s) == 1 || $controller == '') {
-            if (Request::$ajax) {
+        if (count($s) == 1 || $controller == '')
+        {
+            if (Request::$ajax)
+            {
                 $this->error['err_msg'] = '[App::initController().Ajax]: Ошибка в пути к контроллеру';
                 $this->error['fres'] = false;
-            } else $this->error = '[App::initController()]: Ошибка в пути к контроллеру';
+            }
+            else $this->error = '[App::initController()]: Ошибка в пути к контроллеру';
+
             return false;
         }
 
@@ -86,20 +100,28 @@ abstract class App
         array_unshift($s, ucfirst($this->namespace));
         $this->controllerClassName = implode('_', $s);
 
-        if (!is_file($this->controllerFName)) {
-            if (Request::$ajax) {
+        if (!is_file($this->controllerFName))
+        {
+            if (Request::$ajax)
+            {
                 $this->error['err_msg'] = '[App::initController().Ajax]: Файл контроллера не существует';
                 $this->error['fres'] = false;
-            } else $this->error = '[App::initController()]: Файла контроллера ' . "{$this->controllerFName}" . ' не существует';
+            }
+            else $this->error = '[App::initController()]: Файла контроллера ' . "{$this->controllerFName}" . ' не существует';
+
             return false;
         }
 
         include_once $this->controllerFName;
-        if (!class_exists($this->controllerClassName)) {
-            if (Request::$ajax) {
+        if (!class_exists($this->controllerClassName))
+        {
+            if (Request::$ajax)
+            {
                 $this->error['err_msg'] = '[App::initController().Ajax]: Название класса в файле контроллера некорректное';
                 $this->error['fres'] = false;
-            } else $this->error = '[App::initController()]: Название класса в файле контроллера некорректное';
+            }
+            else $this->error = '[App::initController()]: Название класса в файле контроллера некорректное';
+
             return false;
         }
         $this->controllerInstance = new $this->controllerClassName();
@@ -109,13 +131,15 @@ abstract class App
         $this->controllerInstance->_data['currentController'] = $controller;
         unset($data);
 
-        if (Request::$ajax) {
-            if (!isset($this->controllerInstance->r)) $this->controllerInstance->r = array(
-                'err_msg' => '',
+        if (Request::$ajax)
+        {
+            if (!isset($this->controllerInstance->r)) $this->controllerInstance->r = [
+                'err_msg'  => '',
                 'fres_msg' => '',
-                'fres' => true
-            );
+                'fres'     => true,
+            ];
         }
+
         return true;
     }
 
@@ -125,7 +149,7 @@ abstract class App
         // обрезаем слеши вначале и в конце  и удаляем повоторные слеши
         $controllerPath = trim($controllerPath);
         $s = explode('/', $controllerPath);
-        $s1 = array();
+        $s1 = [];
         for ($i = 0; $i < count($s); $i++) if (trim($s[$i]) != '') $s1[] = $s[$i];
         $controllerPath = implode('/', $s1);
         $this->controller = $controllerPath;
@@ -138,29 +162,32 @@ abstract class App
 
     public function obStart()
     {
-        if($this->gzipEnabled)
-            ob_start("ob_gzhandler");
-        elseif($this->clearCode)
-            ob_start();
+        if ($this->gzipEnabled) ob_start("ob_gzhandler");
+        elseif ($this->clearCode) ob_start();
     }
 
     public function obEnd()
     {
-        if (Request::$ajax){
-            if($this->gzipEnabled) ob_end_flush();
-        }elseif($this->clearCode){
-            $buf=ob_get_contents();
+        if (Request::$ajax)
+        {
+            if ($this->gzipEnabled) ob_end_flush();
+        }
+        elseif ($this->clearCode)
+        {
+            $buf = ob_get_contents();
             ob_get_clean();
             echo preg_replace("~[\t\n\r]~", '', Tools::cutDoubleSpaces($buf));
-        } elseif($this->gzipEnabled)
-            ob_end_flush();
+        }
+        elseif ($this->gzipEnabled) ob_end_flush();
     }
 
     public function getError()
     {
-        if (is_array($this->error)) {
+        if (is_array($this->error))
+        {
             return json_encode($this->error);
-        } else throw new AppException ($this->error);
+        }
+        else throw new AppException ($this->error);
     }
 
     /*
@@ -168,39 +195,45 @@ abstract class App
      */
     public function output()
     {
-        if (Request::$ajax && Request::$ajaxMethod == 'json') {
+        if (Request::$ajax && Request::$ajaxMethod == 'json')
+        {
 
             $this->obStart();
 
             echo json_encode($this->controllerInstance->r);
             $this->obEnd();
 
-        } else {
+        }
+        else
+        {
             if (@$this->controllerInstance->_template != '') $this->template($this->controllerInstance->_template);
 
             // если не задан шаблон, то ничего не подключаем view
             if ($this->template == '') return;
 
-            if (is_file($this->namespace . '/view/' . $this->template() . '.php')) {
+            if (is_file($this->namespace . '/view/' . $this->template() . '.php'))
+            {
                 extract((array)$this->controllerInstance, EXTR_OVERWRITE);
                 extract($this->controllerInstance->_data, EXTR_OVERWRITE);
                 $this->obStart();
                 include $this->namespace . '/view/' . $this->template() . '.php';
                 $this->obEnd();
-            } else
+            }
+            else
                 throw new AppException ('[App::output()]: ' . $this->namespace . '/view/' . $this->template() . ' open fault.');
         }
     }
 
-    public function incView($file, $errOutput = false, $extractData=[])
+    public function incView($file, $errOutput = false, $extractData = [])
     {  // $file без расширения .php
         extract((array)$this->controllerInstance, EXTR_OVERWRITE);
         extract($this->controllerInstance->_data, EXTR_OVERWRITE);
 
         // полезно при использовании incView внутри incView или template
-        if(!empty($extractData)) extract((array)$extractData, EXTR_OVERWRITE);
+        if (!empty($extractData)) extract((array)$extractData, EXTR_OVERWRITE);
 
-        if (is_file($this->namespace . '/view/' . $file . '.php')) include $this->namespace . '/view/' . $file . '.php'; elseif ($errOutput) throw new AppException ('[App::output()]: ' . $this->namespace . '/view/' . $file . ' not found.');
+        if (is_file($this->namespace . '/view/' . $file . '.php')) include $this->namespace . '/view/' . $file . '.php';
+        elseif ($errOutput) throw new AppException ('[App::output()]: ' . $this->namespace . '/view/' . $file . ' not found.');
     }
 
     /*
@@ -208,7 +241,8 @@ abstract class App
      */
     public function template($template = '')
     {
-        if ($template == '') return $this->template; else $this->template = $template;
+        if ($template == '') return $this->template;
+        else $this->template = $template;
     }
 
 

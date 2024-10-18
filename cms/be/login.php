@@ -16,15 +16,15 @@ $pw=@$_REQUEST['pw'];
 
 $r=array();
 
+
+
 if(CU::login($login,$pw)){
-
 	$r['pass']=1;
-	
 }else{
-
 	$r['pass']=0;
 	sleep(2);
-
 }
+
+
 
 echo json_encode($r);

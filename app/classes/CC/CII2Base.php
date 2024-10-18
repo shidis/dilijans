@@ -154,7 +154,7 @@ var $status=array(  // применяется к cstatus/mstatus/bstatus
             if ($this->qnum()) {
                 $i = 0;
                 $catIds = array();
-                while ($this->next(MYSQL_ASSOC) !== false) {
+                while ($this->next(MYSQLI_ASSOC) !== false) {
                     // удаляем по 100 штук за раз
                     if ($i >= 100) {
                         $this->db->query("DELETE FROM cc_cat_sc WHERE cat_id IN (" . implode(',', $catIds) . ")");
@@ -463,7 +463,7 @@ var $status=array(  // применяется к cstatus/mstatus/bstatus
         $r->total = $total_pages;
         $r->records = $count;
 
-        $this->query("SELECT * FROM cii_item WHERE (file_id='$file_id') $s ORDER BY $sidx $sord LIMIT $start,$limit", MYSQL_ASSOC);
+        $this->query("SELECT * FROM cii_item WHERE (file_id='$file_id') $s ORDER BY $sidx $sord LIMIT $start,$limit", MYSQLI_ASSOC);
         $i = 0;
         if ($this->qnum()) while ($this->next() !== false) {
             $r->rows[$i]['id'] = $this->qrow['item_id'];

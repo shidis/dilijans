@@ -72,12 +72,9 @@ blk('Admin','__cp_menu_admin');?>
     <li class="menu"><strong>server_loc:</strong> <?=server_loc?></li>
     <li class="menu"><strong>Пользователь: </strong><?=CU::$login?></li>
     <li class="menu"><strong>Уровень доступа: </strong><?=CMS_LEVEL_ACCESS?></li>
-    <li class="menu"><a href="dumper.php" target="body">DB Dumper</a></li>
-    <li class="menu"><a href="sxd76/" target="body">DB Dumper Pro</a></li>
     <? if(CU::$roleId==1){?>
     <li class="menu"><a href="pi.php" target="body">PHP Info</a></li>
     <li class="menu"><a href="memcache.php" target="body">Memcached</a></li>
-    <li class="menu"><a href="apc.php" target="body">APC Accelerator</a></li>
     <? }?>
     <li class="menu"><a href="javascript:;"  onClick="top.location.href='/cms/?logout=1'">Выход</a></li>
 </ul>

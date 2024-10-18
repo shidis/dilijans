@@ -153,7 +153,7 @@ class App_Import_CII extends DB
         $r->total = $total_pages;
         $r->records = $count;
 
-        $this->query("SELECT * FROM cii_item WHERE (file_id='$file_id') $s ORDER BY $sidx $sord LIMIT $start,$limit", MYSQL_ASSOC);
+        $this->query("SELECT * FROM cii_item WHERE (file_id='$file_id') $s ORDER BY $sidx $sord LIMIT $start,$limit", MYSQLI_ASSOC);
         $i = 0;
         if ($this->qnum()) while ($this->next() !== false) {
             $r->rows[$i]['id'] = $this->qrow['item_id'];
@@ -346,7 +346,8 @@ function readCSV($fname, $sheetNo = 1)
                             switch ($this->CMI[$this->gr][$k]['type']) {
                                 case 'id':
                                     if (count($this->CMI[$this->gr][$k]['list'])) {
-                                        $vv[$this->CMI[$this->gr][$k]['item_field']] = "'" . @$this->CMI[$this->gr][$k]['list'][@$cell[$v]] . "'";
+//                                        $vv[$this->CMI[$this->gr][$k]['item_field']] = "'" . @$this->CMI[$this->gr][$k]['list'][@$cell[$v]] . "'";
+                                        $vv[$this->CMI[$this->gr][$k]['item_field']] = "'" . intval(@$this->CMI[$this->gr][$k]['list'][@$cell[$v]]). "'" ;
                                         break;
                                     }
                                 case 'integer':

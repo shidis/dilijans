@@ -38,7 +38,17 @@ class CU extends CommonStatic
         $cmsStartUrl,
         $os // пользователь может работать с заказами
     ;
+    
+    public static $msgs = [];
 
+
+public static function _push($msg) {
+    self::$msgs[] = $msg;    
+}
+
+public static function _list() {
+    return print_r(self::$msgs,true);
+}
 
 
     /*
@@ -161,7 +171,7 @@ class CU extends CommonStatic
             $ua=Tools::esc(@$_SERVER['HTTP_USER_AGENT']);
             if(($SID=static::getSID())!=null){
                 // TODO может стоит сделать проверку по айпи и юзерагенту
-                $d=static::$db->getOne("SELECT * FROM cu_sessions WHERE userId=".static::$userId." AND sid='{$SID}' AND token='".static::$token."'", MYSQL_ASSOC);
+                $d=static::$db->getOne("SELECT * FROM cu_sessions WHERE userId=".static::$userId." AND sid='{$SID}' AND token='".static::$token."'", MYSQLI_ASSOC);
                 if($d!==0){
                     // есть базе запись - используем ее, дату старта не меняем
                     static::$SID=$SID;
@@ -176,6 +186,8 @@ class CU extends CommonStatic
                     static::$db->query("UPDATE cu_sessions SET dtLastHit='".static::$dtSessionLastHit."', ip=INET_ATON('{$_SERVER['REMOTE_ADDR']}') WHERE sid='$SID'");
                 }
             }
+
+          
             if(empty(static::$SID)){
                 // иначе добавляем в базу сессию
                 static::$db->insert('cu_sessions', array(
@@ -186,24 +198,28 @@ class CU extends CommonStatic
                     'token'=>static::$token,
                     'ip'=>array("INET_ATON('{$_SERVER['REMOTE_ADDR']}')",'noquot'),
                     'userAgent'=>$ua
-                ));
+                ), false);
                 static::$sdata=array();
-            }
+           }
 
             static::mergeSDataFromCookie();
             static::mergeUDataFromCookie();
 
             // ставим/обновляем вечную куку сессиионную
             $_COOKIE[static::$sessVarName]=static::$SID;
+
             if(static::$sessCookieSubDomains)
                 setcookie(static::$sessVarName, static::$SID, time()+3600*24*365*3, '/', '.'.Url::trimWWW(Cfg::$config['site_url']), false, true);
             else
                 setcookie(static::$sessVarName, static::$SID, time()+3600*24*365*3, '/', Cfg::$config['site_url'], false, true);
+
             return true;
         }
+        
         // удаляем куку невалидной сессии
 //        unset($_COOKIE[static::$sessVarName]);
 //        setcookie(static::$sessVarName, static::$SID, time()-3600);
+
         return false;
     }
 
@@ -220,7 +236,7 @@ class CU extends CommonStatic
         if(empty(static::$db)) self::$db=new DB();
 
         // TODO может стоит сделать проверку по айпи
-        $d=static::$db->getOne("SELECT cu_users.*, cu_sessions.dtStart, cu_sessions.dtLastHit, cu_sessions.data AS sdata FROM cu_sessions JOIN cu_users USING (userId) WHERE sid='{$SID}' AND cu_users.token=cu_sessions.token AND NOT LD AND NOT disabled", MYSQL_ASSOC);
+        $d=static::$db->getOne("SELECT cu_users.*, cu_sessions.dtStart, cu_sessions.dtLastHit, cu_sessions.data AS sdata FROM cu_sessions JOIN cu_users USING (userId) WHERE sid='{$SID}' AND cu_users.token=cu_sessions.token AND NOT LD AND NOT disabled", MYSQLI_ASSOC);
 
         if($d!==0){
             // есть базе запись сессии. Стартуем
@@ -404,7 +420,7 @@ class CU extends CommonStatic
         if(empty(static::$db)) self::$db=new DB();
 
         static::$db->query("DELETE FROM cu_sessions WHERE userId=$userId");
-        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQL_ASSOC);
+        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQLI_ASSOC);
 
         if(@$d['roleId']<static::$roleId)
             return static::putMsg(false, '[CU.deleteUser]: Можно удалить пользователя с уровнем доступа не меньше чем у вас');
@@ -430,7 +446,7 @@ class CU extends CommonStatic
 
         if(empty(static::$db)) self::$db=new DB();
 
-        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQL_ASSOC);
+        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQLI_ASSOC);
 
         if(@$d['roleId']<static::$roleId)
             if($inline) return "ОШИБКА! Нельзя изменить";
@@ -526,7 +542,7 @@ class CU extends CommonStatic
 
         if($inline && !static::$fres){
 
-            $d=static::$db->getOne("SELECT* FROM cu_users WHERE NOT LD AND userId=$userId", MYSQL_ASSOC);
+            $d=static::$db->getOne("SELECT* FROM cu_users WHERE NOT LD AND userId=$userId", MYSQLI_ASSOC);
 
             if($d!==0){
                 // берем первое значение из $q и возвращаемся
@@ -571,7 +587,7 @@ class CU extends CommonStatic
 
         if(empty(static::$db)) self::$db=new DB();
 
-        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQL_ASSOC);
+        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQLI_ASSOC);
 
         if(@$d['roleId'] < static::$roleId) return static::putMsg(false, '[CU.logoutAllSessionsByUser]: Уровень доступа не достаточен для проведения операции.');
 
@@ -592,7 +608,7 @@ class CU extends CommonStatic
 
         if(empty(static::$db)) self::$db=new DB();
 
-        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQL_ASSOC);
+        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQLI_ASSOC);
 
         if(@$d['roleId'] < static::$roleId) return static::putMsg(false, '[CU.resetToken]: Уровень доступа не достаточен для проведения операции.');
 
@@ -615,7 +631,7 @@ class CU extends CommonStatic
 
         if(empty(static::$db)) self::$db=new DB();
 
-        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQL_ASSOC);
+        $d=static::$db->getOne("SELECT * FROM cu_users WHERE NOT LD AND userId=$userId", MYSQLI_ASSOC);
 
         if(@$d['roleId'] < static::$roleId) return static::putMsg(false, '[CU.accessSwitch]: Уровень доступа не достаточен для проведения операции.');
 

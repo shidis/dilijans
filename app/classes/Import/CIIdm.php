@@ -126,7 +126,7 @@ class App_Import_CIIdm extends DB
             if ($this->gr == 1) {
 
                 //загружаем словарь суффиксов шин
-                $d = $this->cc->fetchAll("SELECT SQL_NO_CACHE cc_dict.name AS dname,  IFNULL( cc_brand.name, 0 ) AS bname FROM cc_dict LEFT JOIN cc_brand USING ( brand_id ) WHERE cc_dict.gr=1 ORDER BY LENGTH( cc_dict.name ) DESC", MYSQL_ASSOC);
+                $d = $this->cc->fetchAll("SELECT SQL_NO_CACHE cc_dict.name AS dname,  IFNULL( cc_brand.name, 0 ) AS bname FROM cc_dict LEFT JOIN cc_brand USING ( brand_id ) WHERE cc_dict.gr=1 ORDER BY LENGTH( cc_dict.name ) DESC", MYSQLI_ASSOC);
                 $this->exSuffixes = array();
                 if (!empty($d)) {
                     foreach ($d as $v) {
@@ -185,8 +185,8 @@ class App_Import_CIIdm extends DB
                 }
 
                 // бренды реплики
-                //$d=$this->cc->fetchAll("SELECT cc_sup.name, cc_sup.sup_id FROM cc_sup JOIN cc_brand USING (sup_id) WHERE cc_brand.gr = '2' AND cc_brand.LD=0", MYSQL_ASSOC);
-                $d=$this->cc->fetchAll("SELECT cc_sup.name, cc_sup.sup_id FROM cc_sup", MYSQL_ASSOC);
+                //$d=$this->cc->fetchAll("SELECT cc_sup.name, cc_sup.sup_id FROM cc_sup JOIN cc_brand USING (sup_id) WHERE cc_brand.gr = '2' AND cc_brand.LD=0", MYSQLI_ASSOC);
+                $d=$this->cc->fetchAll("SELECT cc_sup.name, cc_sup.sup_id FROM cc_sup", MYSQLI_ASSOC);
                 $this->sups = [];
                 foreach($d as $v) $this->sups[$v['sup_id']] = trim(Tools::cutDoubleSpaces(Tools::unesc($v['name'])));
 /*
@@ -233,10 +233,10 @@ class App_Import_CIIdm extends DB
             unset($cfg);
 
             if ($this->gr == 1) // USE INDEX (file_id_cstatus)
-                $ciirs=$this->fetchAll("SELECT item_id, bstatus, mstatus, cstatus, brand, model, full_name, company, P1+'0' AS P1, P2+'0' AS P2, P3+'0' AS P3, P7, P7_1, MP1, MP2, MP3, suffix, sklad, price1,price2,price3, cat_id, transform, suplr_id, brand_id, model_id  FROM cii_item WHERE file_id='{$this->file_id}' AND cstatus=0 ORDER BY brand, model, P3, P2, P1, P7, P7_1, suffix  LIMIT 0, $limit", MYSQL_ASSOC);
+                $ciirs=$this->fetchAll("SELECT item_id, bstatus, mstatus, cstatus, brand, model, full_name, company, P1+'0' AS P1, P2+'0' AS P2, P3+'0' AS P3, P7, P7_1, MP1, MP2, MP3, suffix, sklad, price1,price2,price3, cat_id, transform, suplr_id, brand_id, model_id  FROM cii_item WHERE file_id='{$this->file_id}' AND cstatus=0 ORDER BY brand, model, P3, P2, P1, P7, P7_1, suffix  LIMIT 0, $limit", MYSQLI_ASSOC);
             else
                 // USE INDEX (file_id_cstatus)
-                $ciirs=$this->fetchAll("SELECT item_id, bstatus, mstatus, cstatus, brand, model, full_name, company, P1+'0' AS P1, P2+'0' AS P2, P3+'0' AS P3, P4+'0' AS P4, P5+'0' AS P5, P6+'0' AS P6, P7, P7_1, MP1, suffix, sklad, price1,price2,price3, cat_id, brand_id, model_id, replica, transform, suplr_id, sup_id FROM cii_item WHERE file_id='{$this->file_id}' AND cstatus=0 ORDER BY brand, model, P5, P2, P4, P6, P1, P3, suffix  LIMIT 0, $limit", MYSQL_ASSOC);
+                $ciirs=$this->fetchAll("SELECT item_id, bstatus, mstatus, cstatus, brand, model, full_name, company, P1+'0' AS P1, P2+'0' AS P2, P3+'0' AS P3, P4+'0' AS P4, P5+'0' AS P5, P6+'0' AS P6, P7, P7_1, MP1, suffix, sklad, price1,price2,price3, cat_id, brand_id, model_id, replica, transform, suplr_id, sup_id FROM cii_item WHERE file_id='{$this->file_id}' AND cstatus=0 ORDER BY brand, model, P5, P2, P4, P6, P1, P3, suffix  LIMIT 0, $limit", MYSQLI_ASSOC);
 
             $this->sqlFree();
 
@@ -341,7 +341,7 @@ class App_Import_CIIdm extends DB
             elseif($this->opt['mode']==2){
                 if(!empty($bkeys)) {
                     // вытаскиваем бренды за пределами обновления
-                    $d = $this->fetchAll("SELECT cb.brand_id, cb.name FROM cc_brand cb WHERE NOT cb.LD AND cb.gr='{$this->gr}' AND cb.brand_id NOT IN($bkeys)", MYSQL_ASSOC);
+                    $d = $this->fetchAll("SELECT cb.brand_id, cb.name FROM cc_brand cb WHERE NOT cb.LD AND cb.gr='{$this->gr}' AND cb.brand_id NOT IN($bkeys)", MYSQLI_ASSOC);
                     if ($d) {
                         $bids = [];
                         foreach ($d as $v) {
@@ -690,7 +690,7 @@ class App_Import_CIIdm extends DB
         $this->query("SELECT SQL_NO_CACHE mm.sup_id,  mm.name,  mm.model_id,  mm.suffix AS msuffix FROM cc_model mm WHERE mm.LD = '0' AND mm.brand_id = '{$this->cr->brand_id}'");
 
         if ($this->qnum()) {
-            while ($this->next(MYSQL_ASSOC) !== false)
+            while ($this->next(MYSQLI_ASSOC) !== false)
             {
 
                 if (!isset($this->models[$this->qrow['model_id']]))
@@ -714,7 +714,7 @@ class App_Import_CIIdm extends DB
 
             if ($this->qnum())
             {
-                while ($this->next(MYSQL_ASSOC) !== false)
+                while ($this->next(MYSQLI_ASSOC) !== false)
                 {
 
                     $csuffix = trim(Tools::cutDoubleSpaces(Tools::unesc($this->qrow['csuffix'])));
@@ -1419,7 +1419,7 @@ class App_Import_CIIdm extends DB
                     }
                     foreach ($cr['T'] as $suplr_id => $scr) {
                         $scr['ignored'] = false;
-                        $splr_info = $cc->getOne("SELECT `name` FROM `cc_suplr` WHERE suplr_id = '$suplr_id'", MYSQL_ASSOC);
+                        $splr_info = $cc->getOne("SELECT `name` FROM `cc_suplr` WHERE suplr_id = '$suplr_id'", MYSQLI_ASSOC);
                         // проверяем нет ли заявки на удаление поставщика, виртуальных строк здесь не может быть
                         if (in_array($suplr_id, $this->opt['delSuplrs'])) {
                             $scr['a'] = 'd';
@@ -1453,7 +1453,7 @@ class App_Import_CIIdm extends DB
                             $scSum += $scr['sc'];
                             if ($scr['sc'] >= 4)
                             {
-                                $margins = $cc->getOne("SELECT * FROM cc_min_extra WHERE gr='{$tp_info['gr']}' AND pVal='".($tp_info['gr'] == 2 ? $tp_info['P5'] : $tp_info['P1'])."'", MYSQL_ASSOC);
+                                $margins = $cc->getOne("SELECT * FROM cc_min_extra WHERE gr='{$tp_info['gr']}' AND pVal='".($tp_info['gr'] == 2 ? $tp_info['P5'] : $tp_info['P1'])."'", MYSQLI_ASSOC);
                                 if (!in_array($splr_info['name'], $exc_suplr)) {
                                     if ($scr['price1'] > $this->opt['suplrsMinPrice']) $price1[] = $scr['price1'];
                                     if ($scr['price2'] > $this->opt['suplrsMinPrice']) {

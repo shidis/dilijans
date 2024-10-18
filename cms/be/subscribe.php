@@ -34,8 +34,8 @@ switch ($act){
 
         // Выборка заказов
         $DB = new DB();
-        $susers_form = $DB->fetchAll("SELECT *, email_id as id, 'form' as dest FROM scr_email INNER JOIN os_order USING (email) ORDER BY scr_email.dt_add DESC;", MYSQL_ASSOC);
-        $susers_order = $DB->fetchAll("SELECT *, order_id as id, 'order' as dest FROM os_order WHERE subscribe > 0 ORDER BY dt_add DESC;", MYSQL_ASSOC);
+        $susers_form = $DB->fetchAll("SELECT *, email_id as id, 'form' as dest FROM scr_email INNER JOIN os_order USING (email) ORDER BY scr_email.dt_add DESC;", MYSQLI_ASSOC);
+        $susers_order = $DB->fetchAll("SELECT *, order_id as id, 'order' as dest FROM os_order WHERE subscribe > 0 ORDER BY dt_add DESC;", MYSQLI_ASSOC);
         $susers = array_merge($susers_form, $susers_order);
         $out_file_name = '/assets/order_files/export/sub_export_'.date('d_m_y__').time().'.csv';
         $output = fopen($_SERVER['DOCUMENT_ROOT'].$out_file_name, "w");
@@ -64,7 +64,7 @@ switch ($act){
             $result[] = Tools::unesc($order['avto_name']);
             $result[] = Tools::unesc($order['order_num']);
 
-            $order_info = $DB->fetchAll("SELECT * FROM os_item WHERE order_id = '{$order['order_id']}';", MYSQL_ASSOC);
+            $order_info = $DB->fetchAll("SELECT * FROM os_item WHERE order_id = '{$order['order_id']}';", MYSQLI_ASSOC);
             if (!empty($order_info)) {
                 $goods_names = array();
                 foreach ($order_info as $order_name) {

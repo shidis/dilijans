@@ -297,12 +297,12 @@ class App_CC_CI extends App_CC_CIBase
             'model' => array('src' => array(), 'dist' => array())
         );
         $LA = array(1 => $a, 2 => $a); // LinkArray по группам
-        $d = $this->fetchAll("SELECT * FROM ci_tipo ORDER BY gr,sys_code_to,sys_code", MYSQL_ASSOC);
+        $d = $this->fetchAll("SELECT * FROM ci_tipo ORDER BY gr,sys_code_to,sys_code", MYSQLI_ASSOC);
         foreach ($d as $k => &$v) {
             $LA[$v['gr']]['tipo']['src'][$v['sys_code']] = $v['sys_code_to'];
             $LA[$v['gr']]['tipo']['dist'][$v['sys_code_to']] = $v['sys_code'];
         }
-        $d = $this->fetchAll("SELECT * FROM ci_model ORDER BY gr,ID_MODEL_to,ID_MODEL", MYSQL_ASSOC);
+        $d = $this->fetchAll("SELECT * FROM ci_model ORDER BY gr,ID_MODEL_to,ID_MODEL", MYSQLI_ASSOC);
         foreach ($d as $k => &$v) {
             $LA[$v['gr']]['model']['src'][$v['ID_MODEL']] = $v['ID_MODEL_to'];
             $LA[$v['gr']]['model']['dist'][$v['ID_MODEL_to']] = $v['ID_MODEL'];
