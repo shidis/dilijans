@@ -31,10 +31,18 @@ $r->fres_msg='';
 ajxEnd();
 
 function put($ab,$y_yd,$model,$year,$vendor){
-        $str = 'SELECT avto_id,name,sname FROM ab_avto WHERE year_id="'. $year.'" AND model_id="'.$model.'" AND vendor_id="'.$vendor.'"';//вытаскиваем информацию о модиикациях
+    $str = 'SELECT avto_id,name,sname FROM ab_avto WHERE year_id="'. $year.'" AND model_id="'.$model.'" AND vendor_id="'.$vendor.'"';//вытаскиваем информацию о модиикациях
     $temp = $ab->fetchAll($str, MYSQLI_ASSOC);
+
+    $str = 'SELECT avto_id,year_id,avto_image FROM ab_avto WHERE avto_image IS NOT NULL AND model_id="'.$model.'" AND vendor_id="'.$vendor.'" ORDER BY year_id DESC,avto_id DESC'; // картинка из последнего года
+    $imageRow = $ab->getOne($str, MYSQLI_ASSOC);
+    $image = null;
+    if (!empty($imageRow['avto_image'])) {
+      $image = $imageRow['avto_image'];
+    }
+
     foreach ($temp as $value) {
-        $str = 'INSERT INTO ab_avto (name,sname,vendor_id,year_id,model_id) VALUES ("'.$value['name'].'", "'.$value['sname'].'","'.$vendor.'","'.$y_yd.'","'.$model.'")'; // помещаем название модификаци в бд с измененным параметром года
+        $str = 'INSERT INTO ab_avto (name,sname,vendor_id,year_id,model_id, avto_image) VALUES ("'.$value['name'].'", "'.$value['sname'].'","'.$vendor.'","'.$y_yd.'","'.$model.'","'.$image.'")'; // помещаем название модификаци в бд с измененным параметром года
         $ab->query($str);
         $avto_id = $ab->lastId();
 
