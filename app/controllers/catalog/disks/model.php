@@ -96,7 +96,7 @@ class App_Catalog_Disks_Model_Controller extends App_Catalog_Disks_Common_Contro
             'order'=>"m_pos ASC"
         );
         $this->cc->models($r);
-        $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
         foreach($d as $v){
             $this->relModels[]=array(
                 'img'=>$this->cc->makeImgPath($v['img3']),

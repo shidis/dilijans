@@ -15,12 +15,12 @@ class CC_Dataset extends DB
 		
 		$w=array();
 		$w=join(' AND ',$w);
-		return $this->fetchAll("SELECT *, (SELECT count(*) FROM cc_dataset_cat WHERE dataset_id=ds.dataset_id) AS catNum FROM cc_dataset ds".($w!=''?"WHERE $w":'')." ORDER BY dt_added DESC",MYSQL_ASSOC);
+		return $this->fetchAll("SELECT *, (SELECT count(*) FROM cc_dataset_cat WHERE dataset_id=ds.dataset_id) AS catNum FROM cc_dataset ds".($w!=''?"WHERE $w":'')." ORDER BY dt_added DESC",MYSQLI_ASSOC);
 	}
 	
 	public function getDataset($dataset_id){
 		
-		$d=$this->getOne("SELECT * FROM cc_dataset WHERE dataset_id='$dataset_id'",MYSQL_ASSOC);
+		$d=$this->getOne("SELECT * FROM cc_dataset WHERE dataset_id='$dataset_id'",MYSQLI_ASSOC);
 		if(!$d['dataset_id']) return false;
 		else {
 			$this->selectedDataset=$d;
@@ -34,7 +34,7 @@ class CC_Dataset extends DB
 	public function initDatasetBySname($sname){
 		
 		$sname=Tools::like($sname);
-		$d=$this->getOne("SELECT * FROM cc_dataset WHERE sname LIKE '$sname'",MYSQL_ASSOC);
+		$d=$this->getOne("SELECT * FROM cc_dataset WHERE sname LIKE '$sname'",MYSQLI_ASSOC);
 		if(!$d['dataset_id']) return 100;
 		
 		if(false!==($instance=$this->classInstance($d['class']))){

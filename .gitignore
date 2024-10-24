@@ -16,3 +16,16 @@ assets/logs/
 assets/order_files/
 assets/ui/
 assets/uic/
+
+
+google*.html
+.well-known/
+D4441A412ECDFFE4D08C5A0D5AA6B1E5.txt
+1e17ba916690.html
+callback_spam.log
+cms/.htaccess
+robots.txt
+wmail_*.html
+yandex_*.html
+yandex_*.txt
+assets/cache/jsmart/*

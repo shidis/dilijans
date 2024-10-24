@@ -19,7 +19,7 @@ define('IMG',1); // какую фотку будем переписывать и
 define('GR',2);     // группа товаров
 define('TEST',0); // тест, без реальной записи
 
-$qr=$cc->fetchAll("select cc_model.img1, cc_model.img2, cc_model.img3, cc_model.model_id from cc_model join cc_brand using(brand_id) WHERE NOT cc_model.LD AND NOT cc_brand.LD AND cc_model.gr=".GR, MYSQL_ASSOC);
+$qr=$cc->fetchAll("select cc_model.img1, cc_model.img2, cc_model.img3, cc_model.model_id from cc_model join cc_brand using(brand_id) WHERE NOT cc_model.LD AND NOT cc_brand.LD AND cc_model.gr=".GR, MYSQLI_ASSOC);
 
 $i=0;
 $n=$cc->qnum();

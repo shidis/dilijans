@@ -154,7 +154,7 @@ class Geo extends DB
     {
         try {
             echo "<br>Проверка соответствия базы городов на сайте с базой RIPE geoIP:<br>";
-            $maps = $this->fetchAll("SELECT city FROM maps ORDER BY city", MYSQL_ASSOC);
+            $maps = $this->fetchAll("SELECT city FROM maps ORDER BY city", MYSQLI_ASSOC);
             $this->sql_close();
             $this->_db->sql_close();
             foreach ($maps as $v) {

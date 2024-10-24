@@ -114,7 +114,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
          * TODO с вылетом не понятно
          */
 //        if(count($this->P2)==1 && count($this->P3)==1 && (count($this->P4)==1  && count($this->P6)==1 || count($this->P46)==1) && count($this->P5)==1){
-          if(count($this->P2)==1 && count($this->P5)==1){
+        if(count($this->P2)==1 && count($this->P5)==1){
             if(in_array(Tools::typeOf(@Url::$sq['p1_']),array('float','integer'))) $this->sP1=array(Url::$sq['p1_']);
             if(in_array(Tools::typeOf(@Url::$sq['p2_']),array('float','integer'))) $this->sP2=array(Url::$sq['p2_']);
             if(in_array(Tools::typeOf(@Url::$sq['p3_']),array('float','integer'))) $this->sP3=array(Url::$sq['p3_']);
@@ -228,7 +228,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
 
         if(!empty($this->P3))
             if($this->apMode){
-                $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDia,'to'=>'');
+                $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDiaMin,'to'=>'');
             } else $r['P3']=array('list'=>$this->P3);
 
         if(!empty($this->P1))
@@ -428,7 +428,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
 
         if(!empty($this->P3_))
             if($this->apMode){
-                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'');
+                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>'');
             } else $r['P3']=array('list'=>$this->P3_);
 
         if(!empty($this->P1_))
@@ -478,16 +478,16 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
         switch (App_Route::$param['d_type'])
         {
             case 1:
-                    $meta_cat = 'Кованые диски';
-                    $meta_cat_s = 'кованые диски';
+                $meta_cat = 'Кованые диски';
+                $meta_cat_s = 'кованые диски';
                 break;
             case 3:
-                    $meta_cat = 'Штампованные диски';
-                    $meta_cat_s = 'штампованные диски';
+                $meta_cat = 'Штампованные диски';
+                $meta_cat_s = 'штампованные диски';
                 break;
             default:
-                    $meta_cat = 'Диски';
-                    $meta_cat_s = 'диски';
+                $meta_cat = 'Диски';
+                $meta_cat_s = 'диски';
                 break;
         }
 
@@ -747,7 +747,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
         // DIA
         if(!empty($this->P3_))
             if($this->apMode){
-                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'');
+                $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>'');
             } else $r['P3']=array('list'=>$this->P3_);
 
         // ET
@@ -797,7 +797,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
                     // DIA
                     if(!empty($this->P3))
                         if($this->apMode){
-                            $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDia,'to'=>'');
+                            $r['P3']=array('from'=>(float)min($this->P3)+$this->_deltaDiaMin,'to'=>'');
                         } else $r['P3']=array('list'=>$this->P3);
                     else unset($r['P3']);
 
@@ -831,7 +831,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'');
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>'');
                                 } else $r['P3']=array('list'=>$this->P3_);
 
                             // ET
@@ -862,7 +862,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'');
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>'');
                                 } else $r['P3']=array('list'=>$this->P3_);
 
                             if(!empty($this->_P46)) {
@@ -911,7 +911,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'');
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>'');
                                 } else $r['P3']=array('list'=>$this->P3);
 
                             // ET
@@ -943,7 +943,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'');
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>'');
                                 } else $r['P3']=array('list'=>$this->P3_);
 
                             // ET
@@ -975,7 +975,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
                             // DIA
                             if(!empty($this->_P3))
                                 if($this->apMode){
-                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDia,'to'=>'');
+                                    $r['P3']=array('from'=>(float)min($this->P3_)+$this->_deltaDiaMin,'to'=>'');
                                 } else $r['P3']=array('list'=>$this->P3_);
 
                             // ET
@@ -1057,7 +1057,7 @@ class App_Catalog_Disks_Skmodels_Controller extends App_Catalog_Disks_Common_Con
                 'order'=>"cc_model.name"
             );
             $this->cc->models($r);
-            $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
             $this->qmodels=array();
             $burl='/'.App_Route::_getUrl('dModel').'/';
             foreach($d as $v){

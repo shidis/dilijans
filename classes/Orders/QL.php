@@ -78,7 +78,7 @@ class Orders_QL extends CommonStatic
         $host=Data::get('mail_robot_host');
         $logpw=Data::get('mail_robot_logpw');
         $toAddr=Data::get('mail_order');
-        $secure=Data::get('mail_smtp_secure');
+        $secure=Data::get('mail_robot_smtp_secure');
         $fromName='';
         $fromAddr=Data::get('mail_robot');
         $subj='Новый заказ с торгом №'.$id.' на '.Cfg::get('site_name');

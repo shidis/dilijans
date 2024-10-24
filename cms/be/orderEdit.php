@@ -417,7 +417,7 @@ switch ($act){
             $r->fres_msg='Нет CAT_ID';
             break;
         }
-        $d=$os->fetchAll("SELECT cc_suplr.suplr_id, cc_cat_sc.sc, cc_cat_sc.price1, cc_cat_sc.price2, cc_cat_sc.price3, cc_suplr.name, cc_cat_sc.dt_added, cc_cat_sc.dt_upd FROM cc_cat_sc INNER JOIN cc_suplr ON cc_cat_sc.suplr_id=cc_suplr.suplr_id WHERE cat_id='{$cat_id}' ORDER BY cc_cat_sc.{$os->adminCfg['purchase']['DBF_suplrPrice']} ASC, cc_cat_sc.sc",MYSQL_ASSOC);
+        $d=$os->fetchAll("SELECT cc_suplr.suplr_id, cc_cat_sc.sc, cc_cat_sc.price1, cc_cat_sc.price2, cc_cat_sc.price3, cc_suplr.name, cc_cat_sc.dt_added, cc_cat_sc.dt_upd FROM cc_cat_sc INNER JOIN cc_suplr ON cc_cat_sc.suplr_id=cc_suplr.suplr_id WHERE cat_id='{$cat_id}' ORDER BY cc_cat_sc.{$os->adminCfg['purchase']['DBF_suplrPrice']} ASC, cc_cat_sc.sc",MYSQLI_ASSOC);
 
         $ids=[];
         foreach($d as $k=>$v){

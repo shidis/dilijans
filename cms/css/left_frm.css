@@ -1,7 +1,6 @@
-/* CSS Document */
 BODY {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 9px;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 11px;
     color: #000000;
     margin: 0;
     padding: 0;
@@ -9,7 +8,7 @@ BODY {
 
 A {
     font-weight: bold;
-    font-size: 9px;
+    font-size: 11px;
     color: #2666cc;
     text-decoration: none;
 }
@@ -25,7 +24,7 @@ A:visited {
 
 A.h {
     color: #2666cc;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
     font-size: 10px;
     text-decoration: none;
 }
@@ -62,6 +61,5 @@ UL.menu {
 LI.menu {
     padding-bottom: 5px;
     list-style-image: url(/cms/img/navi.gif);
-    line-height: 10px;
+    line-height: 13px;
 }
-

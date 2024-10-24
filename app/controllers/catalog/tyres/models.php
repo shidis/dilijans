@@ -249,7 +249,7 @@ class App_Catalog_Tyres_Models_Controller extends App_Catalog_Tyres_Common_Contr
             return false;
         }
 
-        $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
 
         $this->paginator=Tools::paginator(Url::$path,Url::$sq,$page,$this->num,$this->mLimit,'page',array(
             'active'=>	'<li class="active">{page}</li>',
@@ -397,7 +397,7 @@ class App_Catalog_Tyres_Models_Controller extends App_Catalog_Tyres_Common_Contr
 
             $this->num+=$this->cc->models($r);
 
-            $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
 
             $burl='/'.App_Route::_getUrl('tModel').'/';
 
@@ -509,7 +509,7 @@ class App_Catalog_Tyres_Models_Controller extends App_Catalog_Tyres_Common_Contr
 
             $this->num+=$this->cc->models($r);
 
-            $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
 
             $burl='/'.App_Route::_getUrl('tModel').'/';
 
@@ -620,7 +620,7 @@ class App_Catalog_Tyres_Models_Controller extends App_Catalog_Tyres_Common_Contr
         );
 
         $this->cc->models($r);
-        $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
         $this->qmodels=array();
         $burl='/'.App_Route::_getUrl('tModel').'/';
         foreach($d as $v){

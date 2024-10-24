@@ -108,7 +108,7 @@ class Orders_WaitList extends CommonStatic
             $r['host'] = Data::get('mail_robot_host');
             $r['logpw'] = Data::get('mail_robot_logpw');
             $r['debug'] = 0;
-            $r['SMTPSecure'] = Data::get('mail_smtp_secure');
+            $r['SMTPSecure'] = Data::get('mail_robot_smtp_secure');
             $r['tpl'] = 'mail/WAITLIST_BASE.php';
 
 
@@ -310,7 +310,7 @@ class Orders_WaitList extends CommonStatic
             $r['total']=$d[0];
         }
 
-        $d=$db->fetchAll($sql, MYSQL_ASSOC);
+        $d=$db->fetchAll($sql, MYSQLI_ASSOC);
         foreach($d as &$v){
             $v['userName']=Tools::unesc($v['userName']);
             $v['comment']=Tools::unesc($v['comment']);

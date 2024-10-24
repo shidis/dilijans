@@ -48,7 +48,7 @@ class CC_tags extends DB
         if($tagIds!==false && empty($tagIds)) return $this->tags=array();
 
 
-        $d=$this->fetchAll("SELECT cc_tag.*, cc_tag_group.name AS group_name, cc_tag_group.sname AS group_sname FROM cc_tag JOIN cc_tag_group USING (tag_group_id) WHERE 1=1".(!empty($tg)?" AND cc_tag.tag_group_id=$tg":'').(!empty($gr)?" AND cc_tag.gr=$gr":'').(!empty($tagIds)?" AND cc_tag.tag_id IN ($_tagIds)":'')." ORDER BY cc_tag_group.pos DESC, cc_tag_group.name ASC, cc_tag.pos DESC, cc_tag.name ASC",MYSQL_ASSOC);
+        $d=$this->fetchAll("SELECT cc_tag.*, cc_tag_group.name AS group_name, cc_tag_group.sname AS group_sname FROM cc_tag JOIN cc_tag_group USING (tag_group_id) WHERE 1=1".(!empty($tg)?" AND cc_tag.tag_group_id=$tg":'').(!empty($gr)?" AND cc_tag.gr=$gr":'').(!empty($tagIds)?" AND cc_tag.tag_id IN ($_tagIds)":'')." ORDER BY cc_tag_group.pos DESC, cc_tag_group.name ASC, cc_tag.pos DESC, cc_tag.name ASC",MYSQLI_ASSOC);
 
         //echo $this->sql_query;
         if($tg) $this->tags[$tg]=array(); else $this->tags=array();

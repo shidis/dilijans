@@ -46,7 +46,8 @@ abstract class App_Common_Controller extends Controller
         $this->hideDSCZero = 1;
 
         // для ap=1
-        $this->_deltaDia = -0.1;
+        $this->_deltaDiaMin = -0.1;
+        $this->_deltaDiaMax = 0.2;
         $this->_deltaET = -5;
         $this->deltaET_ = 3;
         $this->minQtyRadius = (int)Data::get('cc_border_radius');
@@ -111,7 +112,7 @@ abstract class App_Common_Controller extends Controller
             'having'=>'modelsNum>0',
             'order'=>'cc_brand.pos DESC'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $this->menu_brands[1][$v['is_popular']][]=array(
                 'img1'=>$this->cc->make_img_path($v['img1']),
@@ -139,7 +140,7 @@ abstract class App_Common_Controller extends Controller
             'having'=>'modelsNum>0',
             'order'=>'cc_brand.pos DESC'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $this->menu_brands[2][$v['is_popular']][]=array(
                 'img1'=>$this->cc->make_img_path($v['img1']),
@@ -580,14 +581,14 @@ abstract class App_Common_Controller extends Controller
             foreach ($v as $k1 => $v1) {
                 if (is_array(@$v1[1]) || is_array(@$v1[2])) {
                     foreach ($v1 as $k2 => $v2) { // спарки
-                        $dia = $v2['P3'] + $this->_deltaDia;
+                        $dia = $v2['P3'] + $this->_deltaDiaMin;
                         $et1 = $v2['P1'] + $this->_deltaET;
                         $et2 = $v2['P1'] + $this->deltaET_;
                         $this->apSizes[2]["{$v2['P1']}-{$v2['P2']}-{$v2['P3']}-{$v2['P4']}-{$v2['P5']}-{$v2['P6']}"] = array('P1' => $v2['P1'], 'P2' => $v2['P2'], 'P3' => $v2['P3'], 'P4' => $v2['P4'], 'P5' => $v2['P5'], 'P6' => $v2['P6']);
                         $s2["{$v2['P1']}-{$v2['P2']}-{$v2['P3']}-{$v2['P4']}-{$v2['P5']}-{$v2['P6']}"] = array("(cc_cat.P1 LIKE '$et1' OR cc_cat.P1 LIKE '$et2' OR cc_cat.P1>='$et1' AND cc_cat.P1<='$et2')", 'P2' => $v2['P2'], "(cc_cat.P3 LIKE '{$dia}' OR cc_cat.P3>='{$dia}')", 'P4' => $v2['P4'], 'P5' => $v2['P5'], 'P6' => $v2['P6']);
                     }
                 } else {
-                    $dia = $v1['P3'] + $this->_deltaDia;
+                    $dia = $v1['P3'] + $this->_deltaDiaMin;
                     $et1 = $v1['P1'] + $this->_deltaET;
                     $et2 = $v1['P1'] + $this->deltaET_;
                     $this->apSizes[2]["{$v1['P1']}-{$v1['P2']}-{$v1['P3']}-{$v1['P4']}-{$v1['P5']}-{$v1['P6']}"] = array('P1' => $v1['P1'], 'P2' => $v1['P2'], 'P3' => $v1['P3'], 'P4' => $v1['P4'], 'P5' => $v1['P5'], 'P6' => $v1['P6']);

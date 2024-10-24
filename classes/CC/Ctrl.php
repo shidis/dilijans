@@ -469,7 +469,7 @@ class CC_Ctrl extends CC_Base
                     if (isset($v[1]) && isset($v[2]) || isset($v[0])) $gr = 0; elseif (isset($v[1])) $gr = 1;
                     elseif (isset($v[2])) $gr = 2;
                     if (isset($this->RDisk) || isset($this->RTyre) || isset($this->intPrice) || Cfg::get('INIS_S1S2') || Cfg::get('model_SC')) {
-                        $d = $this->fetchAll("SELECT model_id,gr FROM cc_model WHERE (NOT LD)" . ($gr > 0 ? "AND(gr='$gr')" : ''), MYSQL_ASSOC);
+                        $d = $this->fetchAll("SELECT model_id,gr FROM cc_model WHERE (NOT LD)" . ($gr > 0 ? "AND(gr='$gr')" : ''), MYSQLI_ASSOC);
                         $fi = 0;
                         foreach ($d as $v1) {
                             $fi++;
@@ -498,7 +498,7 @@ class CC_Ctrl extends CC_Base
                     if (isset($v[1]) && isset($v[2]) || isset($v[0])) $gr = 0; elseif (isset($v[1])) $gr = 1;
                     elseif (isset($v[2])) $gr = 2;
                     if (Cfg::get('model_SC')) {
-                        $d = $this->fetchAll("SELECT model_id,gr FROM cc_model WHERE (NOT LD)" . ($gr > 0 ? "AND(gr='$gr')" : ''), MYSQL_ASSOC);
+                        $d = $this->fetchAll("SELECT model_id,gr FROM cc_model WHERE (NOT LD)" . ($gr > 0 ? "AND(gr='$gr')" : ''), MYSQLI_ASSOC);
                         $fi = 0;
                         foreach ($d as $v1) {
                             $fi++;
@@ -1266,16 +1266,16 @@ class CC_Ctrl extends CC_Base
 
             case 'ab_avto':
                 $idField='avto_id';
-                $d = $this->getOne("SELECT avto_image, vendor_id, year_id, model_id, avto_id FROM ab_avto WHERE avto_id='$id'", MYSQL_ASSOC);
+                $d = $this->getOne("SELECT avto_image, vendor_id, year_id, model_id, avto_id FROM ab_avto WHERE avto_id='$id'", MYSQLI_ASSOC);
                 if ($d === 0) {
                     @unlink($fn);
                     return $this->putMsg(false, '[CC_Ctrl.imgUpload]: Не найдена запись');
                 }
                 $d["img{$imgNum}"] = $d['avto_image']; // Костыль для удаления старых фото
-                $vendor_sname = $this->getOne("SELECT sname FROM ab_avto WHERE avto_id='{$d['vendor_id']}'", MYSQL_ASSOC);
-                $year_sname   = $this->getOne("SELECT sname FROM ab_avto WHERE avto_id='{$d['year_id']}'", MYSQL_ASSOC);
-                $model_sname  = $this->getOne("SELECT sname FROM ab_avto WHERE avto_id='{$d['model_id']}'", MYSQL_ASSOC);
-                $modif_sname  = $this->getOne("SELECT sname FROM ab_avto WHERE avto_id='{$d['avto_id']}'", MYSQL_ASSOC);
+                $vendor_sname = $this->getOne("SELECT sname FROM ab_avto WHERE avto_id='{$d['vendor_id']}'", MYSQLI_ASSOC);
+                $year_sname   = $this->getOne("SELECT sname FROM ab_avto WHERE avto_id='{$d['year_id']}'", MYSQLI_ASSOC);
+                $model_sname  = $this->getOne("SELECT sname FROM ab_avto WHERE avto_id='{$d['model_id']}'", MYSQLI_ASSOC);
+                $modif_sname  = $this->getOne("SELECT sname FROM ab_avto WHERE avto_id='{$d['avto_id']}'", MYSQLI_ASSOC);
                 $s = Cfg::get('SNAME_AVTO_IMG_TPL');
                 $s = str_replace('#V', Tools::unesc(@$vendor_sname['sname']), $s);
                 $s = str_replace('#Y', Tools::unesc(@$year_sname['sname']), $s);
@@ -1367,7 +1367,7 @@ class CC_Ctrl extends CC_Base
 
     public function getModelSticker($model_id)
     {
-        $sticker = $this->getOne("SELECT cc_model_stickers.* FROM cc_model JOIN cc_model_stickers USING(sticker_id) WHERE model_id='$model_id'", MYSQL_ASSOC);
+        $sticker = $this->getOne("SELECT cc_model_stickers.* FROM cc_model JOIN cc_model_stickers USING(sticker_id) WHERE model_id='$model_id'", MYSQLI_ASSOC);
         return $sticker;
     }
 

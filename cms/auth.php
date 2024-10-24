@@ -3,11 +3,18 @@
 
 @define ('true_enter',1);
 define('FROM_CMS',1);
-require_once ($_SERVER['DOCUMENT_ROOT'].'/config/init.php');
 
+require_once ($_SERVER['DOCUMENT_ROOT'].'/config/init.php');
 
 error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+
+
+// вывод трейс ошибок по умолчанию только если залогинен в админке
+// выводить трейм фаталов всегда
+define ('FORCE_CORE_FATAL_OUTPUT', true);
 
 ini_set('max_execution_time', 600);
 ini_set('upload_max_filesize', (round(Cfg::get('max_file_size')/1000000)).'M');

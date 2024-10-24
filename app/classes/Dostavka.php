@@ -47,7 +47,7 @@ class App_Dostavka
     public static function cities()
     {
         $db = new DB();
-        $d = $db->fetchAll("SELECT * FROM dostavka ORDER BY city", MYSQL_ASSOC);
+        $d = $db->fetchAll("SELECT * FROM dostavka ORDER BY city", MYSQLI_ASSOC);
         $r = array();
         foreach ($d as $v)
             if ($v['city'] != 'Москва') {

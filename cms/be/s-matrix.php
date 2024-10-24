@@ -85,7 +85,7 @@ switch ($act){
             $r->title='Типоразмеры дисков в цвете '.$cSuffix;
         }else $order="cc_brand.name,cc_model.name,cc_cat.P1,cc_cat.P3,cc_cat.P2";
 
-        $d=$cc->fetchAll("SELECT cc_cat.cat_id,cc_model.model_id,cc_cat.suffix AS csuffix,cc_model.suffix AS msuffix,cc_brand.name AS bname,cc_model.name AS mname,cc_cat.P1+'0' AS P1,cc_cat.P2+'0' AS P2,cc_cat.P3+'0' AS P3,cc_cat.P4+'0' AS P4,cc_cat.P5+'0' AS P5,cc_cat.P6+'0' AS P6,cc_cat.P7,cc_cat.cat_id,cc_model.P1 AS M1,cc_model.P2 AS M2,cc_model.P3 AS M3 FROM cc_cat INNER JOIN (cc_model INNER JOIN cc_brand ON cc_model.brand_id=cc_brand.brand_id) ON cc_cat.model_id=cc_model.model_id WHERE NOT cc_brand.LD AND NOT cc_model.LD AND NOT cc_cat.LD AND cc_cat.gr=$gr AND (cc_cat.suffix LIKE '$cSuffix' OR cc_model.suffix LIKE '$cSuffix') $s ORDER BY $order",MYSQL_ASSOC);
+        $d=$cc->fetchAll("SELECT cc_cat.cat_id,cc_model.model_id,cc_cat.suffix AS csuffix,cc_model.suffix AS msuffix,cc_brand.name AS bname,cc_model.name AS mname,cc_cat.P1+'0' AS P1,cc_cat.P2+'0' AS P2,cc_cat.P3+'0' AS P3,cc_cat.P4+'0' AS P4,cc_cat.P5+'0' AS P5,cc_cat.P6+'0' AS P6,cc_cat.P7,cc_cat.cat_id,cc_model.P1 AS M1,cc_model.P2 AS M2,cc_model.P3 AS M3 FROM cc_cat INNER JOIN (cc_model INNER JOIN cc_brand ON cc_model.brand_id=cc_brand.brand_id) ON cc_cat.model_id=cc_model.model_id WHERE NOT cc_brand.LD AND NOT cc_model.LD AND NOT cc_cat.LD AND cc_cat.gr=$gr AND (cc_cat.suffix LIKE '$cSuffix' OR cc_model.suffix LIKE '$cSuffix') $s ORDER BY $order",MYSQLI_ASSOC);
 
         $r->tbl=array();
         $brand='';
@@ -348,7 +348,7 @@ switch ($act){
             }
         }
 
-        $d=$cc->fetchAll("SELECT cc_cat.suffix FROM cc_cat INNER JOIN (cc_model INNER JOIN cc_brand ON cc_model.brand_id=cc_brand.brand_id) ON cc_cat.model_id=cc_model.model_id WHERE NOT cc_brand.LD AND NOT cc_model.LD AND NOT cc_cat.LD AND cc_cat.gr=$gr AND cc_cat.suffix!='' $s GROUP BY cc_cat.suffix",MYSQL_ASSOC);
+        $d=$cc->fetchAll("SELECT cc_cat.suffix FROM cc_cat INNER JOIN (cc_model INNER JOIN cc_brand ON cc_model.brand_id=cc_brand.brand_id) ON cc_cat.model_id=cc_model.model_id WHERE NOT cc_brand.LD AND NOT cc_model.LD AND NOT cc_cat.LD AND cc_cat.gr=$gr AND cc_cat.suffix!='' $s GROUP BY cc_cat.suffix",MYSQLI_ASSOC);
 
 
         if(!empty($d)) {

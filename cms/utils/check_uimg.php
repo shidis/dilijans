@@ -28,7 +28,7 @@ $upl=new Uploader();
 /*
  * удаление фоток моделей
  */
-$qr=$cc->fetchAll("select cc_model.img1, cc_model.img2, cc_model.img3, cc_model.model_id FROM cc_model join cc_brand using(brand_id) WHERE (cc_model.LD || cc_brand.LD) AND (cc_model.img1='' OR cc_model.img2!='' OR cc_model.img3!='')", MYSQL_ASSOC);
+$qr=$cc->fetchAll("select cc_model.img1, cc_model.img2, cc_model.img3, cc_model.model_id FROM cc_model join cc_brand using(brand_id) WHERE (cc_model.LD || cc_brand.LD) AND (cc_model.img1='' OR cc_model.img2!='' OR cc_model.img3!='')", MYSQLI_ASSOC);
 
 $i=0;
 $n=$cc->qnum();
@@ -69,7 +69,7 @@ foreach($qr as $r){
 /*
  * удаление фоток брендов
  */
-$qr=$cc->fetchAll("select cc_brand.img1, cc_brand.img2, cc_brand.brand_id FROM cc_brand WHERE cc_brand.LD AND (cc_brand.img1='' OR cc_brand.img2!='')", MYSQL_ASSOC);
+$qr=$cc->fetchAll("select cc_brand.img1, cc_brand.img2, cc_brand.brand_id FROM cc_brand WHERE cc_brand.LD AND (cc_brand.img1='' OR cc_brand.img2!='')", MYSQLI_ASSOC);
 
 $i=0;
 $n=$cc->qnum();
@@ -104,7 +104,7 @@ foreach($qr as $r){
 
 $bu=Cfg::_get('root_path') . '/' . Cfg::get('cc_upload_dir') . '/';
 
-$qr=$cc->fetchAll("select cc_model.img1, cc_model.img2, cc_model.img3, cc_model.model_id, cc_model.gr from cc_model join cc_brand using(brand_id) WHERE NOT cc_model.LD AND NOT cc_brand.LD", MYSQL_ASSOC);
+$qr=$cc->fetchAll("select cc_model.img1, cc_model.img2, cc_model.img3, cc_model.model_id, cc_model.gr from cc_model join cc_brand using(brand_id) WHERE NOT cc_model.LD AND NOT cc_brand.LD", MYSQLI_ASSOC);
 
 $i=0;
 $n=$cc->qnum();
@@ -210,7 +210,7 @@ $paths=array(
 
 echo "\nTest for forgot files...";
 
-$qr=$cc->fetchAll("select cc_model.img1, cc_model.img2, cc_model.img3, cc_model.model_id, cc_model.gr from cc_model join cc_brand using(brand_id)", MYSQL_ASSOC);
+$qr=$cc->fetchAll("select cc_model.img1, cc_model.img2, cc_model.img3, cc_model.model_id, cc_model.gr from cc_model join cc_brand using(brand_id)", MYSQLI_ASSOC);
 
 $dd=array();
 $dd["11"]=array();

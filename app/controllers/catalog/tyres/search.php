@@ -635,7 +635,7 @@ class App_Catalog_Tyres_Search_Controller extends App_Catalog_Tyres_Common_Contr
         if($this->hideTSCZero) $r['where'][]=$this->minQtyRadiusSQL;
 
         $this->exnum1=$this->cc->cat_view($r);
-        $r1=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $r1=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
         if(!$this->exnum1) return true; // если ничего не найдено, то спарок не будет - уходим от сюда
 
@@ -660,7 +660,7 @@ class App_Catalog_Tyres_Search_Controller extends App_Catalog_Tyres_Common_Contr
         if($this->hideTSCZero) $r['where'][]=$this->minQtyRadiusSQL;
 
         $this->exnum2=$this->cc->cat_view($r);
-        $r2=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $r2=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
         /* сливаем результаты
         группируем по размеру, ранфлету и XL, бренду, модели
@@ -1445,7 +1445,7 @@ class App_Catalog_Tyres_Search_Controller extends App_Catalog_Tyres_Common_Contr
         if($this->hideTSCZero) $r['where'][]=$this->minQtyRadiusSQL;
 
         $exnum1=$this->cc->cat_view($r);
-        $r1=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $r1=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
         if($exnum1) {
 
@@ -1475,7 +1475,7 @@ class App_Catalog_Tyres_Search_Controller extends App_Catalog_Tyres_Common_Contr
             if($this->hideTSCZero) $r['where'][]=$this->minQtyRadiusSQL;
 
             $exnum2=$this->cc->cat_view($r);
-            $r2=$this->cc->fetchAll('',MYSQL_ASSOC);
+            $r2=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
             /* сливаем результаты
             группируем по размеру, ранфлету и XL, бренду, модели
@@ -1564,12 +1564,12 @@ class App_Catalog_Tyres_Search_Controller extends App_Catalog_Tyres_Common_Contr
                         if(!empty($this->_M3))       $r1['M3']=$r2['M3']=array('list'=>$this->M3_); else unset($r1['M3'], $r2['M3']);// шип
 
                         $exnum1=$this->cc->cat_view($r1);
-                        $r1=$this->cc->fetchAll('',MYSQL_ASSOC);
+                        $r1=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                         if($exnum1) {
 
                             $exnum2=$this->cc->cat_view($r2);
-                            $r2=$this->cc->fetchAll('',MYSQL_ASSOC);
+                            $r2=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                             /* сливаем результаты
                             группируем по размеру, ранфлету и XL, бренду, модели
@@ -1598,12 +1598,12 @@ class App_Catalog_Tyres_Search_Controller extends App_Catalog_Tyres_Common_Contr
                         if(!empty($this->_M3))       $r1['M3']=$r2['M3']=array('list'=>$this->M3_); else unset($r1['M3'], $r2['M3']);// шип
 
                         $exnum1=$this->cc->cat_view($r1);
-                        $r1=$this->cc->fetchAll('',MYSQL_ASSOC);
+                        $r1=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                         if($exnum1) {
 
                             $exnum2=$this->cc->cat_view($r2);
-                            $r2=$this->cc->fetchAll('',MYSQL_ASSOC);
+                            $r2=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                             /* сливаем результаты
                             группируем по размеру, ранфлету и XL, бренду, модели
@@ -1629,12 +1629,12 @@ class App_Catalog_Tyres_Search_Controller extends App_Catalog_Tyres_Common_Contr
                         if(!empty($this->_M3))       $r1['M3']=$r2['M3']=array('list'=>$this->M3_); else unset($r1['M3'], $r2['M3']);// шип
 
                         $exnum1=$this->cc->cat_view($r1);
-                        $r1=$this->cc->fetchAll('',MYSQL_ASSOC);
+                        $r1=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                         if($exnum1) {
 
                             $exnum2=$this->cc->cat_view($r2);
-                            $r2=$this->cc->fetchAll('',MYSQL_ASSOC);
+                            $r2=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                             /* сливаем результаты
                             группируем по размеру, ранфлету и XL, бренду, модели
@@ -1668,12 +1668,12 @@ class App_Catalog_Tyres_Search_Controller extends App_Catalog_Tyres_Common_Contr
                         } else unset($r1['M2'], $r2['M2']);  // автотип
 
                         $exnum1=$this->cc->cat_view($r1);
-                        $r1=$this->cc->fetchAll('',MYSQL_ASSOC);
+                        $r1=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                         if($exnum1) {
 
                             $exnum2=$this->cc->cat_view($r2);
-                            $r2=$this->cc->fetchAll('',MYSQL_ASSOC);
+                            $r2=$this->cc->fetchAll('',MYSQLI_ASSOC);
 
                             /* сливаем результаты
                             группируем по размеру, ранфлету и XL, бренду, модели

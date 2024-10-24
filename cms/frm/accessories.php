@@ -87,7 +87,7 @@ if (@$add_id > 0) {
     exit();
 }
 // ****************** Выбираем акссесуары ********************
-$cc->query("SELECT * FROM `cc_accessories` WHERE `gr` = '{$gr}' AND NOT `LD` ORDER BY 'pos';", MYSQL_ASSOC);
+$cc->query("SELECT * FROM `cc_accessories` WHERE `gr` = '{$gr}' AND NOT `LD` ORDER BY 'pos';", MYSQLI_ASSOC);
 ?>
 <style type="text/css">
     INPUT {

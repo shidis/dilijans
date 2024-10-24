@@ -130,7 +130,7 @@ switch ($act)
     case 'getSup':
         $file_id=(int)@$_REQUEST['file_id'];
         if($file_id){
-            $d=$ci->fetchAll("SELECT cii_item.sup_id, cc_sup.name FROM cii_item INNER JOIN cc_sup ON cii_item.sup_id=cc_sup.sup_id WHERE cii_item.file_id='$file_id' GROUP BY cc_sup.name ORDER BY cc_sup.name",MYSQL_ASSOC);
+            $d=$ci->fetchAll("SELECT cii_item.sup_id, cc_sup.name FROM cii_item INNER JOIN cc_sup ON cii_item.sup_id=cc_sup.sup_id WHERE cii_item.file_id='$file_id' GROUP BY cc_sup.name ORDER BY cc_sup.name",MYSQLI_ASSOC);
             $r->supList=array();
             if(!empty($d)) foreach($d as $v) $r->supList[Tools::unesc($v['name'])]=$v['sup_id'];
 
@@ -338,8 +338,8 @@ switch ($act)
         $db=new DB();
 
         // cc_suffix
-        $d=$db->fetchAll("SELECT * FROM cc_suffix ORDER BY id",MYSQL_ASSOC);
-        $dr=$dbr->fetchAll("SELECT * FROM cc_suffix ORDER BY id",MYSQL_ASSOC);
+        $d=$db->fetchAll("SELECT * FROM cc_suffix ORDER BY id",MYSQLI_ASSOC);
+        $dr=$dbr->fetchAll("SELECT * FROM cc_suffix ORDER BY id",MYSQLI_ASSOC);
         $c=true;
         $e=current($d);
         $ed=current($dr);
@@ -399,7 +399,7 @@ switch ($act)
         $db=new DB();
 
         $db->query('TRUNCATE cc_suffix');
-        $dr=$dbr->fetchAll("SELECT * FROM cc_suffix ORDER BY id",MYSQL_ASSOC);
+        $dr=$dbr->fetchAll("SELECT * FROM cc_suffix ORDER BY id",MYSQLI_ASSOC);
         foreach($dr as $v){
             $db->insert('cc_suffix',array(
                 'id'=>$v['id'],
@@ -477,7 +477,7 @@ switch ($act)
             $ci->CMI[2]['Поставщик']['list'] = array_flip($cc->sup_arr);
         }
 
-        $ci->query("SELECT * FROM cii_item WHERE file_id='$file_id' ORDER BY item_id", MYSQL_ASSOC);
+        $ci->query("SELECT * FROM cii_item WHERE file_id='$file_id' ORDER BY item_id", MYSQLI_ASSOC);
 
         $a=['ИД размера', 'ИД модели', 'Статус размера', 'Статус модели', 'Статус бренда'];
         foreach($ci->CMI[$gr] as $k=>$v){
@@ -541,7 +541,7 @@ switch ($act)
 */
         }
 
-        $d=$ci->fetchAll("select cs.name, (SELECT DATE(MAX(GREATEST(ccs.dt_upd, ccs.dt_added))) AS d FROM cc_cat_sc ccs WHERE ccs.suplr_id=cs.suplr_id) AS d FROM cc_suplr cs ORDER BY d DESC, name ASC", MYSQL_ASSOC);
+        $d=$ci->fetchAll("select cs.name, (SELECT DATE(MAX(GREATEST(ccs.dt_upd, ccs.dt_added))) AS d FROM cc_cat_sc ccs WHERE ccs.suplr_id=cs.suplr_id) AS d FROM cc_suplr cs ORDER BY d DESC, name ASC", MYSQLI_ASSOC);
 
         $r->table=[];
         foreach($d as $v){

@@ -39,7 +39,7 @@ switch ($act){
 					$path = Cfg::get('root_path') . '/' . Cfg::get('cc_upload_dir') . '/slider/' . $uploader->originFN;
 					Tools::tree_mkdir($path);
 					if (@copy($uploader->sfile, $path)) {
-						$current_file = $db->getOne("SELECT `image` FROM slider WHERE slide_id = '$slide_id'", MYSQL_ASSOC);
+						$current_file = $db->getOne("SELECT `image` FROM slider WHERE slide_id = '$slide_id'", MYSQLI_ASSOC);
 						$db->update('slider', Array('image' => $path), "slide_id='".$slide_id."'");
 						@unlink($uploader->sfile);
 						@unlink($current_file['image']);
@@ -47,7 +47,7 @@ switch ($act){
 				}
 			}
 			elseif (!empty($_POST['delImg_'.$slide_id])) { // Удаление файла
-				$current_file = $db->getOne("SELECT `image` FROM slider WHERE slide_id = '$slide_id'", MYSQL_ASSOC);
+				$current_file = $db->getOne("SELECT `image` FROM slider WHERE slide_id = '$slide_id'", MYSQLI_ASSOC);
 				$db->del('slider', 'slide_id', $slide_id);
 				@unlink($current_file['image']);
 			}

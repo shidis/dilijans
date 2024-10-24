@@ -162,7 +162,7 @@ class App_Catalog_Disks_Tipo_Controller extends App_Catalog_Disks_Common_Control
         $this->num=$this->cc->cat_view(array(
             'P1'=>$this->et,
             'P2'=>$this->width,
-            'P3'=>array('from'=>$this->cc->qrow['P3'] + $this->_deltaDia,'to'=>$this->cc->qrow['P3'] + abs($this->_deltaDia)),
+            'P3'=>array('from'=>$this->cc->qrow['P3'] + $this->_deltaDiaMin,'to'=>$this->cc->qrow['P3'] + $this->_deltaDiaMax),
             'P4'=>$this->dirok,
             'P5'=>$this->radius,
             'P6'=>$this->pcd,
@@ -190,7 +190,7 @@ class App_Catalog_Disks_Tipo_Controller extends App_Catalog_Disks_Common_Control
         $this->cc->cat_view(array(
             'P1'=>$this->et,
             'P2'=>$this->width,
-            'P3'=>array('from'=>$this->dia_val + $this->_deltaDia,'to'=>$this->dia_val + abs($this->_deltaDia)),
+            'P3'=>array('from'=>$this->dia_val + $this->_deltaDiaMin,'to'=>$this->dia_val + $this->_deltaDiaMax),
             'P4'=>$this->dirok,
             'P5'=>$this->radius,
             'P6'=>$this->pcd,
@@ -212,7 +212,7 @@ class App_Catalog_Disks_Tipo_Controller extends App_Catalog_Disks_Common_Control
         $this->suitable = $AB->getAvtoArrayByTipo(Array(
             'P1' => array('_from'=>$this->_deltaET, '_to'=> $this->deltaET_, 'ex' => $this->et),
             'P2' => $this->width,
-            'P3' => array('from'=>0, 'to'=> $this->dia_val + abs($this->_deltaDia)),
+            'P3' => array('from'=>0, 'to'=> $this->dia_val + $this->_deltaDiaMax),
             'P4' => $this->dirok,
             'P5' => $this->radius,
             'P6' => $this->pcd
@@ -259,7 +259,7 @@ class App_Catalog_Disks_Tipo_Controller extends App_Catalog_Disks_Common_Control
         $this->num=$this->cc->cat_view(array(
             'P1'=>$this->et,
             'P2'=>$this->width,
-            'P3'=>array('from'=>$this->cc->qrow['P3'] + $this->_deltaDia,'to'=>$this->cc->qrow['P3'] + abs($this->_deltaDia)),
+            'P3'=>array('from'=>$this->cc->qrow['P3'] + $this->_deltaDiaMin,'to'=>$this->cc->qrow['P3'] + $this->_deltaDiaMax),
             'P4'=>$this->dirok,
             'P5'=>$this->radius,
             'P6'=>$this->pcd,
@@ -393,7 +393,7 @@ class App_Catalog_Disks_Tipo_Controller extends App_Catalog_Disks_Common_Control
         $this->ex_num=$cc->cat_view(array(
             'P1'=>$this->et,
             'P2'=>$this->width,
-            'P3'=>array('from'=>$this->cc->qrow['P3'] + $this->_deltaDia,'to'=>$this->cc->qrow['P3'] + abs($this->_deltaDia)),
+            'P3'=>array('from'=>$this->cc->qrow['P3'] + $this->_deltaDiaMin,'to'=>$this->cc->qrow['P3'] + $this->_deltaDiaMax),
             'P4'=>$this->dirok,
             'P5'=>$this->radius,
             'P6'=>$this->pcd,
@@ -417,7 +417,7 @@ class App_Catalog_Disks_Tipo_Controller extends App_Catalog_Disks_Common_Control
         $this->num=$this->cc->cat_view(array(
             'P1'=>$this->et,
             'P2'=>$this->width,
-            'P3'=>array('from'=>$this->cc->qrow['P3'] + $this->_deltaDia,'to'=>$this->cc->qrow['P3'] + abs($this->_deltaDia)),
+            'P3'=>array('from'=>$this->cc->qrow['P3'] + $this->_deltaDiaMin,'to'=>$this->cc->qrow['P3'] + $this->_deltaDiaMax),
             'P4'=>$this->dirok,
             'P5'=>$this->radius,
             'P6'=>$this->pcd,

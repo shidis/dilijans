@@ -26,7 +26,7 @@ function recognize($file_id,$iter,$limit,$opt,$ciSID){
 		}
 
 		//загружаем словарь суффиксов шин
-		$d=$this->cc->fetchAll("SELECT cc_dict.name AS dname,  IFNULL( cc_brand.name, 0 ) AS bname FROM cc_dict LEFT JOIN cc_brand USING ( brand_id ) WHERE cc_dict.gr=1 ORDER BY LENGTH( cc_dict.name ) DESC",MYSQL_ASSOC);
+		$d=$this->cc->fetchAll("SELECT cc_dict.name AS dname,  IFNULL( cc_brand.name, 0 ) AS bname FROM cc_dict LEFT JOIN cc_brand USING ( brand_id ) WHERE cc_dict.gr=1 ORDER BY LENGTH( cc_dict.name ) DESC",MYSQLI_ASSOC);
 		$this->is->exSuffixes=array();
 		if(!empty($d)){
 			foreach($d as $v){

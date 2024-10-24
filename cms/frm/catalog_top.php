@@ -136,14 +136,14 @@ foreach ($suplrs as $sup_id => $sup){
     if (empty($_GET['scNotZero'])) {
         @$_GET['scNotZero'] = 0;
     }
-    $spl_cids = $db->fetchAll("SELECT cat_id FROM cc_cat_sc WHERE suplr_id = '$sup_id' AND sc > '{$_GET['scNotZero']}' ", MYSQL_ASSOC);
+    $spl_cids = $db->fetchAll("SELECT cat_id FROM cc_cat_sc WHERE suplr_id = '$sup_id' AND sc > '{$_GET['scNotZero']}' ", MYSQLI_ASSOC);
     $spl_cids_array = Array();
     foreach ($spl_cids as $s) {
         $spl_cids_array[] = "'" . $s['cat_id'] . "'";
     }
     if (!empty($spl_cids)) {
         $aq[$sup_id] = '(cc_cat.cat_id IN (' . implode(',', $spl_cids_array) . '))';
-        $count = $db->fetchAll("SELECT count(cc_cat.cat_id) as quantity FROM cc_cat INNER JOIN (cc_model JOIN cc_brand ON cc_model.brand_id = cc_brand.brand_id) ON cc_cat.model_id = cc_model.model_id WHERE NOT cc_cat.LD AND NOT cc_model.LD AND NOT cc_brand.LD AND cc_cat.sc > 0 AND cc_cat.gr = $gr  AND $aq[$sup_id]", MYSQL_ASSOC);
+        $count = $db->fetchAll("SELECT count(cc_cat.cat_id) as quantity FROM cc_cat INNER JOIN (cc_model JOIN cc_brand ON cc_model.brand_id = cc_brand.brand_id) ON cc_cat.model_id = cc_model.model_id WHERE NOT cc_cat.LD AND NOT cc_model.LD AND NOT cc_brand.LD AND cc_cat.sc > 0 AND cc_cat.gr = $gr  AND $aq[$sup_id]", MYSQLI_ASSOC);
         if ($count[0]['quantity']==0) {
             unset ($suplrs[$sup_id]);
         }

@@ -242,7 +242,7 @@ case 'cm2_saverow':
 case 'cm1': 
 	$file_id=(int)@$_REQUEST['file_id'];
 	if($file_id) {
-		$d=$ci->getOne("SELECT col_model FROM ci_file WHERE file_id='$file_id'",MYSQL_ASSOC);
+		$d=$ci->getOne("SELECT col_model FROM ci_file WHERE file_id='$file_id'",MYSQLI_ASSOC);
 		$d=unserialize(Tools::unesc($d['col_model']));
 		if($d!==0 && count(@$d[1]['rows'])){
 			$r->rows=$d[1]['rows'];

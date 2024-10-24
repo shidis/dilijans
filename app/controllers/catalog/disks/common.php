@@ -70,7 +70,7 @@ class App_Catalog_Disks_Common_Controller extends  App_Common_Controller
                 'order'=>"m_pos ASC, cc_model.name"
             );
             $this->cc->models($r);
-            $d=$this->cc->fetchAll('', MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('', MYSQLI_ASSOC);
             $this->qmodels=array();
             $burl='/'.App_Route::_getUrl('dModel').'/';
             foreach($d as $v){

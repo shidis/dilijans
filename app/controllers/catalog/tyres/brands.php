@@ -38,7 +38,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
             'whereCat'=>$this->minQtyRadiusSQL,
             'having'=>'modelsNum>0'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $this->brands[$v['is_popular']][]=array(
                 'img1'=>$this->cc->make_img_path($v['img1']),
@@ -192,7 +192,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
                 'whereCat'=>$this->minQtyRadiusSQL,
                 'having'=>'modelsNum>0'
             ));
-            $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
             foreach($d as $v){
                 $this->brands[$i][]=array(
                     'img1'=>$this->cc->make_img_path($v['img1']),
@@ -345,7 +345,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
                     'whereCat'=>$this->minQtyRadiusSQL,
                     'having'=>'modelsNum>0'
                 ));
-                $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+                $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
                 foreach($d as $v){
                     $this->brands[$i][]=array(
                         'img1'=>$this->cc->make_img_path($v['img1']),
@@ -375,7 +375,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
                 'whereCat'=>$this->minQtyRadiusSQL,
                 'having'=>'modelsNum>0'
             ));
-            $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
             foreach($d as $v){
                 $this->brands[$v['is_popular']][]=array(
                     'img1'=>$this->cc->make_img_path($v['img1']),
@@ -496,7 +496,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
             'whereCat'=>$this->minQtyRadiusSQL,
             'having'=>'modelsNum>0'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $this->brands[$v['is_popular']][]=array(
                 'img1'=>$this->cc->make_img_path($v['img1']),
@@ -622,7 +622,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
                 'whereCat'=>$this->minQtyRadiusSQL,
                 'having'=>'modelsNum>0'
             ));
-            $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+            $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
             foreach($d as $v){
                 $this->brands[$i][]=array(
                     'img1'=>$this->cc->make_img_path($v['img1']),
@@ -800,7 +800,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
                     'whereCat'=>$this->minQtyRadiusSQL,
                     'having'=>'modelsNum>0'
                 ));
-                $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+                $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
                 $burlShip=array(
                     0=>'/'.App_Route::_getUrl('tSUVNeShip').'/',
                     1=>'/'.App_Route::_getUrl('tSUVShip').'/'
@@ -839,7 +839,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
                     'whereCat'=>$this->minQtyRadiusSQL,
                     'having'=>'modelsNum>0'
                 ));
-                $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+                $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
                 foreach($d as $v){
                     $this->brands[$v['is_popular']][]=array(
                         'img1'=>$this->cc->make_img_path($v['img1']),
@@ -964,7 +964,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
             'whereCat'=>$this->minQtyRadiusSQL,
             'having'=>'modelsNum>0'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $this->brands[$v['is_popular']][]=array(
                 'img1'=>$this->cc->make_img_path($v['img1']),
@@ -1104,7 +1104,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
             'whereCat'=>$this->minQtyRadiusSQL,
             'having'=>'modelsNum>0'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         $burl=array(
             1=>'/'.App_Route::_getUrl('tSummerLight').'/',
             2=>'/'.App_Route::_getUrl('tWinterLight').'/',
@@ -1233,7 +1233,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
             'whereCat'=>$this->minQtyRadiusSQL,
             'having'=>'modelsNum>0'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         foreach($d as $v){
             $this->brands[$v['is_popular']][]=array(
                 'img1'=>$this->cc->make_img_path($v['img1']),
@@ -1373,7 +1373,7 @@ class App_Catalog_Tyres_Brands_Controller extends App_Common_Controller {
             'whereCat'=>$this->minQtyRadiusSQL,
             'having'=>'modelsNum>0'
         ));
-        $d=$this->cc->fetchAll('',MYSQL_ASSOC);
+        $d=$this->cc->fetchAll('',MYSQLI_ASSOC);
         $burl=array(
             1=>'/'.App_Route::_getUrl('tSummerStrong').'/',
             2=>'/'.App_Route::_getUrl('tWinterStrong').'/',
