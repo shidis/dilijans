@@ -34,11 +34,15 @@ function put($ab,$y_yd,$model,$year,$vendor){
     $str = 'SELECT avto_id,name,sname FROM ab_avto WHERE year_id="'. $year.'" AND model_id="'.$model.'" AND vendor_id="'.$vendor.'"';//вытаскиваем информацию о модиикациях
     $temp = $ab->fetchAll($str, MYSQLI_ASSOC);
 
-    $str = 'SELECT avto_id,year_id,avto_image FROM ab_avto WHERE avto_image IS NOT NULL AND model_id="'.$model.'" AND vendor_id="'.$vendor.'" ORDER BY year_id DESC,avto_id DESC'; // картинка из последнего года
-    $imageRow = $ab->getOne($str, MYSQLI_ASSOC);
+    // картинка из модификации последнего года
     $image = null;
-    if (!empty($imageRow['avto_image'])) {
-      $image = $imageRow['avto_image'];
+    $ab->getTree([
+      'svendor' => $vendor,
+      'smodel' => $model,
+      'syear' => $year,
+    ], true);
+    if (isset($ab->tree['ext_avto_info']['avto_image'])) {
+      $image = $ab->tree['ext_avto_info']['avto_image'];
     }
 
     foreach ($temp as $value) {
