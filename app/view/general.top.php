@@ -448,7 +448,7 @@ $route_page_contacts = "/i/contacts.html";?>
 				  <a href="<?=$route_page_about?>"<?=check_nofollow($curr_url,$route_page_about)?> class="mb-nav__link">О магазине</a>
 				</li>
 				<li class="mb-nav__item">
-				  <a target="_blank" href="http://clck.yandex.ru/redir/dtype=stred/pid=47/cid=2508/*https://market.yandex.ru/shop/98540/reviews" class="mb-nav__link">Отзывы</a>
+				  <a target="_blank" href="https://yandex.ru/profile/1088428242" class="mb-nav__link">Отзывы</a>
 				</li>
 			</ul>
 		</div>
@@ -654,7 +654,7 @@ $route_page_contacts = "/i/contacts.html";?>
                 <li><a href="<?=$route_entrysection?>"<?=check_nofollow($curr_url,$route_entrysection)?>>новости</a></li>
                 <li><a href="<?=$route_page_contacts?>"<?=check_nofollow($curr_url,$route_page_contacts)?>>Контакты</a></li>
                 <li><a href="<?=$route_page_about?>"<?=check_nofollow($curr_url,$route_page_about)?>>О магазине</a></li>
-                <li><a target="_blank" href="http://clck.yandex.ru/redir/dtype=stred/pid=47/cid=2508/*https://market.yandex.ru/shop/98540/reviews">Отзывы</a></li>
+                <li><a target="_blank" href="https://yandex.ru/profile/1088428242">Отзывы</a></li>
             </ul>
         </nav>
         <div class="box-br-search">
