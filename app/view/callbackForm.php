@@ -4,6 +4,7 @@
         <h2><img src="/app/images/icon-call.png" alt="">Закажите обратный звонок</h2>
         <div>
             <form action="#">
+                <input type="hidden" name="_antsc" value="">
                 <div>
                     <label>
                         <span>Ваше имя <sup>*</sup></span>

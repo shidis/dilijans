@@ -2,6 +2,17 @@
 
 var cb = {};
 
+cb.antispamCodeInitialUpdate = function () {
+    const d = new Date();
+    // нет, тут нет ошибки
+    $('#callback-popup input[name=_antsc]').val(Math.ceil(Math.log10(d.getDate() * d.getMonth() * d.getFullYear())*10000));
+};
+
+cb.antispamCodeOnSubmit = function () {
+    const d = new Date();
+    $('#callback-popup input[name=_antsc]').val(Math.ceil(Math.log10(d.getDate() * (d.getMonth() + 1) * d.getFullYear())*10000));
+}
+
 cb.isLoaded = function ()
 {
     return $('#callback-popup').length;
@@ -48,12 +59,14 @@ cb.load = function ()
                 $('body').append(r);
 
                 $('#callback-popup a.close').click(cb.close);
+                cb.antispamCodeInitialUpdate();
 
                 $('#callback-popup form').submit(function (e) {
                     e.preventDefault();
                     var canSend = true;
 
                     if (canSend) {
+                        cb.antispamCodeOnSubmit();
                         $.ajax({
                             url: '/ax/callback',
                             data: {f: $('#callback-popup form').serialize()},

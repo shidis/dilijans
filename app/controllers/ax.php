@@ -184,13 +184,14 @@ class App_Ax_Controller extends App_Common_Controller
         $comment = nl2br($comment);
         $body .= "Комментарий/вопрос: <br><blockquote>$comment</blockquote>";
 
-        if (mb_strpos($comment, "||") !== false)
+        $antispamCheckCode = ceil(log10(date("Y") * (date("m")) * date("d")) * 10000);
+        $antispamCode = floatval(@$f['_antsc']);
+        if ($antispamCode !== $antispamCheckCode)
         {
-            file_put_contents("callback_spam.log",Tools::dt() . " -- ". $_SERVER['REMOTE_ADDR'] . " -- ". $comment . " --- \n", FILE_APPEND);
+            file_put_contents(Tools::getLogPath() . "callback_spam.log", Tools::dt() . " -- " . $_SERVER['REMOTE_ADDR'] . " -- " . $name . " -- " . $tel . " -- `" . $antispamCode . "`!=`" . $antispamCheckCode . "` -- " . $comment . " --- \n", FILE_APPEND);
         }
         else
         {
-            return;
             if (!Mailer::sendmail([
                 'fromAddr' => $fromAddr,
                 'fromName' => $fromName,
@@ -203,7 +204,10 @@ class App_Ax_Controller extends App_Common_Controller
                 $this->r['fres'] = false;
                 $this->r['fres_msg'] = 'Ошибка отправки письма';
             }
+
+            file_put_contents(Tools::getLogPath() . "callback.log", Tools::dt() . " -- " . $_SERVER['REMOTE_ADDR'] . " -- " . $name . " -- " . $tel . " -- " . $comment . " -- " . $this->r['fres'] .  " --- \n", FILE_APPEND);
         }
+
     }
 
     // *********** ANNOUNCE FORM 
