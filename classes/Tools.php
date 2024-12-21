@@ -768,7 +768,7 @@ class Tools
 
     static public function wlog($fname, $data)
     {
-        $f = fopen($_SERVER['DOCUMENT_ROOT'] . "/assets/logs/{$fname}", 'a+');
+        $f = fopen(Tools::getLogPath() . $fname, 'a+');
         $s = date("Y-m-d H:i:s") . ' - ' . @$_SERVER['REMOTE_ADDR'] . ' - ' . @$_SERVER['HTTP_USER_AGENT'] . ' - ';
         if (is_array($data)) $s .= print_r($data, true) . "\n";
         else $s .= $data . "\n";
